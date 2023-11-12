@@ -8,7 +8,15 @@ class IntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("介紹頁面")),
+        appBar: AppBar(
+            title: Text("介紹頁面"),
+            leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          // 點擊返回按鈕時，返回上一頁
+          Navigator.pop(context);
+        },
+      ),),
         body: Center(
           child: Container(
             width: double.infinity,
