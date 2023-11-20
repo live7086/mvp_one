@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'GenderSelectionPage.dart';
-import 'action_page.dart';
-import 'camera_page.dart';
+import 'genderSelectionPage.dart';
+import 'actionPage.dart';
+import 'cameraPage.dart';
 import 'startPage.dart';
-import 'intro_page.dart';
+import 'introPage.dart';
+import 'userInfoPage.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -12,10 +13,11 @@ class AppRoutes {
   static const String intro = '/intro';
   static const String camera = '/camera';
   static const String gender = '/gender';
+  static const String userInfo = '/userInfo';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case home:x 
+      case home:
         return MaterialPageRoute(builder: (_) => startPage());
       case action:
         return MaterialPageRoute(builder: (_) => ActionPage());
@@ -25,6 +27,8 @@ class AppRoutes {
        return MaterialPageRoute(builder: (_) => CameraPage());
       case gender:
         return MaterialPageRoute(builder: (_) => GenderSelectionPage());
+      case userInfo:
+        return MaterialPageRoute(builder: (_) => UserInfoPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
