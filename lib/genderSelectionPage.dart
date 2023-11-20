@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'customWidgets.dart';
 class GenderSelectionPage extends StatefulWidget {
   @override
   _GenderSelectionPageState createState() => _GenderSelectionPageState();
@@ -55,12 +55,17 @@ class _GenderSelectionPageState extends State<GenderSelectionPage> {
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/userInfo');
-              },
-              child: Text("下一步"),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              child: CustomButton(
+                onPressed: () {
+                  // 處理按鈕點擊事件
+                  Navigator.pushNamed(context, '/userInfo');
+                },
+                buttonText: "下一步",
+              ),
             ),
+
           ],
         ),
       ),
@@ -97,7 +102,7 @@ class _GenderImageState extends State<GenderImage> with SingleTickerProviderStat
       duration: Duration(milliseconds: 200),
     );
 
-    _animation = Tween<double>(begin: widget.isSelected ? 1 : 0.8 , end: widget.isSelected ? 1.2 : 1).animate(_controller);
+    _animation = Tween<double>(begin: widget.isSelected ? 1 : 1 , end: widget.isSelected ? 0.8 : 1.5).animate(_controller);
 
     _controller.addListener(() {
       setState(() {});
@@ -140,7 +145,7 @@ class _GenderImageState extends State<GenderImage> with SingleTickerProviderStat
           SizedBox(height: 10),
           Text(
             widget.gender,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 32),
           ),
         ],
       ),

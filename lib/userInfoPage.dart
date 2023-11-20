@@ -98,6 +98,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             onPressed: () {
               validateFields();
               if (areAllFieldsFilled()) {
+                Navigator.pushNamed(context, '/userLevelPage');
                 // 在這裡處理按下按鈕後的動作
                 // 可以使用 Navigator.push 跳轉到下一個頁面
               }
