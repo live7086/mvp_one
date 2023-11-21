@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'customWidgets.dart';
+
 class GenderSelectionPage extends StatefulWidget {
   @override
   _GenderSelectionPageState createState() => _GenderSelectionPageState();
@@ -65,7 +66,6 @@ class _GenderSelectionPageState extends State<GenderSelectionPage> {
                 buttonText: "下一步",
               ),
             ),
-
           ],
         ),
       ),
@@ -90,7 +90,8 @@ class GenderImage extends StatefulWidget {
   _GenderImageState createState() => _GenderImageState();
 }
 
-class _GenderImageState extends State<GenderImage> with SingleTickerProviderStateMixin {
+class _GenderImageState extends State<GenderImage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -99,10 +100,13 @@ class _GenderImageState extends State<GenderImage> with SingleTickerProviderStat
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
     );
 
-    _animation = Tween<double>(begin: widget.isSelected ? 1 : 1 , end: widget.isSelected ? 0.8 : 1.5).animate(_controller);
+    _animation = Tween<double>(
+            begin: widget.isSelected ? 1 : 1,
+            end: widget.isSelected ? 0.8 : 1.5)
+        .animate(_controller);
 
     _controller.addListener(() {
       setState(() {});
@@ -142,10 +146,10 @@ class _GenderImageState extends State<GenderImage> with SingleTickerProviderStat
               height: 120,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             widget.gender,
-            style: TextStyle(fontSize: 32),
+            style: const TextStyle(fontSize: 32),
           ),
         ],
       ),

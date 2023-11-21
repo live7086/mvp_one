@@ -9,28 +9,29 @@ class IntroPage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-            title: Text("介紹頁面"),
-            leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          // 點擊返回按鈕時，返回上一頁
-          Navigator.pop(context);
-        },
-      ),),
+          title: const Text("介紹頁面"),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // 點擊返回按鈕時，返回上一頁
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Center(
           child: Container(
             width: double.infinity,
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: ListView(
               children: [
                 Image.asset("assets/action.png"),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   "這是動作的文字介紹",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18.0),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
                     // 等待相機初始化完成
@@ -49,7 +50,7 @@ class IntroPage extends StatelessWidget {
                       );
                     }
                   },
-                  child: Text("前往相機頁面"),
+                  child: const Text("前往相機頁面"),
                 ),
               ],
             ),

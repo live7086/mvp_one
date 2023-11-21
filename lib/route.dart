@@ -24,14 +24,14 @@ class AppRoutes {
       case intro:
         return MaterialPageRoute(builder: (_) => IntroPage());
       case camera:
-       return MaterialPageRoute(builder: (_) => CameraPage());
+        return MaterialPageRoute(builder: (_) => CameraPage());
       case gender:
         return MaterialPageRoute(builder: (_) => GenderSelectionPage());
       case userInfo:
         return MaterialPageRoute(builder: (_) => UserInfoPage());
       default:
         return MaterialPageRoute(
-          builder: (_) => Scaffold(
+          builder: (_) => const Scaffold(
             body: Center(child: Text('Page not found')),
           ),
         );

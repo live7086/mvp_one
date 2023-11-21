@@ -22,7 +22,8 @@ class _ActionPageState extends State<ActionPage> {
   void _showCustomDialog(BuildContext context) {
     // Define the custom page transition animation
     PageRouteBuilder<dynamic> customPageRoute = PageRouteBuilder<dynamic>(
-      pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
         return Stack(
           children: [
             // Background with semi-transparent color
@@ -35,7 +36,7 @@ class _ActionPageState extends State<ActionPage> {
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: MediaQuery.of(context).size.height * 0.5,
                 color: Colors.white,
-                child: Center(
+                child: const Center(
                   child: Text('快速預覽'),
                 ),
               ),
@@ -43,11 +44,13 @@ class _ActionPageState extends State<ActionPage> {
           ],
         );
       },
-      transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
         const begin = Offset(1.0, 0.0); // Start from the right
         const end = Offset.zero; // End position
         const curve = Curves.easeInOut; // Animation curve
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         var offsetAnimation = animation.drive(tween);
         return SlideTransition(position: offsetAnimation, child: child);
       },
@@ -57,23 +60,22 @@ class _ActionPageState extends State<ActionPage> {
     Navigator.of(context).push(customPageRoute);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("动作页面"),
+        title: const Text("动作页面"),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context, isBorderVisible);
           },
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 10.0,
             mainAxisSpacing: 10.0,
@@ -88,7 +90,7 @@ class _ActionPageState extends State<ActionPage> {
                 _showCustomDialog(context);
               },
               onLongPressEnd: (details) {
-                Future.delayed(Duration(milliseconds: 100), () {
+                Future.delayed(const Duration(milliseconds: 100), () {
                   Navigator.of(context).pop('dismiss');
                 });
               },

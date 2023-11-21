@@ -50,9 +50,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("個人資訊")),
+      appBar: AppBar(title: const Text("個人資訊")),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
           TextField(
             controller: nicknameController,
@@ -61,7 +61,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               errorText: isNicknameValid ? null : '請輸入暱稱',
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           TextField(
             controller: heightController,
             keyboardType: TextInputType.number,
@@ -70,7 +70,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               errorText: isHeightValid ? null : '請輸入身高',
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           TextField(
             controller: weightController,
             keyboardType: TextInputType.number,
@@ -79,21 +79,23 @@ class _UserInfoPageState extends State<UserInfoPage> {
               errorText: isWeightValid ? null : '請輸入體重',
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           ListTile(
             title: Text(
               '出生日期',
-              style: TextStyle(color: isBirthdateValid ? Colors.black : Colors.red),
+              style: TextStyle(
+                  color: isBirthdateValid ? Colors.black : Colors.red),
             ),
             subtitle: Text(
               birthdate == null
                   ? '請選擇出生日期'
                   : '${birthdate!.year}/${birthdate!.month}/${birthdate!.day}',
-              style: TextStyle(color: isBirthdateValid ? Colors.black : Colors.red),
+              style: TextStyle(
+                  color: isBirthdateValid ? Colors.black : Colors.red),
             ),
             onTap: () => _selectDate(context),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
               validateFields();
@@ -103,7 +105,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 // 可以使用 Navigator.push 跳轉到下一個頁面
               }
             },
-            child: Text("下一步"),
+            child: const Text("下一步"),
           ),
         ],
       ),
