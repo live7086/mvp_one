@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class UserInfoPage extends StatefulWidget {
+  const UserInfoPage({Key? key}) : super(key: key);
   @override
   _UserInfoPageState createState() => _UserInfoPageState();
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class startPage extends StatelessWidget {
+  const startPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,10 +40,11 @@ class startPage extends StatelessWidget {
 }
 
 class BackgroundImage extends StatelessWidget {
+  const BackgroundImage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/start_bg.png"),
           fit: BoxFit.cover,
@@ -53,11 +55,13 @@ class BackgroundImage extends StatelessWidget {
 }
 
 class LogoText extends StatelessWidget {
+  const LogoText({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       "FLEX",
-      style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
+      style: TextStyle(
+          fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
     );
   }
 }
@@ -67,7 +71,7 @@ class YogaText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
+        const Text(
           "Yoga Training Club",
           style: TextStyle(fontSize: 18, color: Colors.white),
         ),
@@ -81,12 +85,13 @@ class YogaText extends StatelessWidget {
 }
 
 class ActionButton extends StatelessWidget {
+  const ActionButton({Key? key}) : super(key: key);
   ButtonStyle createButtonStyle() {
     return ElevatedButton.styleFrom(
       onPrimary: Colors.black,
       primary: Colors.white,
-      minimumSize: Size(150, 50),
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      minimumSize: const Size(150, 50),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
@@ -100,7 +105,7 @@ class ActionButton extends StatelessWidget {
       onPressed: () {
         Navigator.pushNamed(context, '/gender');
       },
-      child: Text(
+      child: const Text(
         "開始使用",
         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
       ),

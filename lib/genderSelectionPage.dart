@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'customWidgets.dart';
 
 class GenderSelectionPage extends StatefulWidget {
+  const GenderSelectionPage({Key? key}) : super(key: key);
   @override
   _GenderSelectionPageState createState() => _GenderSelectionPageState();
 }
@@ -41,7 +42,7 @@ class _GenderSelectionPageState extends State<GenderSelectionPage> {
                   onSelect: () => selectGender('男生'),
                   isSelected: isMaleSelected,
                 ),
-                SizedBox(width: 40),
+                const SizedBox(width: 40),
                 GenderImage(
                   imagePath: 'assets/female.png',
                   gender: '女生',
@@ -50,14 +51,14 @@ class _GenderSelectionPageState extends State<GenderSelectionPage> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               selectedGender.isEmpty ? '請選擇性別' : '您選擇的性別是：$selectedGender',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: CustomButton(
                 onPressed: () {
                   // 處理按鈕點擊事件
