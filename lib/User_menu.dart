@@ -18,8 +18,17 @@ class Usermeun extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 80),
+          SizedBox(height: 60),
+          Divider(
+            color: Color.fromARGB(255, 111, 110, 110),
+            thickness: 1,
+          ),
           Usertitle(),
+          Usersecond(),
+          Divider(
+            color: Color.fromARGB(255, 111, 110, 110),
+            thickness: 1,
+          ),
           SizedBox(height: 60),
           UserStyle(),
         ],

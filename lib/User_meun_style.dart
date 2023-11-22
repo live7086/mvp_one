@@ -104,3 +104,38 @@ class Usertitle extends StatelessWidget {
     );
   }
 }
+
+class Usersecond extends StatelessWidget {
+  const Usersecond({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(top: 8.0),
+      child: Row(
+        children: [
+          TextButton(
+            onPressed: onPressed,
+            child: Text(
+              '推薦',
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 0, 0, 0)),
+            ),
+          ),
+          TextButton(
+            onPressed: onPressed,
+            child: Text(
+              '自訂菜單',
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 0, 0, 0)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
