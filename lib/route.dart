@@ -6,6 +6,7 @@ import 'cameraPage.dart';
 import 'startPage.dart';
 import 'introPage.dart';
 import 'userInfoPage.dart';
+import 'User_menu.dart';
 
 class AppRoutes {
   static const String home = '/';
