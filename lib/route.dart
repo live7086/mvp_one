@@ -8,7 +8,7 @@ import 'introPage.dart';
 import 'userInfoPage.dart';
 import 'userLevelPage.dart';
 import 'User_menu.dart';
-import 'User_meun_style.dart';
+import 'User_menu_style.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -18,8 +18,6 @@ class AppRoutes {
   static const String gender = '/gender';
   static const String userInfo = '/userInfo';
   static const String userLevel = '/userLevel';
-  static const String usermeun = '/usermeun';
-  static const String usermeunadd = '/usermeunadd';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -37,10 +35,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const UserInfoPage());
       case userLevel:
         return MaterialPageRoute(builder: (_) => UserLevelPage());
-      case usermeun:
-        return MaterialPageRoute(builder: (_) => const Usermeun());
-      case usermeunadd:
-        return MaterialPageRoute(builder: (_) => const Usersecond());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
