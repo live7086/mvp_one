@@ -6,6 +6,7 @@ import 'cameraPage.dart';
 import 'startPage.dart';
 import 'introPage.dart';
 import 'userInfoPage.dart';
+import 'userLevelPage.dart';
 import 'User_menu.dart';
 
 class AppRoutes {
@@ -15,7 +16,9 @@ class AppRoutes {
   static const String camera = '/camera';
   static const String gender = '/gender';
   static const String userInfo = '/userInfo';
+  static const String userLevel = '/userLevel';
   static const String usermeun = '/usermeun';
+
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -31,6 +34,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const GenderSelectionPage());
       case userInfo:
         return MaterialPageRoute(builder: (_) => const UserInfoPage());
+      case userLevel:
+        return MaterialPageRoute(builder: (_) =>  UserLevelPage());
       case usermeun:
         return MaterialPageRoute(builder: (_) => const Usermeun());
       default:
