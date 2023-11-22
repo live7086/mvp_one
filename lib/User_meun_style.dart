@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-void onPressed() {
-  print("就還沒寫完按三小");
-}
+void onPressed() {}
 
 class UserStyle extends StatelessWidget {
   const UserStyle({Key? key}) : super(key: key);
@@ -13,7 +11,7 @@ class UserStyle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 185, 185, 185),
             borderRadius: BorderRadius.circular(10.0),
@@ -35,7 +33,7 @@ class UserStyle extends StatelessWidget {
         ),
         const SizedBox(height: 60), // Adjust the spacing between buttons
         Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 185, 185, 185),
             borderRadius: BorderRadius.circular(10.0),
@@ -57,7 +55,7 @@ class UserStyle extends StatelessWidget {
         ),
         const SizedBox(height: 60), // Adjust the spacing between buttons
         Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 185, 185, 185),
             borderRadius: BorderRadius.circular(10.0),
@@ -78,9 +76,8 @@ class UserStyle extends StatelessWidget {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(
-            right: 132,
-            left: 132,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
       ],
@@ -110,11 +107,11 @@ class Usersecond extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.only(top: 8.0),
       child: Row(
         children: [
-          TextButton(
+          const TextButton(
             onPressed: onPressed,
             child: Text(
               '推薦',
@@ -125,17 +122,30 @@ class Usersecond extends StatelessWidget {
             ),
           ),
           TextButton(
-            onPressed: onPressed,
-            child: Text(
+            onPressed: () {
+              Navigator.pushNamed(context, '/userInfo');
+            },
+            child: const Text(
               '自訂菜單',
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 0, 0, 0)),
+                  color: Color.fromARGB(255, 173, 172, 172)),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class DDD extends StatelessWidget {
+  const DDD({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const Divider(
+      thickness: 1.5,
+      color: Color.fromARGB(255, 138, 136, 136),
     );
   }
 }
