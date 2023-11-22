@@ -15,21 +15,24 @@ class AppRoutes {
   static const String camera = '/camera';
   static const String gender = '/gender';
   static const String userInfo = '/userInfo';
+  static const String usermeun = '/usermeun';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
-        return MaterialPageRoute(builder: (_) => startPage());
+        return MaterialPageRoute(builder: (_) => const startPage());
       case action:
         return MaterialPageRoute(builder: (_) => ActionPage());
       case intro:
-        return MaterialPageRoute(builder: (_) => IntroPage());
+        return MaterialPageRoute(builder: (_) => const IntroPage());
       case camera:
         return MaterialPageRoute(builder: (_) => CameraPage());
       case gender:
-        return MaterialPageRoute(builder: (_) => GenderSelectionPage());
+        return MaterialPageRoute(builder: (_) => const GenderSelectionPage());
       case userInfo:
-        return MaterialPageRoute(builder: (_) => UserInfoPage());
+        return MaterialPageRoute(builder: (_) => const UserInfoPage());
+      case usermeun:
+        return MaterialPageRoute(builder: (_) => const Usermeun());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
