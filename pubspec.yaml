@@ -64,6 +64,9 @@ flutter:
   assets:
     - assets/
     - assets/meunicon.png
+    - assets/yoga_1.png
+    - assets/yoga_2.jpg
+    - assets/yoga_3.jpg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

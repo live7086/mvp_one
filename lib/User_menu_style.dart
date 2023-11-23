@@ -149,3 +149,115 @@ class DDD extends StatelessWidget {
     );
   }
 }
+
+class SearchInput extends StatefulWidget {
+  const SearchInput({Key? key}) : super(key: key);
+  @override
+  State<SearchInput> createState() => _SearchInputState();
+}
+
+class _SearchInputState extends State<SearchInput> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 15, left: 25, right: 25),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: TextField(
+                  cursorColor: Colors.grey,
+                  decoration: InputDecoration(
+                      fillColor: const Color.fromARGB(255, 209, 208, 208),
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide.none),
+                      hintText: 'Search',
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, fontSize: 18),
+                      prefixIcon: Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Image.asset('assets/search_icon.jpg'),
+                        width: 15,
+                      )),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class mainpic extends StatelessWidget {
+  const mainpic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: onPressed,
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.all(12.0),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image.asset(
+              'assets/yoga_1.png',
+              fit: BoxFit.cover,
+              width: 350,
+              height: 180,
+            ),
+          ),
+        ),
+        const SizedBox(height: 15), // Adjust the spacing between buttons
+        TextButton(
+          onPressed: onPressed,
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.all(12.0),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image.asset(
+              'assets/yoga_2.jpg',
+              fit: BoxFit.cover,
+              width: 350,
+              height: 180,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 15), // Adjust the spacing between buttons
+        TextButton(
+          onPressed: onPressed,
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.all(12.0),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image.asset(
+              'assets/yoga_3.jpg',
+              fit: BoxFit.cover,
+              width: 350,
+              height: 180,
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
+      ],
+    );
+  }
+}
