@@ -40,7 +40,7 @@ class _UserLevelPage extends State<UserLevelPage> {
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Text('從沒接觸過', style: TextStyle(fontSize: 18.0)),
+                    child: Text('從沒接觸過', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.center,),
                   ),
                 ),
               ),
@@ -63,7 +63,7 @@ class _UserLevelPage extends State<UserLevelPage> {
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Text('初學者', style: TextStyle(fontSize: 18.0)),
+                    child: Text('初學者', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.center,),
                   ),
                 ),
               ),
@@ -86,16 +86,14 @@ class _UserLevelPage extends State<UserLevelPage> {
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Text('中高階', style: TextStyle(fontSize: 18.0)),
+                    child: Text('中高階', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.center,),
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0),
-              Text('選中卡片: ${String.fromCharCode(65 + isSelected.indexOf(true))}',
-                  style: const TextStyle(fontSize: 20.0)),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 50.0),
               ElevatedButton(
                 onPressed: () {
+                  Navigator.pushNamed(context, '/setupDone');
                   // 在這裡處理下一步的邏輯
                   // 例如，導航到下一個頁面
                 },

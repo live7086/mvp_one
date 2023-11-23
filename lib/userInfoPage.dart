@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/slidePageAnimation.dart';
 
 class UserInfoPage extends StatefulWidget {
   const UserInfoPage({Key? key}) : super(key: key);
@@ -112,10 +113,4 @@ class _UserInfoPageState extends State<UserInfoPage> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: UserInfoPage(),
-  ));
 }

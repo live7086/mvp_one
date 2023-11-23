@@ -7,6 +7,7 @@ import 'startPage.dart';
 import 'introPage.dart';
 import 'userInfoPage.dart';
 import 'userLevelPage.dart';
+import 'setupDonePage.dart';
 import 'User_menu.dart';
 import 'User_menu_style.dart';
 
@@ -18,6 +19,7 @@ class AppRoutes {
   static const String gender = '/gender';
   static const String userInfo = '/userInfo';
   static const String userLevel = '/userLevel';
+  static const String setupDone = '/setupDone';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -34,7 +36,9 @@ class AppRoutes {
       case userInfo:
         return MaterialPageRoute(builder: (_) => const UserInfoPage());
       case userLevel:
-        return MaterialPageRoute(builder: (_) => UserLevelPage());
+        return MaterialPageRoute(builder: (_) => const UserLevelPage());
+      case setupDone:
+        return MaterialPageRoute(builder: (_) => SetupDonePage());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
