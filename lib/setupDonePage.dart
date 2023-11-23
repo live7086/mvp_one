@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/posePage.dart';
+import 'package:mvp_one/search.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 
 class SetupDonePage extends StatelessWidget {
@@ -9,7 +10,7 @@ class SetupDonePage extends StatelessWidget {
       body: GestureDetector(
         onTap: () {
           // Handle button tap here
-          Navigator.of(context).push(SlidePageRoute(page: HorizontalScrollListPage()));
+          Navigator.of(context).push(SlidePageRoute(page: const Search()));
         },
         child: Stack(
           children: [
@@ -27,4 +28,3 @@ class SetupDonePage extends StatelessWidget {
     );
   }
 }
-

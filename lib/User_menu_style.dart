@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/User_menu.dart';
+import 'package:mvp_one/slidePageAnimation.dart';
+import 'package:mvp_one/posePage.dart';
 
 void onPressed() {}
 
@@ -122,9 +125,7 @@ class Usersecond extends StatelessWidget {
             ),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/userInfo');
-            },
+            onPressed: () {},
             child: const Text(
               '自訂菜單',
               style: TextStyle(
@@ -202,7 +203,10 @@ class mainpic extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextButton(
-          onPressed: onPressed,
+          onPressed: () {
+            Navigator.of(context)
+                .push(SlidePageRoute(page: HorizontalScrollListPage()));
+          },
           style: TextButton.styleFrom(
             padding: const EdgeInsets.all(12.0),
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -219,7 +223,10 @@ class mainpic extends StatelessWidget {
         ),
         const SizedBox(height: 15), // Adjust the spacing between buttons
         TextButton(
-          onPressed: onPressed,
+          onPressed: () {
+            Navigator.of(context)
+                .push(SlidePageRoute(page: HorizontalScrollListPage()));
+          },
           style: TextButton.styleFrom(
             padding: const EdgeInsets.all(12.0),
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -237,7 +244,10 @@ class mainpic extends StatelessWidget {
 
         const SizedBox(height: 15), // Adjust the spacing between buttons
         TextButton(
-          onPressed: onPressed,
+          onPressed: () {
+            Navigator.of(context)
+                .push(SlidePageRoute(page: HorizontalScrollListPage()));
+          },
           style: TextButton.styleFrom(
             padding: const EdgeInsets.all(12.0),
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -323,7 +333,9 @@ class MyBottomNavigationBar extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(SlidePageRoute(page: const Usermeun()));
+          },
           child: const Column(
             mainAxisSize: MainAxisSize.min,
             children: [

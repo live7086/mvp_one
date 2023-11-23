@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 import 'User_menu_style.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      home: Usermeun(),
-    ),
-  );
-}
-
 class Usermeun extends StatelessWidget {
   const Usermeun({Key? key}) : super(key: key);
 

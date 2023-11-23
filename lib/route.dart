@@ -9,7 +9,8 @@ import 'userInfoPage.dart';
 import 'userLevelPage.dart';
 import 'setupDonePage.dart';
 import 'User_menu.dart';
-import 'User_menu_style.dart';
+import 'search.dart';
+import 'posePage.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -20,6 +21,9 @@ class AppRoutes {
   static const String userInfo = '/userInfo';
   static const String userLevel = '/userLevel';
   static const String setupDone = '/setupDone';
+  static const String search = '/search';
+  static const String menu = '/User_menu';
+  static const String posePage = '/posePage';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -39,6 +43,12 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const UserLevelPage());
       case setupDone:
         return MaterialPageRoute(builder: (_) => SetupDonePage());
+      case search:
+        return MaterialPageRoute(builder: (_) => const Search());
+      case menu:
+        return MaterialPageRoute(builder: (_) => const Usermeun());
+      case posePage:
+        return MaterialPageRoute(builder: (_) => HorizontalScrollListPage());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
