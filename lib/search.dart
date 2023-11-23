@@ -14,15 +14,17 @@ class Usermeun extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 40),
-          SearchInput(),
-          DDD(),
-          mainpic(),
-          DDD(),
+          const SizedBox(height: 40),
+          const SearchInput(),
+          const DDD(),
+          const mainpic(),
+          const SizedBox(height: 35),
+          const DDD(),
+          MyBottomNavigationBar(),
         ],
       ),
     );
