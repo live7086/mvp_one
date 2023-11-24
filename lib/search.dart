@@ -7,16 +7,32 @@ class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          const SizedBox(height: 40),
-          const SearchInput(),
-          const DDD(),
-          const mainpic(),
-          const SizedBox(height: 35),
-          const DDD(),
-          MyBottomNavigationBar(),
+          ListView(
+            children: const [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 40),
+                  SearchInput(),
+                  DDD(),
+                  mainpic(),
+                  SizedBox(height: 35),
+                  // Add other content here
+                ],
+              ),
+            ],
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              height: 56, // 設定底部導航欄的高度
+              child: MyBottomNavigationBar(),
+            ),
+          ),
         ],
       ),
     );

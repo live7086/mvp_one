@@ -291,6 +291,7 @@ class BottomNavigationBarExample extends StatefulWidget {
       _BottomNavigationBarExampleState();
 }
 
+//用不到的範例
 class _BottomNavigationBarExampleState
     extends State<BottomNavigationBarExample> {
   @override
@@ -315,58 +316,69 @@ class _BottomNavigationBarExampleState
     );
   }
 }
-
+//底下導引列
 class MyBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        InkWell(
-          onTap: () {},
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.fitness_center),
-              Text('訓練'),
-            ],
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xff87cefa),
+        border: Border(
+          top: BorderSide(
+            color: Colors.grey, // 定義頂部邊框顏色
+            width: 1.0,           // 定義頂部邊框寬度
           ),
         ),
-        InkWell(
-          onTap: () {
-            Navigator.of(context).push(SlidePageRoute(page: const Usermeun()));
-          },
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.menu_book),
-              Text('訓練菜單'),
-            ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          InkWell(
+            onTap: () {},
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.fitness_center),
+                Text('訓練'),
+              ],
+            ),
           ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.file_copy_sharp),
-              Text('歷史紀錄'),
-            ],
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(SlidePageRoute(page: const Usermeun()));
+            },
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.menu_book),
+                Text('訓練菜單'),
+              ],
+            ),
           ),
-        ),
-        InkWell(
-          onTap: () {
-            // 处理点击第四个按钮的逻辑
-          },
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.person),
-              Text('關於我'),
-            ],
+          InkWell(
+            onTap: () {},
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.file_copy_sharp),
+                Text('歷史紀錄'),
+              ],
+            ),
           ),
-        ),
-      ],
+          InkWell(
+            onTap: () {
+              // 处理点击第四个按钮的逻辑
+            },
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.person),
+                Text('關於我'),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "822511194843",
+    "project_id": "mvp-one",
+    "storage_bucket": "mvp-one.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822511194843:android:76334a20ba426ec10e72fe",
+        "android_client_info": {
+          "package_name": "com.example.mvp_one"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACrcz_zS4kTAtjOK1AQ4QheMePcaWeHpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
