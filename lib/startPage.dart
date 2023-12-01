@@ -7,8 +7,8 @@ class startPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          BackgroundImage(),
-          Positioned(
+          const BackgroundImage(),
+          const Positioned(
             left: 20,
             top: 65,
             child: Align(
@@ -28,7 +28,7 @@ class startPage extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 20),
                     child: YogaText(),
                   ),
-                  ActionButton(),
+                  const ActionButton(),
                 ],
               ),
             ),
