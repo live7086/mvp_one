@@ -1,16 +1,8 @@
 # mvp_one
 
-A new Flutter project.
+FLEX第一版MVP製作
 
-## Getting Started
+## 簡介
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+透過mediapipe辨識各種瑜珈動作，並提供即時的語音回饋來矯正使用者的動作。
+此外，透過各種分類方式，我們希望能提供使用者更快鎖定自己想開始嘗試的瑜珈動作，並搭配上我們所提供的菜單功能來靈活安排各種動作、次數及時間。
