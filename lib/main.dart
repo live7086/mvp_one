@@ -11,7 +11,7 @@ void main() async {
   );
 
   // 啟動應用程式
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

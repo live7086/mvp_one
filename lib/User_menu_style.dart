@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/User_menu.dart';
 import 'package:mvp_one/model.dart';
+import 'package:mvp_one/search.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/posePage.dart';
 
@@ -90,14 +91,16 @@ class UserStyle extends StatelessWidget {
 }
 
 class Usertitle extends StatelessWidget {
-  const Usertitle({Key? key}) : super(key: key);
+  final String title;
+  const Usertitle(this.title, {Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Text(
-        '訓練菜單',
-        style: TextStyle(
+        title,
+        style: const TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
@@ -319,6 +322,7 @@ class _BottomNavigationBarExampleState
 
 //底下導引列
 class MyBottomNavigationBar extends StatelessWidget {
+  const MyBottomNavigationBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -335,7 +339,9 @@ class MyBottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(SlidePageRoute(page: const Search()));
+            },
             child: const Column(
               mainAxisSize: MainAxisSize.min,
               children: [

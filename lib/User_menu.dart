@@ -6,19 +6,29 @@ class Usermeun extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title:
+            const Icon(Icons.account_circle), // Optional: if you want a title
+      ),
+      body: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 80),
           DDD(),
-          Usertitle(),
+          Usertitle("訓練菜單"),
           Usersecond(),
           DDD(),
           SizedBox(height: 60),
           UserStyle(),
-          SizedBox(height: 170),
+          SizedBox(height: 150),
           DDD(),
+          MyBottomNavigationBar(),
         ],
       ),
     );
