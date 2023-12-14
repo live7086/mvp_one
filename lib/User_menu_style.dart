@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/User_menu.dart';
+import 'package:mvp_one/model.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/posePage.dart';
 
@@ -204,8 +205,7 @@ class mainpic extends StatelessWidget {
       children: [
         TextButton(
           onPressed: () {
-            Navigator.of(context)
-                .push(SlidePageRoute(page: HorizontalScrollListPage()));
+            Navigator.of(context).push(SlidePageRoute(page: const model_1()));
           },
           style: TextButton.styleFrom(
             padding: const EdgeInsets.all(12.0),
@@ -316,6 +316,7 @@ class _BottomNavigationBarExampleState
     );
   }
 }
+
 //底下導引列
 class MyBottomNavigationBar extends StatelessWidget {
   @override
@@ -326,7 +327,7 @@ class MyBottomNavigationBar extends StatelessWidget {
         border: Border(
           top: BorderSide(
             color: Colors.grey, // 定義頂部邊框顏色
-            width: 1.0,           // 定義頂部邊框寬度
+            width: 1.0, // 定義頂部邊框寬度
           ),
         ),
       ),
@@ -345,7 +346,8 @@ class MyBottomNavigationBar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).push(SlidePageRoute(page: const Usermeun()));
+              Navigator.of(context)
+                  .push(SlidePageRoute(page: const Usermeun()));
             },
             child: const Column(
               mainAxisSize: MainAxisSize.min,
