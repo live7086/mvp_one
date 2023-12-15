@@ -48,7 +48,7 @@ class AppRoutes {
       case search:
         return MaterialPageRoute(builder: (_) => const Search());
       case menu:
-        return MaterialPageRoute(builder: (_) => const Usermeun());
+        return MaterialPageRoute(builder: (_) => const Usermenu());
       case posePage:
         return MaterialPageRoute(builder: (_) => HorizontalScrollListPage());
       case model:
