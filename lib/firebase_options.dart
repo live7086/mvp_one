@@ -44,44 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBpBbHgLQabaODCk9RbsrNzPON1cz0ald4',
-    appId: '1:822511194843:web:81c9da1bb00786980e72fe',
-    messagingSenderId: '822511194843',
-    projectId: 'mvp-one',
-    authDomain: 'mvp-one.firebaseapp.com',
-    databaseURL: 'https://mvp-one-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'mvp-one.appspot.com',
-    measurementId: 'G-JET511WSQ0',
+    apiKey: 'AIzaSyCa6ddPnk4BGyXxt39brUUW2cfm4Fp7qyQ',
+    appId: '1:846332997606:web:9318151b2c8d58b13cf027',
+    messagingSenderId: '846332997606',
+    projectId: 'mvp-one-ec85c',
+    authDomain: 'mvp-one-ec85c.firebaseapp.com',
+    storageBucket: 'mvp-one-ec85c.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyACrcz_zS4kTAtjOK1AQ4QheMePcaWeHpY',
-    appId: '1:822511194843:android:76334a20ba426ec10e72fe',
-    messagingSenderId: '822511194843',
-    projectId: 'mvp-one',
-    databaseURL: 'https://mvp-one-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'mvp-one.appspot.com',
+    apiKey: 'AIzaSyD0ikMT79YK8Co5_zGGTrSmypHqnvrY7Qw',
+    appId: '1:846332997606:android:3c4aa30a504d20d83cf027',
+    messagingSenderId: '846332997606',
+    projectId: 'mvp-one-ec85c',
+    storageBucket: 'mvp-one-ec85c.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyATTZdSalOfUUQt4rq6sakPU4azkdFsE4I',
-    appId: '1:822511194843:ios:10905c85df5a1c6a0e72fe',
-    messagingSenderId: '822511194843',
-    projectId: 'mvp-one',
-    databaseURL: 'https://mvp-one-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'mvp-one.appspot.com',
-    iosClientId: '822511194843-lau4vmifiejev54h2mu6rr2nsqs2538r.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBxMPK-X9PfKpqFwjxCmOga8d6xJ3BOVwk',
+    appId: '1:846332997606:ios:db67297f13f205423cf027',
+    messagingSenderId: '846332997606',
+    projectId: 'mvp-one-ec85c',
+    storageBucket: 'mvp-one-ec85c.appspot.com',
     iosBundleId: 'com.example.mvpOne',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyATTZdSalOfUUQt4rq6sakPU4azkdFsE4I',
-    appId: '1:822511194843:ios:eb38df42b3f59e1b0e72fe',
-    messagingSenderId: '822511194843',
-    projectId: 'mvp-one',
-    databaseURL: 'https://mvp-one-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'mvp-one.appspot.com',
-    iosClientId: '822511194843-l1nadonhvrlud53pm51ng4eiq8591ttu.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBxMPK-X9PfKpqFwjxCmOga8d6xJ3BOVwk',
+    appId: '1:846332997606:ios:d74db4aa0fd0debd3cf027',
+    messagingSenderId: '846332997606',
+    projectId: 'mvp-one-ec85c',
+    storageBucket: 'mvp-one-ec85c.appspot.com',
     iosBundleId: 'com.example.mvpOne.RunnerTests',
   );
 }

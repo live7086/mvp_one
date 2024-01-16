@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "822511194843",
-    "firebase_url": "https://mvp-one-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "mvp-one",
-    "storage_bucket": "mvp-one.appspot.com"
+    "project_number": "846332997606",
+    "project_id": "mvp-one-ec85c",
+    "storage_bucket": "mvp-one-ec85c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:822511194843:android:76334a20ba426ec10e72fe",
+        "mobilesdk_app_id": "1:846332997606:android:3c4aa30a504d20d83cf027",
         "android_client_info": {
           "package_name": "com.example.mvp_one"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "822511194843-omllq3mkjkldqjfu6qcqett2257afko8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyACrcz_zS4kTAtjOK1AQ4QheMePcaWeHpY"
+          "current_key": "AIzaSyD0ikMT79YK8Co5_zGGTrSmypHqnvrY7Qw"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "822511194843-omllq3mkjkldqjfu6qcqett2257afko8.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "822511194843-l1nadonhvrlud53pm51ng4eiq8591ttu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.mvpOne.RunnerTests"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
