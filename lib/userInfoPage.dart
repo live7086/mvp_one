@@ -1,5 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+enum Gender { male, female, other }
+
+String genderToString(Gender gender) {
+  switch (gender) {
+    case Gender.male:
+      return '男性';
+    case Gender.female:
+      return '女性';
+    case Gender.other:
+      return '其他';
+    default:
+      return '未選擇';
+  }
+}
 
 class UserInfoPage extends StatefulWidget {
   const UserInfoPage({Key? key}) : super(key: key);
@@ -12,6 +29,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   DateTime? birthdate;
+  Gender? _selectedGender = Gender.male;
 
   bool isNicknameValid = true;
   bool isHeightValid = true;
@@ -23,6 +41,28 @@ class _UserInfoPageState extends State<UserInfoPage> {
         heightController.text.isNotEmpty &&
         weightController.text.isNotEmpty &&
         birthdate != null;
+  }
+
+  Widget _buildGenderRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: Gender.values.map((gender) {
+        return Expanded(
+          child: ListTile(
+            title: Text(genderToString(gender)), // 使用上面定義的函數轉換
+            leading: Radio<Gender>(
+              value: gender,
+              groupValue: _selectedGender,
+              onChanged: (Gender? value) {
+                setState(() {
+                  _selectedGender = value;
+                });
+              },
+            ),
+          ),
+        );
+      }).toList(),
+    );
   }
 
   void validateFields() {
@@ -56,6 +96,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          _buildGenderRow(),
           TextField(
             controller: nicknameController,
             decoration: InputDecoration(
@@ -99,12 +140,37 @@ class _UserInfoPageState extends State<UserInfoPage> {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
+              // 標記此處為 async
               validateFields();
               if (areAllFieldsFilled()) {
                 Navigator.pushNamed(context, '/userLevel');
-                // 在這裡處理按下按鈕後的動作
-                // 可以使用 Navigator.push 跳轉到下一個頁面
+
+                final url = Uri.https(
+                    'flutter-dogshit-default-rtdb.firebaseio.com',
+                    'user-information.json');
+
+                try {
+                  final response = await http.post(url, // 使用 await
+                      headers: {
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: json.encode({
+                        'Gender': genderToString(_selectedGender!),
+                        'nickname': nicknameController.text,
+                        'height': heightController.text,
+                        'weight': weightController.text,
+                        'birthdate': birthdate?.toIso8601String(),
+                      }));
+
+                  if (response.statusCode == 200) {
+                    // 成功處理
+                  } else {
+                    // 錯誤處理
+                  }
+                } catch (e) {
+                  // 異常處理
+                }
               }
             },
             child: const Text("下一步"),

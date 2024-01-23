@@ -103,7 +103,7 @@ class ActionButton extends StatelessWidget {
     return ElevatedButton(
       style: createButtonStyle(),
       onPressed: () {
-        Navigator.pushNamed(context, '/gender');
+        Navigator.pushNamed(context, '/userInfo');
       },
       child: const Text(
         "開始使用",
