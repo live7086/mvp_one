@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'route.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   // 初始化 Firebase
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  // 啟動應用程式
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

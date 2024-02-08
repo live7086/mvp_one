@@ -34,10 +34,11 @@ dependencies:
   firebase_database: ^10.3.6
   path: ^1.8.0
   google_ml_kit: any
-  cloud_firestore: 4.13.3
+  cloud_firestore: ^4.14.0
   cupertino_icons: ^1.0.2
-  firebase_core: ^2.24.2
+  firebase_core: ^2.25.1
   firebase_storage: ^11.5.3
+  firebase_auth: ^4.17.0
   path_provider: ^2.0.11
   file_picker: ^5.2.0
   http: ^1.2.0

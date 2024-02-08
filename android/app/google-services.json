@@ -1,26 +1,37 @@
 {
   "project_info": {
-    "project_number": "846332997606",
-    "project_id": "mvp-one-ec85c",
-    "storage_bucket": "mvp-one-ec85c.appspot.com"
+    "project_number": "435497035796",
+    "firebase_url": "https://flutter-dogshit-default-rtdb.firebaseio.com",
+    "project_id": "flutter-dogshit",
+    "storage_bucket": "flutter-dogshit.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:846332997606:android:3c4aa30a504d20d83cf027",
+        "mobilesdk_app_id": "1:435497035796:android:69f4cc3d5ea73f9eaa5f01",
         "android_client_info": {
           "package_name": "com.example.mvp_one"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "435497035796-4f0vs9t0dbm1hg19palrruvejdqo4pii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyD0ikMT79YK8Co5_zGGTrSmypHqnvrY7Qw"
+          "current_key": "AIzaSyBQFW21PiLD_kUJkf5BrgFBtljMGyI8fbo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435497035796-4f0vs9t0dbm1hg19palrruvejdqo4pii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

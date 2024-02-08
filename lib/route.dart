@@ -12,6 +12,7 @@ import 'User_menu.dart';
 import 'search.dart';
 import 'posePage.dart';
 import 'model.dart';
+import 'signin.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -26,6 +27,7 @@ class AppRoutes {
   static const String menu = '/User_menu';
   static const String posePage = '/posePage';
   static const String model = '/model';
+  static const String signin = '/signin';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -53,6 +55,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => HorizontalScrollListPage());
       case model:
         return MaterialPageRoute(builder: (_) => const model_1());
+      case signin:
+        return MaterialPageRoute(builder: (_) => const Signinsreen());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
