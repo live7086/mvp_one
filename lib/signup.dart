@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
 import 'package:mvp_one/utils/color_utils.dart';
-import 'home.dart';
+import 'route.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -67,8 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           password: _passwordTextController.text)
                       .then((value) {
                     print("Created New Account");
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    Navigator.pushNamed(context, '/homeScreen');
                   }).onError((error, stackTrace) {
                     print("Error: ${error.toString()}");
                   });

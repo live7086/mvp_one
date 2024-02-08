@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
-import 'signup.dart';
+import 'route.dart';
 
 class Signinsreen extends StatefulWidget {
   const Signinsreen({super.key});
@@ -32,7 +34,7 @@ class _SigninsreenState extends State<Signinsreen> {
             child: Column(
               children: <Widget>[
                 logoWidegt("assets/singinlogo.png"),
-                reusableTextField("Enter UserName", Icons.person_outline, false,
+                reusableTextField("Enter Email", Icons.person_outline, false,
                     _emailTextController),
                 SizedBox(
                   height: 30,
@@ -42,7 +44,15 @@ class _SigninsreenState extends State<Signinsreen> {
                 SizedBox(
                   height: 20,
                 ),
-                signInSignUpbutton(context, true, () {}),
+                signInSignUpbutton(context, true, () {
+                  FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _emailTextController.text,
+                          password: _passwordTextController.text)
+                      .then((value) {
+                    Navigator.pushNamed(context, '/userInfo');
+                  });
+                }),
                 signUpOption()
               ],
             ),
@@ -59,8 +69,7 @@ class _SigninsreenState extends State<Signinsreen> {
         const Text("還沒註冊嗎?", style: TextStyle(color: Colors.white70)),
         GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUpScreen()));
+            Navigator.pushNamed(context, '/signup');
           },
           child: const Text(
             "Sign Up",

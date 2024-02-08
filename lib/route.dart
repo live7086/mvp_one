@@ -13,6 +13,8 @@ import 'search.dart';
 import 'posePage.dart';
 import 'model.dart';
 import 'signin.dart';
+import 'signup.dart';
+import 'home.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -28,6 +30,8 @@ class AppRoutes {
   static const String posePage = '/posePage';
   static const String model = '/model';
   static const String signin = '/signin';
+  static const String signup = '/signup';
+  static const String homee = '/homeScreen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -57,6 +61,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const model_1());
       case signin:
         return MaterialPageRoute(builder: (_) => const Signinsreen());
+      case signup:
+        return MaterialPageRoute(builder: (_) => const SignUpScreen());
+      case homee:
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
