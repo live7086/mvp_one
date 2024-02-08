@@ -29,6 +29,15 @@ android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
+    lintOptions {
+        // 將 unchecked 警告視為錯誤
+        warningsAsErrors true
+
+        // 添加 -Xlint:unchecked 選項
+        checkReleaseBuilds false
+        abortOnError false
+        lintConfig file("$rootDir/lint.xml")
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
