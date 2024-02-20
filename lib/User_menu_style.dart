@@ -4,6 +4,9 @@ import 'package:mvp_one/model.dart';
 import 'package:mvp_one/search.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/posePage.dart';
+import 'route.dart';
+import 'aboutme.dart';
+import 'training_menu.dart';
 
 void onPressed() {}
 
@@ -327,7 +330,7 @@ class MyBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: Color(0xff87cefa),
+        color: Color.fromARGB(255, 242, 243, 243),
         border: Border(
           top: BorderSide(
             color: Colors.grey, // 定義頂部邊框顏色
@@ -364,7 +367,10 @@ class MyBottomNavigationBar extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context)
+                  .push(SlidePageRoute(page: const Training_Menu()));
+            },
             child: const Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -375,7 +381,7 @@ class MyBottomNavigationBar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              // 处理点击第四个按钮的逻辑
+              Navigator.of(context).push(SlidePageRoute(page: const Aboutme()));
             },
             child: const Column(
               mainAxisSize: MainAxisSize.min,

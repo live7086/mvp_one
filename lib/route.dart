@@ -15,6 +15,8 @@ import 'model.dart';
 import 'signin.dart';
 import 'signup.dart';
 import 'home.dart';
+import 'aboutme.dart';
+import 'user_menu_style.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -32,6 +34,7 @@ class AppRoutes {
   static const String signin = '/signin';
   static const String signup = '/signup';
   static const String homee = '/homeScreen';
+  static const String aboutme = '/aboutme';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -65,6 +68,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case homee:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case aboutme:
+        return MaterialPageRoute(builder: (_) => const Aboutme());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
