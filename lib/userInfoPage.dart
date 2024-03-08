@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'signup.dart';
 
 enum Gender { male, female, other }
 
@@ -19,7 +20,10 @@ String genderToString(Gender gender) {
 }
 
 class UserInfoPage extends StatefulWidget {
-  const UserInfoPage({Key? key}) : super(key: key);
+  const UserInfoPage({Key? key, required this.uid}) : super(key: key);
+
+  final String uid;
+
   @override
   _UserInfoPageState createState() => _UserInfoPageState();
 }
@@ -151,17 +155,20 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     'user-information.json');
 
                 try {
-                  final response = await http.post(url, // 使用 await
-                      headers: {
-                        'Content-Type': 'application/json; charset=UTF-8',
-                      },
-                      body: json.encode({
-                        'Gender': genderToString(_selectedGender!),
-                        'nickname': nicknameController.text,
-                        'height': heightController.text,
-                        'weight': weightController.text,
-                        'birthdate': birthdate?.toIso8601String(),
-                      }));
+                  final response = await http.post(
+                    url,
+                    headers: {
+                      'Content-Type': 'application/json; charset=UTF-8',
+                    },
+                    body: json.encode({
+                      'uid': widget.uid, // 将uid添加到数据库
+                      'Gender': genderToString(_selectedGender!),
+                      'nickname': nicknameController.text,
+                      'height': heightController.text,
+                      'weight': weightController.text,
+                      'birthdate': birthdate?.toIso8601String(),
+                    }),
+                  );
 
                   if (response.statusCode == 200) {
                     // 成功處理

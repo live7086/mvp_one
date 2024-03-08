@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'route.dart';
+import 'userInfoPage.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -15,6 +16,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _userNameTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,9 +67,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       .createUserWithEmailAndPassword(
                           email: _emailTextController.text,
                           password: _passwordTextController.text)
-                      .then((value) {
-                    print("Created New Account");
-                    Navigator.pushNamed(context, '/homeScreen');
+                      .then((userCredential) {
+                    String uid = userCredential.user!.uid; // 獲取新用戶的 UID
+                    print("Created New Account with UID: $uid");
+                    // 將 UID 傳遞到基本資料表格頁面
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserInfoPage(uid: uid),
+                      ),
+                    );
                   }).onError((error, stackTrace) {
                     print("Error: ${error.toString()}");
                   });

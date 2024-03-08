@@ -49,7 +49,10 @@ class AppRoutes {
       case gender:
         return MaterialPageRoute(builder: (_) => const GenderSelectionPage());
       case userInfo:
-        return MaterialPageRoute(builder: (_) => const UserInfoPage());
+        return MaterialPageRoute(
+            builder: (_) => const UserInfoPage(
+                  uid: '',
+                ));
       case userLevel:
         return MaterialPageRoute(builder: (_) => const UserLevelPage());
       case setupDone:

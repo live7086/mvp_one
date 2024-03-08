@@ -50,7 +50,7 @@ class _SigninsreenState extends State<Signinsreen> {
                           email: _emailTextController.text,
                           password: _passwordTextController.text)
                       .then((value) {
-                    Navigator.pushNamed(context, '/userInfo');
+                    Navigator.pushNamed(context, '/search');
                   });
                 }),
                 signUpOption()
