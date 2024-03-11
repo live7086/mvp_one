@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mvp_one/aboutme.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
 import 'route.dart';
@@ -44,14 +45,55 @@ class _SigninsreenState extends State<Signinsreen> {
                 SizedBox(
                   height: 20,
                 ),
-                signInSignUpbutton(context, true, () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
-                      .then((value) {
-                    Navigator.pushNamed(context, '/search');
-                  });
+                signInSignUpbutton(context, true, () async {
+                  try {
+                    final UserCredential userCredential =
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: _emailTextController.text.trim(),
+                      password: _passwordTextController.text.trim(),
+                    );
+                    final User? user = userCredential.user;
+
+                    if (user != null) {
+                      print('登入成功，用戶UID是: ${user.uid}');
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Aboutme(),
+                        ),
+                      );
+                    }
+
+                    Navigator.pushNamed(context, '/search'); // 成功登录后跳转
+                  } on FirebaseAuthException catch (e) {
+                    // 根据错误类型给出相应的用户反馈
+                    String message;
+                    switch (e.code) {
+                      case 'user-not-found':
+                        message = '用戶未找到';
+                        break;
+                      case 'wrong-password':
+                        message = '密碼錯誤';
+                        break;
+                      default:
+                        message = '登入錯誤，請重試';
+                    }
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('登入失敗'),
+                        content: Text(message),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('確定'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 }),
                 signUpOption()
               ],

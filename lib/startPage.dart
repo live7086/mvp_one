@@ -88,8 +88,8 @@ class ActionButton extends StatelessWidget {
   const ActionButton({Key? key}) : super(key: key);
   ButtonStyle createButtonStyle() {
     return ElevatedButton.styleFrom(
-      onPrimary: Colors.black,
-      primary: Colors.white,
+      foregroundColor: Colors.black,
+      backgroundColor: Colors.white,
       minimumSize: const Size(150, 50),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
