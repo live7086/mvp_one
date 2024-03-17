@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/User_menu.dart';
 import 'package:mvp_one/model.dart';
+import 'package:mvp_one/screens/tabs.dart';
 import 'package:mvp_one/search.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/posePage.dart';
@@ -369,7 +370,7 @@ class MyBottomNavigationBar extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.of(context)
-                  .push(SlidePageRoute(page: const Training_Menu()));
+                  .push(SlidePageRoute(page: const TabsScreen()));
             },
             child: const Column(
               mainAxisSize: MainAxisSize.min,
