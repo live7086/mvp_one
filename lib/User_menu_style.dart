@@ -5,6 +5,7 @@ import 'package:mvp_one/screens/tabs.dart';
 import 'package:mvp_one/search.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/posePage.dart';
+import 'package:mvp_one/widget_expense/expenses.dart';
 import 'route.dart';
 import 'aboutme.dart';
 import 'training_menu.dart';
@@ -382,7 +383,8 @@ class MyBottomNavigationBar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).push(SlidePageRoute(page: const Aboutme()));
+              Navigator.of(context)
+                  .push(SlidePageRoute(page: const Expenses()));
             },
             child: const Column(
               mainAxisSize: MainAxisSize.min,

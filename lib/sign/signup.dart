@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
 import 'package:mvp_one/utils/color_utils.dart';
-import 'route.dart';
-import 'userInfoPage.dart';
+import '../route.dart';
+import '../user/userInfoPage.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

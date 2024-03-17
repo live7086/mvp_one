@@ -7,53 +7,18 @@ import 'package:mvp_one/models/meal.dart';
 const availableCategories = [
   Category(
     id: 'c1',
-    title: 'Italian',
+    title: '增強平衡和穩定性',
     color: Colors.purple,
   ),
   Category(
     id: 'c2',
-    title: 'Quick & Easy',
+    title: '加強核心力量和靈活度',
     color: Colors.red,
   ),
   Category(
     id: 'c3',
-    title: 'Hamburgers',
+    title: '強化腿部力量和耐力',
     color: Colors.orange,
-  ),
-  Category(
-    id: 'c4',
-    title: 'German',
-    color: Colors.amber,
-  ),
-  Category(
-    id: 'c5',
-    title: 'Light & Lovely',
-    color: Colors.blue,
-  ),
-  Category(
-    id: 'c6',
-    title: 'Exotic',
-    color: Colors.green,
-  ),
-  Category(
-    id: 'c7',
-    title: 'Breakfast',
-    color: Colors.lightBlue,
-  ),
-  Category(
-    id: 'c8',
-    title: 'Asian',
-    color: Colors.lightGreen,
-  ),
-  Category(
-    id: 'c9',
-    title: 'French',
-    color: Colors.pink,
-  ),
-  Category(
-    id: 'c10',
-    title: 'Summer',
-    color: Colors.teal,
   ),
 ];
 
@@ -61,14 +26,12 @@ const dummyMeals = [
   Meal(
     id: 'm1',
     categories: [
-      'c1',
       'c2',
     ],
-    title: 'Spaghetti with Tomato Sauce',
+    title: 'BOAT POSE (船式)',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
-    imageUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg',
+    imageUrl: 'https://i.imgur.com/QObVvEu.png',
     duration: 20,
     ingredients: [
       '4 Tomatoes',
@@ -97,11 +60,10 @@ const dummyMeals = [
     categories: [
       'c2',
     ],
-    title: 'Toast Hawaii',
+    title: 'COW POSE(牛式)',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2018/07/11/21/51/toast-3532016_1280.jpg',
+    imageUrl: 'https://i.imgur.com/cAY337U.png',
     duration: 10,
     ingredients: [
       '1 Slice White Bread',
@@ -123,14 +85,12 @@ const dummyMeals = [
   Meal(
     id: 'm3',
     categories: [
-      'c2',
       'c3',
     ],
-    title: 'Classic Hamburger',
+    title: 'Crescent Lunge(新月弓箭步)',
     affordability: Affordability.pricey,
     complexity: Complexity.simple,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg',
+    imageUrl: 'https://i.imgur.com/rbySss7.png',
     duration: 45,
     ingredients: [
       '300g Cattle Hack',
@@ -155,13 +115,12 @@ const dummyMeals = [
   Meal(
     id: 'm4',
     categories: [
-      'c4',
+      'c2',
     ],
-    title: 'Wiener Schnitzel',
+    title: 'Downward Dog(下犬式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.challenging,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2018/03/31/19/29/schnitzel-3279045_1280.jpg',
+    imageUrl: 'https://i.imgur.com/YlUIHMi.png',
     duration: 60,
     ingredients: [
       '8 Veal Cutlets',
@@ -190,15 +149,12 @@ const dummyMeals = [
   Meal(
     id: 'm5',
     categories: [
-      'c2'
-          'c5',
-      'c10',
+      'c2',
     ],
-    title: 'Salad with Smoked Salmon',
+    title: 'Single Leg Downward Facing Dog(單腳下犬式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2016/10/25/13/29/smoked-salmon-salad-1768890_1280.jpg',
+    imageUrl: 'https://i.imgur.com/hMA9LNV.png',
     duration: 15,
     ingredients: [
       'Arugula',
@@ -226,14 +182,12 @@ const dummyMeals = [
   Meal(
     id: 'm6',
     categories: [
-      'c6',
-      'c10',
+      'c1',
     ],
-    title: 'Delicious Orange Mousse',
+    title: 'TREE POSE(樹式)',
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2017/05/01/05/18/pastry-2274750_1280.jpg',
+    imageUrl: 'https://i.imgur.com/MwdS0ll.png',
     duration: 240,
     ingredients: [
       '4 Sheets of Gelatine',
@@ -262,13 +216,12 @@ const dummyMeals = [
   Meal(
     id: 'm7',
     categories: [
-      'c7',
+      'c2',
     ],
-    title: 'Pancakes',
+    title: 'Upward Facing Dog Pose(上犬式) ',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2018/07/10/21/23/pancake-3529653_1280.jpg',
+    imageUrl: 'https://i.imgur.com/gP9lF0v.png',
     duration: 20,
     ingredients: [
       '1 1/2 Cups all-purpose Flour',
@@ -293,13 +246,12 @@ const dummyMeals = [
   Meal(
     id: 'm8',
     categories: [
-      'c8',
+      'c3',
     ],
-    title: 'Creamy Indian Chicken Curry',
+    title: 'Warrior I(戰士一式)',
     affordability: Affordability.pricey,
     complexity: Complexity.challenging,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2018/06/18/16/05/indian-food-3482749_1280.jpg',
+    imageUrl: 'https://i.imgur.com/s3hKZ0h.png',
     duration: 35,
     ingredients: [
       '4 Chicken Breasts',
@@ -326,13 +278,12 @@ const dummyMeals = [
   Meal(
     id: 'm9',
     categories: [
-      'c9',
+      'c3',
     ],
-    title: 'Chocolate Souffle',
+    title: 'Warrior II(戰士二式)',
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2014/08/07/21/07/souffle-412785_1280.jpg',
+    imageUrl: 'https://i.imgur.com/ZHniU18.png',
     duration: 45,
     ingredients: [
       '1 Teaspoon melted Butter',
@@ -375,15 +326,12 @@ const dummyMeals = [
   Meal(
     id: 'm10',
     categories: [
-      'c2',
-      'c5',
-      'c10',
+      'c1',
     ],
-    title: 'Asparagus Salad with Cherry Tomatoes',
+    title: 'Warrior III(戰士三式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2018/04/09/18/26/asparagus-3304997_1280.jpg',
+    imageUrl: 'https://i.imgur.com/s72FHow.png',
     duration: 30,
     ingredients: [
       'White and Green Asparagus',

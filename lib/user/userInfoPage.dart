@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'signup.dart';
 
 enum Gender { male, female, other }
 

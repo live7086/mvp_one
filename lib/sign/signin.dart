@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mvp_one/aboutme.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
-import 'route.dart';
+import '../route.dart';
 
 class Signinsreen extends StatefulWidget {
   const Signinsreen({super.key});
@@ -64,7 +64,7 @@ class _SigninsreenState extends State<Signinsreen> {
                       );
                     }
 
-                    Navigator.pushNamed(context, '/search'); // 成功登录后跳转
+                    Navigator.pushNamed(context, '/tabscreen'); // 成功登录后跳转
                   } on FirebaseAuthException catch (e) {
                     // 根据错误类型给出相应的用户反馈
                     String message;

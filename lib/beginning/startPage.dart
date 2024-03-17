@@ -104,7 +104,7 @@ class ActionButton extends StatelessWidget {
       style: createButtonStyle(),
       onPressed: () {
         // Navigator.pushNamed(context, '/signin');
-        Navigator.pushNamed(context, '/tabscreen');
+        Navigator.pushNamed(context, '/signin');
       },
       child: const Text(
         "開始使用",

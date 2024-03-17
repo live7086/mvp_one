@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'genderSelectionPage.dart';
+// import 'genderSelectionPage.dart';
 import 'actionPage.dart';
 import 'cameraPage.dart';
-import 'startPage.dart';
-import 'introPage.dart';
-import 'userInfoPage.dart';
-import 'userLevelPage.dart';
-import 'setupDonePage.dart';
+import 'beginning/startPage.dart';
+// import 'introPage.dart';
+import 'user/userInfoPage.dart';
+import 'user/userLevelPage.dart';
+import 'beginning/setupDonePage.dart';
 import 'User_menu.dart';
 import 'search.dart';
 import 'posePage.dart';
 import 'model.dart';
-import 'signin.dart';
-import 'signup.dart';
-import 'home.dart';
+import 'sign/signin.dart';
+import 'sign/signup.dart';
+import 'sign/home.dart';
 import 'aboutme.dart';
 import 'user_menu_style.dart';
 import 'screens/tabs.dart';
@@ -44,12 +44,12 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const startPage());
       case action:
         return MaterialPageRoute(builder: (_) => ActionPage());
-      case intro:
-        return MaterialPageRoute(builder: (_) => const IntroPage());
+      // case intro:
+      //   return MaterialPageRoute(builder: (_) => const IntroPage());
       case camera:
         return MaterialPageRoute(builder: (_) => CameraPage());
-      case gender:
-        return MaterialPageRoute(builder: (_) => const GenderSelectionPage());
+      // case gender:
+      //   return MaterialPageRoute(builder: (_) => const GenderSelectionPage());
       case userInfo:
         return MaterialPageRoute(
             builder: (_) => const UserInfoPage(
