@@ -23,10 +23,10 @@ class Training_plus extends StatelessWidget {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {},
-                child: Text('完成'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 36),
                 ),
+                child: const Text('完成'),
               ),
             ],
           ),

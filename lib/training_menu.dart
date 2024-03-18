@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_one/training_plus.dart';
 import 'User_menu_style.dart';
-import 'Training_plus.dart';
-import 'package:mvp_one/slidePageAnimation.dart';
 
 class Training_Menu extends StatelessWidget {
   const Training_Menu({Key? key}) : super(key: key);

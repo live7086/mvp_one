@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_one/search.dart';
-import 'package:mvp_one/slidePageAnimation.dart';
 
 class SetupDonePage extends StatelessWidget {
+  const SetupDonePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

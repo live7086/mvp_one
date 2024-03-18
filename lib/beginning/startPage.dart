@@ -4,11 +4,11 @@ class startPage extends StatelessWidget {
   const startPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Stack(
         children: [
-          const BackgroundImage(),
-          const Positioned(
+          BackgroundImage(),
+          Positioned(
             left: 20,
             top: 65,
             child: Align(
@@ -25,10 +25,10 @@ class startPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: EdgeInsets.only(bottom: 20),
                     child: YogaText(),
                   ),
-                  const ActionButton(),
+                  ActionButton(),
                 ],
               ),
             ),
@@ -67,6 +67,8 @@ class LogoText extends StatelessWidget {
 }
 
 class YogaText extends StatelessWidget {
+  const YogaText({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

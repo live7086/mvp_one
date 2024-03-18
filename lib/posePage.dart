@@ -4,6 +4,8 @@ class HorizontalScrollListPage extends StatelessWidget {
   // 假設 dataFromDatabase 是從資料庫獲取的列表資料
   final List<String> dataFromDatabase = ['項目 A', '項目 B', '項目 C', '項目 D'];
 
+  HorizontalScrollListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +15,7 @@ class HorizontalScrollListPage extends StatelessWidget {
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
-          for (int i = 0; i < 6 ; i++)
+          for (int i = 0; i < 6; i++)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -24,7 +26,7 @@ class HorizontalScrollListPage extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 150,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,

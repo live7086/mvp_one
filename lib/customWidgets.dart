@@ -29,7 +29,7 @@ class DifficultyCard extends StatefulWidget {
   final String difficulty;
   final Function(bool isSelected) onSelect;
 
-  const DifficultyCard({
+  const DifficultyCard({super.key, 
     required this.difficulty,
     required this.onSelect,
   });
@@ -54,7 +54,7 @@ class _DifficultyCardState extends State<DifficultyCard> {
         },
         child: Container(
           height: 100,
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(color: isSelected ? Colors.blue : Colors.grey),
             borderRadius: BorderRadius.circular(10),
@@ -63,7 +63,7 @@ class _DifficultyCardState extends State<DifficultyCard> {
           child: Center(
             child: Text(
               widget.difficulty,
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
           ),
         ),

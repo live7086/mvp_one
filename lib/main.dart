@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_one/screens/tabs.dart';
 import 'route.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {

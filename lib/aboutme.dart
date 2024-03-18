@@ -61,41 +61,41 @@ class _AboutmeState extends State<Aboutme> {
       ),
       body: Center(
         child: isLoading
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(height: 20),
-                  CircleAvatar(
+                  const SizedBox(height: 20),
+                  const CircleAvatar(
                     radius: 40,
                     child: Icon(Icons.person, size: 40),
                   ),
-                  SizedBox(height: 10),
-                  Text('欢迎的用户，欢迎回来！'),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 10),
+                  const Text('欢迎的用户，欢迎回来！'),
+                  const SizedBox(height: 20),
                   userInfo != null
                       ? Card(
-                          margin: EdgeInsets.all(20),
+                          margin: const EdgeInsets.all(20),
                           child: Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Column(
                               children: [
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('昵称'),
+                                    const Text('昵称'),
                                     Text(userInfo!['nickname'] ??
                                         '无数据'), // 假设Firestore中用户信息有nickname字段
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 // 其他用户信息...
                               ],
                             ),
                           ),
                         )
-                      : Text("用户信息加载失败"),
+                      : const Text("用户信息加载失败"),
                 ],
               ),
       ),

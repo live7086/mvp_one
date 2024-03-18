@@ -16,7 +16,6 @@ import 'sign/signin.dart';
 import 'sign/signup.dart';
 import 'sign/home.dart';
 import 'aboutme.dart';
-import 'user_menu_style.dart';
 import 'screens/tabs.dart';
 
 class AppRoutes {
@@ -43,11 +42,11 @@ class AppRoutes {
       case home:
         return MaterialPageRoute(builder: (_) => const startPage());
       case action:
-        return MaterialPageRoute(builder: (_) => ActionPage());
+        return MaterialPageRoute(builder: (_) => const ActionPage());
       // case intro:
       //   return MaterialPageRoute(builder: (_) => const IntroPage());
       case camera:
-        return MaterialPageRoute(builder: (_) => CameraPage());
+        return MaterialPageRoute(builder: (_) => const CameraPage());
       // case gender:
       //   return MaterialPageRoute(builder: (_) => const GenderSelectionPage());
       case userInfo:
@@ -58,7 +57,7 @@ class AppRoutes {
       case userLevel:
         return MaterialPageRoute(builder: (_) => const UserLevelPage());
       case setupDone:
-        return MaterialPageRoute(builder: (_) => SetupDonePage());
+        return MaterialPageRoute(builder: (_) => const SetupDonePage());
       case search:
         return MaterialPageRoute(builder: (_) => const Search());
       case menu:

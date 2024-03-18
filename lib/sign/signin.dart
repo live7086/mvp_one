@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/aboutme.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
-import '../route.dart';
 
 class Signinsreen extends StatefulWidget {
   const Signinsreen({super.key});
@@ -14,8 +12,8 @@ class Signinsreen extends StatefulWidget {
 }
 
 class _SigninsreenState extends State<Signinsreen> {
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +35,12 @@ class _SigninsreenState extends State<Signinsreen> {
                 logoWidegt("assets/singinlogo.png"),
                 reusableTextField("Enter Email", Icons.person_outline, false,
                     _emailTextController),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 reusableTextField("Enter Password", Icons.lock_outline, true,
                     _passwordTextController),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 signInSignUpbutton(context, true, () async {
@@ -59,7 +57,7 @@ class _SigninsreenState extends State<Signinsreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Aboutme(),
+                          builder: (context) => const Aboutme(),
                         ),
                       );
                     }
@@ -81,11 +79,11 @@ class _SigninsreenState extends State<Signinsreen> {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: Text('登入失敗'),
+                        title: const Text('登入失敗'),
                         content: Text(message),
                         actions: <Widget>[
                           TextButton(
-                            child: Text('確定'),
+                            child: const Text('確定'),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },

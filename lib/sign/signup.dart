@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
 import 'package:mvp_one/utils/color_utils.dart';
-import '../route.dart';
 import '../user/userInfoPage.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -13,9 +12,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _userNameTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _userNameTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

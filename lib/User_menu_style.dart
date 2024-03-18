@@ -6,9 +6,6 @@ import 'package:mvp_one/search.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/posePage.dart';
 import 'package:mvp_one/widget_expense/expenses.dart';
-import 'route.dart';
-import 'aboutme.dart';
-import 'training_menu.dart';
 
 void onPressed() {}
 
@@ -28,7 +25,6 @@ class UserStyle extends StatelessWidget {
           ),
           child: TextButton(
             onPressed: onPressed,
-            child: Text('初階菜單'),
             style: TextButton.styleFrom(
               padding: const EdgeInsets.only(
                 right: 80,
@@ -39,6 +35,7 @@ class UserStyle extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
+            child: const Text('初階菜單'),
           ),
         ),
         const SizedBox(height: 60), // Adjust the spacing between buttons
@@ -50,7 +47,6 @@ class UserStyle extends StatelessWidget {
           ),
           child: TextButton(
             onPressed: onPressed,
-            child: Text('中階菜單'),
             style: TextButton.styleFrom(
               padding: const EdgeInsets.only(
                 right: 80,
@@ -61,6 +57,7 @@ class UserStyle extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
+            child: const Text('中階菜單'),
           ),
         ),
         const SizedBox(height: 60), // Adjust the spacing between buttons
@@ -72,7 +69,6 @@ class UserStyle extends StatelessWidget {
           ),
           child: TextButton(
             onPressed: onPressed,
-            child: Text('高階菜單'),
             style: TextButton.styleFrom(
               padding: const EdgeInsets.only(
                 right: 80,
@@ -83,6 +79,7 @@ class UserStyle extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
+            child: const Text('高階菜單'),
           ),
         ),
         Container(
@@ -190,8 +187,8 @@ class _SearchInputState extends State<SearchInput> {
                           const TextStyle(color: Colors.grey, fontSize: 18),
                       prefixIcon: Container(
                         padding: const EdgeInsets.all(10),
-                        child: Image.asset('assets/search_icon.jpg'),
                         width: 15,
+                        child: Image.asset('assets/search_icon.jpg'),
                       )),
                 ),
               ),

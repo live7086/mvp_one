@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ActionPage extends StatefulWidget {
+  const ActionPage({super.key});
+
   @override
   _ActionPageState createState() => _ActionPageState();
 }

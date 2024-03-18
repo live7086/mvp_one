@@ -77,16 +77,16 @@ flutter:
     - assets/yoga_1.jpg
     - assets/yoga_2.jpg
     - assets/yoga_3.jpg
-      assets/images/c1.png
-      assets/images/c2.png
-      assets/images/c3.png
-      assets/images/c4.png
-      assets/images/c5.png
-      assets/images/c6.png
-      assets/images/c7.png
-      assets/images/c8.png
-      assets/images/c9.png
-      assets/images/c10.png
+    - assets/images/c1.png
+    - assets/images/c2.png
+    - assets/images/c3.png
+    - assets/images/c4.png
+    - assets/images/c5.png
+    - assets/images/c6.png
+    - assets/images/c7.png
+    - assets/images/c8.png
+    - assets/images/c9.png
+    - assets/images/c10.png
 
 
   #   - images/a_dot_burr.jpeg

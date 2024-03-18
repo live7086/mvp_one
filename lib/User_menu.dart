@@ -16,9 +16,9 @@ class Usermenu extends StatelessWidget {
         ),
         title: const Icon(Icons.account_circle),
       ),
-      body: Stack(
+      body: const Stack(
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DDD(),
@@ -35,9 +35,9 @@ class Usermenu extends StatelessWidget {
             left: 0,
             right: 0,
             bottom: 0,
-            child: Container(
+            child: SizedBox(
               height: 56, // 設定底部導航欄的高度
-              child: const MyBottomNavigationBar(),
+              child: MyBottomNavigationBar(),
             ),
           ),
         ],

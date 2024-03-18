@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mvp_one/User_menu.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
-import 'package:mvp_one/models/expense.dart';
 import 'package:mvp_one/screens/categories.dart';
 import 'package:mvp_one/screens/filters.dart';
 import 'package:mvp_one/screens/meals.dart';
@@ -35,7 +33,7 @@ class _TabsScreenState extends State<TabsScreen> {
   void _toggleMealFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
 
-    void _showInfoMessage(String message) {
+    void showInfoMessage(String message) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message)),
@@ -46,11 +44,11 @@ class _TabsScreenState extends State<TabsScreen> {
       setState(() {
         _favoriteMeals.remove(meal);
       });
-      _showInfoMessage('Meal is no longer a favorite');
+      showInfoMessage('Meal is no longer a favorite');
       _favoriteMeals.remove(meal);
     } else {
       _favoriteMeals.add(meal);
-      _showInfoMessage('Marked as favorite');
+      showInfoMessage('Marked as favorite');
     }
   }
 
@@ -62,7 +60,7 @@ class _TabsScreenState extends State<TabsScreen> {
     }
     if (index == 3) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => Usermenu()));
+          .push(MaterialPageRoute(builder: (context) => const Usermenu()));
       return;
     }
     setState(() {

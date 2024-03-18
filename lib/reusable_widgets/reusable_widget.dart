@@ -50,14 +50,6 @@ Container signInSignUpbutton(
       onPressed: () {
         onTap();
       },
-      child: Text(
-        isLogin ? "LOG IN" : "Sing Up",
-        style: const TextStyle(
-          color: Colors.black87,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.pressed)) {
@@ -68,6 +60,14 @@ Container signInSignUpbutton(
           }),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
+      child: Text(
+        isLogin ? "LOG IN" : "Sing Up",
+        style: const TextStyle(
+          color: Colors.black87,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     ),
   );
 }

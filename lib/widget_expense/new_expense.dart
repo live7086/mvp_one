@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mvp_one/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
@@ -14,7 +13,8 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  final _titleController = TextEditingController();
+  final _titleController = TextEditingController(
+      text: '${DateTime.now().month}月${DateTime.now().day}日訓練');
   final _timeController = TextEditingController();
   DateTime? _selectedDate;
   Category _selectedCategory = Category.other;
@@ -150,7 +150,7 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: _submitExpenseData,
