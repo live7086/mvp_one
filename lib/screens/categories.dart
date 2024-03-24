@@ -4,7 +4,7 @@ import 'package:mvp_one/models/category.dart';
 // ignore: unused_import
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/widgets/category_grid_item.dart';
-import 'package:mvp_one/screens/meals.dart';
+import 'package:mvp_one/screens/move.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen(

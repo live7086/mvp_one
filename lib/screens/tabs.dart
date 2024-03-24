@@ -4,7 +4,7 @@ import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/screens/categories.dart';
 import 'package:mvp_one/screens/filters.dart';
-import 'package:mvp_one/screens/meals.dart';
+import 'package:mvp_one/screens/move.dart';
 import 'package:mvp_one/widgets/main_drawer.dart';
 
 import '../widget_expense/expenses.dart';
