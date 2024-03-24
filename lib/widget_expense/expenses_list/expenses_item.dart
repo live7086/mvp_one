@@ -24,10 +24,12 @@ class ExpenseItem extends StatelessWidget {
             const SizedBox(height: 4),
             Row(
               children: [
-                Text('${expense.time.toStringAsFixed(0)}-分鐘'),
+                Text(expense.title), // 提供默认值
+                Text('${expense.time.toStringAsFixed(0)} 分钟'),
+                // 使用`?`和`??`处理可能的null
                 const Spacer(),
                 Row(children: [
-                  Icon(categoryIcons[expense.category]),
+                  Icon(categoryIcons[expense.category] ?? Icons.error),
                   const SizedBox(width: 8),
                   Text(expense.formattedDate),
                 ]),

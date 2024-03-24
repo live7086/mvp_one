@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/aboutme.dart';
+import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
+import 'package:mvp_one/widget_expense/expenses.dart';
+
+import '../screens/tabs.dart';
 
 class Signinsreen extends StatefulWidget {
   const Signinsreen({super.key});
@@ -61,7 +65,6 @@ class _SigninsreenState extends State<Signinsreen> {
                         ),
                       );
                     }
-
                     Navigator.pushNamed(context, '/tabscreen'); // 成功登录后跳转
                   } on FirebaseAuthException catch (e) {
                     // 根据错误类型给出相应的用户反馈
@@ -93,6 +96,17 @@ class _SigninsreenState extends State<Signinsreen> {
                     );
                   }
                 }),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              TabsScreen()), // 替换TheDestinationPage为你的目标页面
+                    );
+                  },
+                  child: Text('跳過僅限測試'),
+                ),
                 signUpOption()
               ],
             ),

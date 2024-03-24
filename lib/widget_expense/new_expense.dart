@@ -107,9 +107,12 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(_selectedDate == null
-                        ? 'No Date Selected!'
-                        : formatter.format(_selectedDate!)),
+                    Text(
+                      _selectedDate == null
+                          ? 'No Date Selected!'
+                          : formatter.format(
+                              _selectedDate!), // 使用!操作符因为我们已经确认了_selectedDate不是null
+                    ),
                     IconButton(
                       onPressed: _presentDatePicker,
                       icon: const Icon(Icons.calendar_month),

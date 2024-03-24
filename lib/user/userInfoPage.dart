@@ -159,7 +159,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       'Content-Type': 'application/json; charset=UTF-8',
                     },
                     body: json.encode({
-                      'uid': widget.uid, // 将uid添加到数据库
+                      'uid': widget.uid,
                       'Gender': genderToString(_selectedGender!),
                       'nickname': nicknameController.text,
                       'height': heightController.text,

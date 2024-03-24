@@ -9,7 +9,7 @@ class SetupDonePage extends StatelessWidget {
       body: GestureDetector(
         onTap: () {
           // Handle button tap here
-          Navigator.pushNamed(context, '/tabscreen');
+          Navigator.pushNamed(context, '/signin');
         },
         child: Stack(
           children: [
