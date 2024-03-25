@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:mvp_one/screens/move_result.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Three.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Two.dart';
 import 'dart:typed_data';
@@ -22,6 +23,9 @@ class CameraScreen extends StatefulWidget {
 }
 
 class CameraScreenState extends State<CameraScreen> {
+  late Timer _timer;
+  int _elapsedSeconds = 0;
+  bool _isAllPosesCompleted = false; // 新增一個標誌變量
 
   FlutterTts flutterTts = FlutterTts();
 
@@ -60,8 +64,6 @@ class CameraScreenState extends State<CameraScreen> {
 
   //實作初始化相機
   Future<void> _initializeCamera() async {
-    // print("initCamera poseIndex$poseIndex");
-
     final CameraDescription selectedCamera = isFrontCamera
         ? widget.cameras.firstWhere(
             (camera) => camera.lensDirection == CameraLensDirection.front)
@@ -73,6 +75,9 @@ class CameraScreenState extends State<CameraScreen> {
     //如果初始化了
     if (mounted) {
       setState(() {}); //更新widget
+
+      _startTimer(); // 啟動計時器
+
       _cameraController.startImageStream((CameraImage image) {
         if (!isDetecting) {
           isDetecting = true;
@@ -81,6 +86,27 @@ class CameraScreenState extends State<CameraScreen> {
       });
     }
   }
+
+void _startTimer() {
+  _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    setState(() {
+      _elapsedSeconds++;
+    });
+    if (_isAllPosesCompleted) {
+      _timer.cancel();
+      _navigateToResultPage();
+    }
+  });
+}
+
+void _navigateToResultPage() {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ResultPage(duration: _elapsedSeconds),
+    ),
+  );
+}
 
   void _toggleCamera() {
     setState(() {
@@ -376,8 +402,9 @@ class CameraScreenState extends State<CameraScreen> {
           await Future.delayed(Duration(seconds: 3));
           flutterTts.speak("KongShi KongShi");
           await Future.delayed(Duration(seconds: 5));
-          setState(() {});
-        }
+          setState(() {
+            _isAllPosesCompleted = true; // 設置標誌變量為 true
+          });}
       } else {
         // 如果當前階段未通過,提示重試當前階段
         poseTip = '$poseTipText未通過，請重試';
@@ -423,6 +450,7 @@ class CameraScreenState extends State<CameraScreen> {
 //放棄資源
   @override
   void dispose() {
+    _timer?.cancel();
     flutterTts.stop();
     _cameraController.dispose();
     _poseDetector.close();

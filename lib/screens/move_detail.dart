@@ -75,19 +75,31 @@ class MealDetailsScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // 獲取可用的相機列表
-          final cameras = await availableCameras();
-          // 導航到 CameraScreen,並傳遞相機列表
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CameraScreen(cameras: cameras),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () async {
+                  // 獲取可用的相機列表
+                  final cameras = await availableCameras();
+                  // 導航到 CameraScreen,並傳遞相機列表
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CameraScreen(cameras: cameras),
+                    ),
+                  );
+                },
+                child: const Text('Start'),
+              ),
             ),
-          );
-        },
-        child: const Icon(Icons.add),
+          ],
+        ),
       ),
     );
   }
