@@ -519,15 +519,6 @@ class PosePainter extends CustomPainter {
     for (var pose in poses) {
       final landmarks = pose.landmarks.values.toList();
 
-      // 繪製身體部位的關鍵點
-      for (final landmark in landmarks) {
-        double x = landmark.x;
-        double y = landmark.y;
-        if (isFrontCamera) {
-          x = size.width + 240 - x;
-        }
-        canvas.drawCircle(Offset(x, y), 5, Paint()..color = Colors.blue);
-      }
 
       // 定義身體部位之間的連接關係
       final connections = [
@@ -548,11 +539,11 @@ class PosePainter extends CustomPainter {
       for (final connection in connections) {
         final startLandmark = landmarks[connection[0].index];
         final endLandmark = landmarks[connection[1].index];
-
-        double startX = startLandmark.x;
-        double startY = startLandmark.y;
-        double endX = endLandmark.x;
-        double endY = endLandmark.y;
+        //調整完位置，符合角度。 
+        double startX = startLandmark.x -150;
+        double startY = startLandmark.y -150;
+        double endX = endLandmark.x -150;
+        double endY = endLandmark.y -150;
 
         // 如果是前置摄像头，进行垂直翻转
         if (isFrontCamera) {
@@ -560,11 +551,6 @@ class PosePainter extends CustomPainter {
           endX = size.width + 240 - endX;
         }
 
-        // 調整起點和終點座標
-        startX += 5;
-        startY += 5;
-        endX -= 5;
-        endY -= 5;
 
         canvas.drawLine(
           Offset(startX, startY),
