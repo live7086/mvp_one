@@ -22,6 +22,7 @@ class CameraScreen extends StatefulWidget {
 }
 
 class CameraScreenState extends State<CameraScreen> {
+
   FlutterTts flutterTts = FlutterTts();
 
   bool ischeckPoseLooping = false;
@@ -502,6 +503,7 @@ class CameraScreenState extends State<CameraScreen> {
   }
 }
 
+// 繪製身體骨架
 class PosePainter extends CustomPainter {
   final List<Pose> poses;
   final bool isFrontCamera;
@@ -515,17 +517,58 @@ class PosePainter extends CustomPainter {
       ..strokeWidth = 5;
 
     for (var pose in poses) {
-      for (var landmark in pose.landmarks.values) {
+      final landmarks = pose.landmarks.values.toList();
+
+      // 繪製身體部位的關鍵點
+      for (final landmark in landmarks) {
         double x = landmark.x;
         double y = landmark.y;
+        if (isFrontCamera) {
+          x = size.width + 240 - x;
+        }
+        canvas.drawCircle(Offset(x, y), 5, Paint()..color = Colors.blue);
+      }
+
+      // 定義身體部位之間的連接關係
+      final connections = [
+        [PoseLandmarkType.leftShoulder, PoseLandmarkType.rightShoulder],
+        [PoseLandmarkType.leftShoulder, PoseLandmarkType.leftElbow],
+        [PoseLandmarkType.leftElbow, PoseLandmarkType.leftWrist],
+        [PoseLandmarkType.rightShoulder, PoseLandmarkType.rightElbow],
+        [PoseLandmarkType.rightElbow, PoseLandmarkType.rightWrist],
+        [PoseLandmarkType.leftShoulder, PoseLandmarkType.leftHip],
+        [PoseLandmarkType.rightShoulder, PoseLandmarkType.rightHip],
+        [PoseLandmarkType.leftHip, PoseLandmarkType.rightHip],
+        [PoseLandmarkType.leftHip, PoseLandmarkType.leftKnee],
+        [PoseLandmarkType.leftKnee, PoseLandmarkType.leftAnkle],
+        [PoseLandmarkType.rightHip, PoseLandmarkType.rightKnee],
+        [PoseLandmarkType.rightKnee, PoseLandmarkType.rightAnkle],
+      ];
+
+      for (final connection in connections) {
+        final startLandmark = landmarks[connection[0].index];
+        final endLandmark = landmarks[connection[1].index];
+
+        double startX = startLandmark.x;
+        double startY = startLandmark.y;
+        double endX = endLandmark.x;
+        double endY = endLandmark.y;
 
         // 如果是前置摄像头，进行垂直翻转
-        // if (isFrontCamera) {
-        x = size.width + 240 - x;
-        // }
-        canvas.drawCircle(
-          Offset(x, y),
-          2.0,
+        if (isFrontCamera) {
+          startX = size.width + 240 - startX;
+          endX = size.width + 240 - endX;
+        }
+
+        // 調整起點和終點座標
+        startX += 5;
+        startY += 5;
+        endX -= 5;
+        endY -= 5;
+
+        canvas.drawLine(
+          Offset(startX, startY),
+          Offset(endX, endY),
           paint,
         );
       }
