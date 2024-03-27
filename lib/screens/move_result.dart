@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/screens/move.dart';
+import 'package:mvp_one/screens/move_detail.dart';
 
 class ResultPage extends StatelessWidget {
   final int duration;
-
-  ResultPage({required this.duration});
+  final Meal meal;
+  final void Function(Meal meal) onToggleFavorite;
+  ResultPage(
+      {required this.duration,
+      required this.meal,
+      required this.onToggleFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,15 @@ class ResultPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MealDetailsScreen(
+                      meal: meal,
+                      onToggleFavorite: onToggleFavorite,
+                    ),
+                  ),
+                );
               },
               child: Text('返回動作列表'),
             ),

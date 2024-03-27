@@ -7,7 +7,7 @@ class MealDetailsScreen extends StatelessWidget {
   const MealDetailsScreen({
     super.key,
     required this.meal,
-    required this.onToggleFavorite,
+     required this.onToggleFavorite,
   });
 
   final Meal meal;
@@ -85,13 +85,15 @@ class MealDetailsScreen extends StatelessWidget {
               height: 56,
               child: ElevatedButton(
                 onPressed: () async {
+                  
                   // 獲取可用的相機列表
                   final cameras = await availableCameras();
                   // 導航到 CameraScreen,並傳遞相機列表
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CameraScreen(cameras: cameras),
+                      builder: (context) => CameraScreen(cameras: cameras,meal: meal,
+                      onToggleFavorite: onToggleFavorite,),
                     ),
                   );
                 },

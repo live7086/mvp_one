@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:mvp_one/models/meal.dart';
+import 'package:mvp_one/screens/move_detail.dart';
 import 'package:mvp_one/screens/move_result.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Three.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Two.dart';
@@ -15,14 +17,26 @@ import 'Pose_Correction/TreePose/TreePose_Correction_Three.dart';
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
+  final Meal meal;
+  final void Function(Meal meal) onToggleFavorite;
 
-  const CameraScreen({Key? key, required this.cameras}) : super(key: key);
+  const CameraScreen({
+    Key? key,
+    required this.cameras,
+    required this.meal,
+    required this.onToggleFavorite,
+  }) : super(key: key);
 
   @override
   CameraScreenState createState() => CameraScreenState();
 }
 
 class CameraScreenState extends State<CameraScreen> {
+  // 本地重新宣告一個meal
+  late Meal meal;
+  // 本地重新宣告一個toggleFav
+  late final void Function(Meal meal) onToggleFavorite;
+
   late Timer _timer;
   int _elapsedSeconds = 0;
   bool _isAllPosesCompleted = false; // 新增一個標誌變量
@@ -50,6 +64,9 @@ class CameraScreenState extends State<CameraScreen> {
   //初始化camera 以及 poseDetector
   @override
   void initState() {
+    //賦予本地的meal 為 接收的meal值
+    meal = widget.meal;
+    onToggleFavorite = widget.onToggleFavorite;
     //print("initState poseIndex$poseIndex");
     super.initState();
     _initializeCamera();
@@ -87,26 +104,31 @@ class CameraScreenState extends State<CameraScreen> {
     }
   }
 
-void _startTimer() {
-  _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-    setState(() {
-      _elapsedSeconds++;
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+      setState(() {
+        _elapsedSeconds++;
+      });
+      if (_isAllPosesCompleted) {
+        _timer.cancel();
+        await Future.delayed(Duration(seconds: 5));
+        _navigateToResultPage();
+      }
     });
-    if (_isAllPosesCompleted) {
-      _timer.cancel();
-      _navigateToResultPage();
-    }
-  });
-}
+  }
 
-void _navigateToResultPage() {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => ResultPage(duration: _elapsedSeconds),
-    ),
-  );
-}
+  void _navigateToResultPage() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultPage(
+          duration: _elapsedSeconds,
+          meal: meal,
+          onToggleFavorite: onToggleFavorite,
+        ),
+      ),
+    );
+  }
 
   void _toggleCamera() {
     setState(() {
@@ -116,6 +138,10 @@ void _navigateToResultPage() {
   }
 
   Future<void> _detectPose(CameraImage image, bool isFrontCamera) async {
+    if (_isAllPosesCompleted) {
+      await Future.delayed(Duration(seconds: 1));
+      return; // 如果所有動作已完成,直接返回,不再進行姿勢檢測
+    }
     // print("_detectPose poseIndex$poseIndex");
 
     final InputImageRotation rotation = isFrontCamera
@@ -280,23 +306,25 @@ void _navigateToResultPage() {
 
   Future<void> _checkPose(int poseIndex) async {
     // 設置語音的語言和聲音
-    await flutterTts.setLanguage("zh-TW"); // 設置語音為 "Karen" 的英語(澳大利亞)語音
+    await flutterTts.setLanguage("zh-TW"); //
+    // await flutterTts
+    //     .setVoice({"name": "zh-TW-default", "locale": "zho-default"});
     // await flutterTts
     //     .setVoice({"name": "en-in-x-end-network", "locale": "en-IN"}); //印度口音-男生
-    // await flutterTts.setVoice(
-    //     {"name": "cmn-tw-x-ctd-network", "locale": "zh-TW"}); //男生聲音-粗曠
     await flutterTts.setVoice(
-        {"name": "cmn-tw-x-cte-network", "locale": "zh-TW"}); //男生聲音-官腔
+        {"name": "cmn-tw-x-ctd-network", "locale": "zh-TW"}); //男生聲音-粗曠
+    // await flutterTts.setVoice(
+    //     {"name": "cmn-tw-x-cte-network", "locale": "zh-TW"}); //男生聲音-官腔
     // await flutterTts.setVoice(
     //     {"name": "cmn-tw-x-ctc-network", "locale": "zh-TW"}); //女生聲音-溫柔
 
-    // // 獲取所有可用語音
-    // List<dynamic> voices = await flutterTts.getVoices;
+    // 獲取所有可用語音
+    List<dynamic> voices = await flutterTts.getVoices;
 
-    // // 打印語音信息
-    // for (var voice in voices) {
-    //   print(voice);
-    // }
+    // 打印語音信息
+    for (var voice in voices) {
+      print(voice);
+    }
 
     if (!ischeckPoseLooping) {
       //print("_checkPoses poseIndex$poseIndex");
@@ -399,12 +427,14 @@ void _navigateToResultPage() {
           // 如果當前階段通過且是最後一個階段,提示所有動作完成
           poseTip = '$poseTipText通過，所有動作完成';
           flutterTts.speak(poseTip);
-          await Future.delayed(Duration(seconds: 3));
+          await Future.delayed(Duration(seconds: 5));
           flutterTts.speak("KongShi KongShi");
+          FlutterTts().stop();
           await Future.delayed(Duration(seconds: 5));
           setState(() {
             _isAllPosesCompleted = true; // 設置標誌變量為 true
-          });}
+          });
+        }
       } else {
         // 如果當前階段未通過,提示重試當前階段
         poseTip = '$poseTipText未通過，請重試';
@@ -450,7 +480,7 @@ void _navigateToResultPage() {
 //放棄資源
   @override
   void dispose() {
-    _timer?.cancel();
+    _timer.cancel();
     flutterTts.stop();
     _cameraController.dispose();
     _poseDetector.close();
@@ -547,7 +577,6 @@ class PosePainter extends CustomPainter {
     for (var pose in poses) {
       final landmarks = pose.landmarks.values.toList();
 
-
       // 定義身體部位之間的連接關係
       final connections = [
         [PoseLandmarkType.leftShoulder, PoseLandmarkType.rightShoulder],
@@ -567,18 +596,19 @@ class PosePainter extends CustomPainter {
       for (final connection in connections) {
         final startLandmark = landmarks[connection[0].index];
         final endLandmark = landmarks[connection[1].index];
-        //調整完位置，符合角度。 
-        double startX = startLandmark.x -150;
-        double startY = startLandmark.y -150;
-        double endX = endLandmark.x -150;
-        double endY = endLandmark.y -150;
+        //調整完位置，符合角度。
+        double startX = startLandmark.x - 150;
+        double startY = startLandmark.y - 150;
+        double endX = endLandmark.x - 150;
+        double endY = endLandmark.y - 150;
 
         // 如果是前置摄像头，进行垂直翻转
         if (isFrontCamera) {
-          startX = size.width + 240 - startX;
-          endX = size.width + 240 - endX;
+          startX = size.width + 300 - startX;
+          endX = size.width + 300 - endX;
+          startY = size.width - 20 - startY;
+          endY = size.width - 20 - endY;
         }
-
 
         canvas.drawLine(
           Offset(startX, startY),
