@@ -23,7 +23,7 @@ class ResultPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('返回餐點列表'),
+              child: Text('返回動作列表'),
             ),
           ],
         ),
