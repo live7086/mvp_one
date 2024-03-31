@@ -4,7 +4,7 @@ import 'package:mvp_one/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal, required this.onSelectMeal});
+  const MealItem({super.key, required this.meal, required this.onSelectMeal, required bool isSelected});
 
   final Meal meal;
   final void Function(Meal meal) onSelectMeal;

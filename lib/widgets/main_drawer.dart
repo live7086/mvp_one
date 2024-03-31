@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/customize_menu/start_page.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectScreen});
@@ -87,7 +88,10 @@ class MainDrawer extends StatelessWidget {
                   ),
             ),
             onTap: () {
-              onSelectScreen('CustomizeMenu');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => StartPage()),
+              );
             },
           ),
         ],
