@@ -66,6 +66,7 @@ class MealsScreen extends StatelessWidget {
           onSelectMeal: (meal) {
             selectMeal(context, meal);
           },
+          isSelected: false, // Add the isSelected parameter here
         ),
       );
     }
