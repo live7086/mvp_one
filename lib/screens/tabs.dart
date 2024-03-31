@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/User_menu.dart';
+import 'package:mvp_one/user/aboutme.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/screens/categories.dart';
@@ -7,6 +8,7 @@ import 'package:mvp_one/screens/filters.dart';
 import 'package:mvp_one/screens/move.dart';
 import 'package:mvp_one/widgets/main_drawer.dart';
 
+import '../user/UserInformationPage.dart';
 import '../widget_expense/expenses.dart';
 
 const kInitialFilters = {
@@ -17,18 +19,23 @@ const kInitialFilters = {
 };
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({super.key});
+  const TabsScreen({Key? key, required this.uid}) : super(key: key);
+
+  final String uid;
 
   @override
-  State<StatefulWidget> createState() {
-    return _TabsScreenState();
-  }
+  _TabsScreenState createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _selectedFilters = kInitialFilters;
+
+  void initState() {
+    super.initState();
+    print("接收到的UID: ${widget.uid}");
+  }
 
   void _toggleMealFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
@@ -53,19 +60,24 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _selectPage(int index) {
-    if (index == 2) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const Expenses()));
-      return;
+    switch (index) {
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const Expenses(),
+        ));
+        break;
+      case 3:
+        // 由于我们已经确保了 TabsScreen 接收了 uid，我们可以直接使用 widget.uid
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UserInformationPage(uid: widget.uid),
+        ));
+        break;
+      default:
+        setState(() {
+          _selectedPageIndex = index;
+        });
+        break;
     }
-    if (index == 3) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const Usermenu()));
-      return;
-    }
-    setState(() {
-      _selectedPageIndex = index;
-    });
   }
 
   void _setScreen(String identifier) async {

@@ -168,10 +168,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     }),
                   );
 
-                  if (response.statusCode == 200) {
-                    // 成功處理
-                  } else {
-                    // 錯誤處理
+                  print(response.body);
+                  print(response.statusCode);
+
+                  if (!context.mounted) {
+                    return;
                   }
                 } catch (e) {
                   // 異常處理

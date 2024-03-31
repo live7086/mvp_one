@@ -15,7 +15,7 @@ import 'model.dart';
 import 'sign/signin.dart';
 import 'sign/signup.dart';
 import 'sign/home.dart';
-import 'aboutme.dart';
+import 'user/aboutme.dart';
 import 'screens/tabs.dart';
 
 class AppRoutes {
@@ -60,8 +60,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const SetupDonePage());
       case search:
         return MaterialPageRoute(builder: (_) => const Search());
-      case menu:
-        return MaterialPageRoute(builder: (_) => const Usermenu());
+      // case menu:
+      //   return MaterialPageRoute(builder: (_) => const Usermenu());
       case posePage:
         return MaterialPageRoute(builder: (_) => HorizontalScrollListPage());
       case model:
@@ -75,7 +75,10 @@ class AppRoutes {
       case aboutme:
         return MaterialPageRoute(builder: (_) => const Aboutme());
       case tabscreen:
-        return MaterialPageRoute(builder: (_) => const TabsScreen());
+        return MaterialPageRoute(
+            builder: (_) => const TabsScreen(
+                  uid: '',
+                ));
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

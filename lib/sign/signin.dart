@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mvp_one/aboutme.dart';
+import 'package:mvp_one/user/UserInformationPage.dart';
+import 'package:mvp_one/user/aboutme.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
+import 'package:mvp_one/user/userInfoPage.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
 import 'package:mvp_one/widget_expense/expenses.dart';
@@ -61,11 +63,17 @@ class _SigninsreenState extends State<Signinsreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Aboutme(),
+                          builder: (context) =>
+                              TabsScreen(uid: user.uid), // 传递UID到TabsScreen
                         ),
                       );
+                    } else {
+                      // 登录失败的逻辑处理
                     }
-                    Navigator.pushNamed(context, '/tabscreen'); // 成功登录后跳转
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TabsScreen(uid: user!.uid),
+                    )); // 成功登录后跳转
                   } on FirebaseAuthException catch (e) {
                     // 根据错误类型给出相应的用户反馈
                     String message;
@@ -98,14 +106,30 @@ class _SigninsreenState extends State<Signinsreen> {
                 }),
                 ElevatedButton(
                   onPressed: () {
+                    // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的
+                    String testUid = "some-test-uid"; // 使用测试UID或者从应用逻辑中获取真实的UID
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              TabsScreen()), // 替换TheDestinationPage为你的目标页面
+                        builder: (context) =>
+                            TabsScreen(uid: testUid), // 使用测试UID或有效的UID
+                      ),
                     );
                   },
                   child: Text('跳過僅限測試'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    String testUid = "somwwwe-test-uid";
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserInfoPage(
+                                uid: testUid,
+                              )), // 替换TheDestinationPage为你的目标页面
+                    );
+                  },
+                  child: Text('測試firebase用'),
                 ),
                 signUpOption()
               ],
