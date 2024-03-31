@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectScreen});
 
-  final void Function(String indentifier) onSelectScreen;
+  final void Function(String identifier) onSelectScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +13,18 @@ class MainDrawer extends StatelessWidget {
           DrawerHeader(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.primaryContainer,
-                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.8),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            )),
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primaryContainer,
+                  Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withOpacity(0.8),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
             child: Row(
               children: [
                 Icon(Icons.fastfood,
@@ -31,7 +35,7 @@ class MainDrawer extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                )
+                ),
               ],
             ),
           ),
@@ -67,6 +71,23 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               onSelectScreen('Filters');
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.menu,
+              size: 26,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            title: Text(
+              '客製化菜單',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen('CustomizeMenu');
             },
           ),
         ],

@@ -2,12 +2,13 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/pose.dart';
+import 'package:mvp_one/screens/move_result.dart';
 
 class MealDetailsScreen extends StatelessWidget {
   const MealDetailsScreen({
     super.key,
     required this.meal,
-     required this.onToggleFavorite,
+    required this.onToggleFavorite,
   });
 
   final Meal meal;
@@ -81,23 +82,45 @@ class MealDetailsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.4,
               height: 56,
               child: ElevatedButton(
                 onPressed: () async {
-                  
-                  // 獲取可用的相機列表
+                  // 获取可用的相机列表
                   final cameras = await availableCameras();
-                  // 導航到 CameraScreen,並傳遞相機列表
+                  // 导航到 CameraScreen,并传递相机列表
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CameraScreen(cameras: cameras,meal: meal,
-                      onToggleFavorite: onToggleFavorite,),
+                      builder: (context) => CameraScreen(
+                        cameras: cameras,
+                        meal: meal,
+                        onToggleFavorite: onToggleFavorite,
+                      ),
                     ),
                   );
                 },
                 child: const Text('Start'),
+              ),
+            ),
+            const SizedBox(width: 16),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultPage(
+                        duration: 1,
+                        meal: meal,
+                        onToggleFavorite: onToggleFavorite,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('Result'),
               ),
             ),
           ],

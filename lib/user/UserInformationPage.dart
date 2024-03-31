@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class UserInformationPage extends StatefulWidget {
   const UserInformationPage({Key? key, required this.uid}) : super(key: key);
-
   final String uid;
 
   @override
@@ -12,7 +11,7 @@ class UserInformationPage extends StatefulWidget {
 }
 
 class _UserInformationPageState extends State<UserInformationPage> {
-  Map<String, dynamic>? userData;
+  Map<String, dynamic>? userSpecificData;
   bool isLoading = true;
 
   @override
@@ -22,57 +21,87 @@ class _UserInformationPageState extends State<UserInformationPage> {
   }
 
   Future<void> fetchUserData(String uid) async {
-    final query = FirebaseDatabase.instance
-        .reference()
-        .child('user-information')
-        .orderByChild('uid')
-        .equalTo(uid);
+    final url = Uri.https(
+      'flutter-dogshit-default-rtdb.firebaseio.com',
+      '/user-information.json',
+    );
 
     try {
-      // Retrieve the DatabaseEvent
-      DatabaseEvent event = await query.once();
-
-      // Check if the snapshot exists and contains any data
-      if (event.snapshot.exists) {
-        // Since we expect a single entry for each uid, let's extract the data.
-        // Assuming 'user-information' node contains uid as keys directly
-        Map<String, dynamic> data =
-            Map<String, dynamic>.from(event.snapshot.value?[uid] ?? {});
-
-        setState(() {
-          userData = data;
-          isLoading = false;
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        data.forEach((key, value) {
+          if (value['uid'] == uid) {
+            userSpecificData = value;
+          }
         });
 
-        print('User Data: $userData');
+        if (userSpecificData != null) {
+          print('找到用户: ${userSpecificData!['nickname']}');
+        } else {
+          print('未找到对应UID的用户');
+        }
       } else {
-        setState(() {
-          isLoading = false;
-        });
-        print('No user data available for uid: $uid');
+        print('请求失败，状态码：${response.statusCode}');
       }
     } catch (e) {
+      print('请求异常：$e');
+    } finally {
       setState(() {
         isLoading = false;
       });
-      print('Error occurred while fetching user data: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('User Information')),
+      appBar: AppBar(title: const Text('個人資料')),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : userData == null
-              ? Center(child: Text('No user data available.'))
+          ? const Center(child: CircularProgressIndicator())
+          : userSpecificData == null
+              ? const Center(child: Text('沒有用戶數據。'))
               : ListView(
-                  children: userData!.entries.map((entry) {
-                    return ListTile(
-                      title: Text('${entry.key}: ${entry.value.toString()}'),
-                    );
-                  }).toList(),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  children: [
+                    const CircleAvatar(
+                      radius: 40,
+                      child: Icon(Icons.person, size: 40),
+                    ),
+                    const SizedBox(height: 20),
+                    Text('歡迎 ${userSpecificData!['nickname'] ?? '未設定'} ！',
+                        style: Theme.of(context).textTheme.headline6,
+                        textAlign: TextAlign.center),
+                    const SizedBox(height: 10),
+                    Card(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                  '性别: ${userSpecificData!['Gender'] ?? '未設定'}'),
+                            ),
+                            ListTile(
+                              title: Text(
+                                  '生日: ${userSpecificData!['birthdate'] ?? '未設定'}'),
+                            ),
+                            ListTile(
+                              title: Text(
+                                  '身高: ${userSpecificData!['height'] ?? '未設定'}cm'),
+                            ),
+                            ListTile(
+                              title: Text(
+                                  '體重: ${userSpecificData!['weight'] ?? '未設定'}kg'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // 这里可以添加更多的信息显示
+                  ],
                 ),
     );
   }
