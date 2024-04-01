@@ -1,28 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/data/dummy_data.dart';
-import 'package:mvp_one/widgets/meal_item.dart';
 
 class ActionSelectionPage extends StatefulWidget {
-  final List<Meal> selectedMeals;
+  final List<Meal> selectedMealsForCustomMenu;
 
-  ActionSelectionPage({required this.selectedMeals});
+  ActionSelectionPage({required this.selectedMealsForCustomMenu});
 
   @override
   _ActionSelectionPageState createState() => _ActionSelectionPageState();
 }
 
 class _ActionSelectionPageState extends State<ActionSelectionPage> {
-  List<Meal> availableMeals = dummyMeals;
-  String menuTitle = '';
-  String menuDescription = '';
+  List<Meal> availableMeals = dummyMeals; // 可選擇的動作列表
+  List<Meal> selectedMealsForCustomMenu = []; // 為自定義菜單選擇的餐點列表
+  String customMenuTitle = ''; // 自定義菜單標題
+  String customMenuDescription = ''; // 自定義菜單描述
 
+  @override
+  void initState() {
+    super.initState();
+    selectedMealsForCustomMenu = List.from(widget.selectedMealsForCustomMenu);
+  }
+
+  @override
+  void didUpdateWidget(covariant ActionSelectionPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedMealsForCustomMenu !=
+        oldWidget.selectedMealsForCustomMenu) {
+      selectedMealsForCustomMenu = List.from(widget.selectedMealsForCustomMenu);
+    }
+  }
+
+  // 完成動作選擇
   void _completeSelection() async {
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('新增菜單'),
+          title: Text('新增自定義菜單'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -30,7 +46,7 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
                 decoration: InputDecoration(labelText: '菜單名稱'),
                 onChanged: (value) {
                   setState(() {
-                    menuTitle = value;
+                    customMenuTitle = value;
                   });
                 },
               ),
@@ -38,7 +54,7 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
                 decoration: InputDecoration(labelText: '介紹文字'),
                 onChanged: (value) {
                   setState(() {
-                    menuDescription = value;
+                    customMenuDescription = value;
                   });
                 },
               ),
@@ -55,9 +71,9 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.pop(context, {
-                  'selectedMeals': widget.selectedMeals,
-                  'menuTitle': menuTitle,
-                  'menuDescription': menuDescription,
+                  'selectedMeals': selectedMealsForCustomMenu,
+                  'menuTitle': customMenuTitle,
+                  'menuDescription': customMenuDescription,
                 });
               },
               child: Text('完成'),
@@ -78,24 +94,92 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
         itemCount: availableMeals.length,
         itemBuilder: (context, index) {
           final meal = availableMeals[index];
-          return MealItem(
+          return _MealItem(
             meal: meal,
+            isSelected: selectedMealsForCustomMenu.contains(meal),
             onSelectMeal: (selectedMeal) {
               setState(() {
-                if (widget.selectedMeals.contains(selectedMeal)) {
-                  widget.selectedMeals.remove(selectedMeal);
+                if (selectedMealsForCustomMenu.contains(selectedMeal)) {
+                  selectedMealsForCustomMenu.remove(selectedMeal);
                 } else {
-                  widget.selectedMeals.add(selectedMeal);
+                  selectedMealsForCustomMenu.add(selectedMeal);
                 }
               });
             },
-            isSelected: widget.selectedMeals.contains(meal),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _completeSelection,
-        child: Text('完成'),
+        child: Icon(Icons.check),
+      ),
+    );
+  }
+}
+
+class _MealItem extends StatelessWidget {
+  final Meal meal;
+  final bool isSelected;
+  final ValueChanged<Meal> onSelectMeal;
+
+  const _MealItem({
+    Key? key,
+    required this.meal,
+    required this.isSelected,
+    required this.onSelectMeal,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onSelectMeal(meal);
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+          side: BorderSide(
+            color: isSelected ? Colors.blue : Colors.transparent,
+            width: 2,
+          ),
+        ),
+        elevation: 4,
+        margin: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                  child: Image.network(
+                    meal.imageUrl,
+                    height: 250,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  right: 10,
+                  child: Container(
+                    width: 300,
+                    color: Colors.black54,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    child: Text(
+                      meal.title,
+                      style: TextStyle(fontSize: 26, color: Colors.white),
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

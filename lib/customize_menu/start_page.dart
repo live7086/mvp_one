@@ -3,103 +3,90 @@ import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'action_selection_page.dart';
 
-class StartPage extends StatefulWidget {
+class CustomizeMenuPage extends StatefulWidget {
   @override
   _StartPageState createState() => _StartPageState();
 }
 
-class _StartPageState extends State<StartPage> {
-  List<Meal> selectedMeals = []; // 已選擇的動作列表
-  Map<Meal, int> mealCounts = {}; // 每個動作的執行次數
+class _StartPageState extends State<CustomizeMenuPage> {
+  List<Meal> selectedMealsForCustomMenu = []; // 為自定義菜單選擇的餐點列表
+  Map<Meal, int> mealCountsForCustomMenu = {}; // 自定義菜單中每個餐點的數量
 
-  // 預設菜單1
-  List<Meal> defaultMenu1 =
-      dummyMeals.where((meal) => meal.categories.contains('c1')).toList();
+  List<Map<String, dynamic>> customMenus = [
+    // 自定義菜單列表
+    {
+      'title': '預設菜單1',
+      'description': '這是預設菜單1的介紹文字',
+      'meals':
+          dummyMeals.where((meal) => meal.categories.contains('c1')).toList(),
+      'isExpanded': false,
+      'isSelected': false,
+    },
+    {
+      'title': '預設菜單2',
+      'description': '這是預設菜單2的介紹文字',
+      'meals':
+          dummyMeals.where((meal) => meal.categories.contains('c2')).toList(),
+      'isExpanded': false,
+      'isSelected': false,
+    },
+  ];
 
-  // 預設菜單2
-  List<Meal> defaultMenu2 =
-      dummyMeals.where((meal) => meal.categories.contains('c2')).toList();
-
-  String defaultMenu1Name = '預設菜單1'; // 預設菜單1的名稱
-  String defaultMenu2Name = '預設菜單2'; // 預設菜單2的名稱
-  String defaultMenu1Description = '這是預設菜單1的介紹文字'; // 預設菜單1的介紹文字
-  String defaultMenu2Description = '這是預設菜單2的介紹文字'; // 預設菜單2的介紹文字
-
-  bool isDefaultMenu1Expanded = false; // 預設菜單1是否展開
-  bool isDefaultMenu2Expanded = false; // 預設菜單2是否展開
-
-  List<Map<String, dynamic>> customMenus = []; // 自定義菜單列表
+  bool _isEditMode = false; // 是否處於編輯模式
 
   // 打開動作選擇頁面
   void _openActionSelectionPage() async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ActionSelectionPage(selectedMeals: selectedMeals),
+        builder: (context) => ActionSelectionPage(
+            selectedMealsForCustomMenu: selectedMealsForCustomMenu),
       ),
     );
 
     if (result != null) {
       setState(() {
-        selectedMeals = result['selectedMeals'];
-        mealCounts = {
-          for (var meal in selectedMeals) meal: mealCounts[meal] ?? 1
+        selectedMealsForCustomMenu = result['selectedMeals'];
+        mealCountsForCustomMenu = {
+          for (var meal in selectedMealsForCustomMenu)
+            meal: mealCountsForCustomMenu[meal] ?? 1
         };
 
-        // 添加新的自定義菜單
         customMenus.add({
           'title': result['menuTitle'],
           'description': result['menuDescription'],
-          'meals': selectedMeals,
+          'meals': selectedMealsForCustomMenu,
           'isExpanded': false,
+          'isSelected': false,
         });
       });
     }
   }
 
-  // 重新排序動作
-  void _reorderMeals(int oldIndex, int newIndex) {
-    if (newIndex > oldIndex) {
-      newIndex -= 1;
-    }
-    final Meal item = selectedMeals.removeAt(oldIndex);
-    selectedMeals.insert(newIndex, item);
-  }
-
-  // 更新動作的執行次數
-  void _updateMealCount(Meal meal, String countString) {
+  // 更新自定義菜單中餐點的數量
+  void _updateMealCountForCustomMenu(Meal meal, String countString) {
     if (countString.isEmpty) {
       setState(() {
-        mealCounts[meal] = 1;
+        mealCountsForCustomMenu[meal] = 1;
       });
     } else {
       try {
         final count = int.parse(countString);
-        if (count != mealCounts[meal]) {
+        if (count != mealCountsForCustomMenu[meal]) {
           setState(() {
-            mealCounts[meal] = count;
+            mealCountsForCustomMenu[meal] = count;
           });
         }
       } catch (e) {
         setState(() {
-          mealCounts[meal] = 1;
+          mealCountsForCustomMenu[meal] = 1;
         });
       }
     }
   }
 
-  // 選擇預設菜單
-  void _selectDefaultMenu(List<Meal> defaultMenu) {
-    setState(() {
-      selectedMeals = defaultMenu;
-      mealCounts = {
-        for (var meal in selectedMeals) meal: mealCounts[meal] ?? 1
-      };
-    });
-  }
-
-  // 顯示編輯菜單的彈出窗口
-  void _showEditMenuDialog(
+  // 顯示編輯自定義菜單的對話框
+  void _showEditCustomMenuDialog(
     String title,
     String description,
     List<Meal> meals,
@@ -113,7 +100,7 @@ class _StartPageState extends State<StartPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('編輯菜單'),
+          title: Text('編輯自定義菜單'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -154,167 +141,252 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
+  // 構建刪除自定義菜單的圖標
+  Widget _buildDeleteCustomMenuIcon() {
+    return IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return GestureDetector(
+              onHorizontalDragEnd: (details) {
+                if (details.primaryVelocity!.abs() > 100) {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    _isEditMode = false;
+                  });
+                }
+              },
+              child: AlertDialog(
+                title: Text('刪除自定義菜單'),
+                content: Text('確定要刪除選中的自定義菜單嗎?'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      setState(() {
+                        _isEditMode = false;
+                      });
+                    },
+                    child: Text('取消'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        customMenus
+                            .removeWhere((menu) => menu['isSelected'] == true);
+                        _isEditMode = false;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('確定'),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('起始頁面'),
+        actions: [
+          if (_isEditMode) _buildDeleteCustomMenuIcon(),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // 預設菜單1
-            _buildMenu(
-              defaultMenu1Name,
-              defaultMenu1Description,
-              defaultMenu1,
-              isDefaultMenu1Expanded,
-              (value) => setState(() => defaultMenu1Name = value),
-              (value) => setState(() => defaultMenu1Description = value),
-              (value) => setState(() => isDefaultMenu1Expanded = value),
-            ),
-            // 預設菜單2
-            _buildMenu(
-              defaultMenu2Name,
-              defaultMenu2Description,
-              defaultMenu2,
-              isDefaultMenu2Expanded,
-              (value) => setState(() => defaultMenu2Name = value),
-              (value) => setState(() => defaultMenu2Description = value),
-              (value) => setState(() => isDefaultMenu2Expanded = value),
-            ),
-            // 自定義菜單列表
-            ...customMenus.map((menu) {
-              return _buildMenu(
-                menu['title'],
-                menu['description'],
-                menu['meals'],
-                menu['isExpanded'],
-                (value) {
-                  setState(() {
-                    menu['title'] = value;
-                  });
-                },
-                (value) {
-                  setState(() {
-                    menu['description'] = value;
-                  });
-                },
-                (value) {
-                  setState(() {
-                    menu['isExpanded'] = value;
-                  });
-                },
-              );
-            }).toList(),
-            // 已選擇的動作列表
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: selectedMeals.length,
-              itemBuilder: (context, index) {
-                final meal = selectedMeals[index];
-                return _MealItem(
-                  key: Key(meal.id),
-                  meal: meal,
-                  count: mealCounts[meal] ?? 1,
-                  onCountChanged: (count) => _updateMealCount(meal, count),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: customMenus.map((menu) {
+                return _buildCustomMenu(
+                  menu['title'],
+                  menu['description'],
+                  menu['meals'],
+                  menu['isExpanded'],
+                  (value) {
+                    setState(() {
+                      menu['title'] = value;
+                    });
+                  },
+                  (value) {
+                    setState(() {
+                      menu['description'] = value;
+                    });
+                  },
+                  (value) {
+                    setState(() {
+                      menu['isExpanded'] = value;
+                    });
+                  },
+                  isSelected: menu['isSelected'],
+                  onSelectChanged: (value) {
+                    setState(() {
+                      menu['isSelected'] = value ?? false;
+                    });
+                  },
                 );
-              },
+              }).toList(),
             ),
-          ],
-        ),
+          ),
+          if (_isEditMode)
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, bottom: 28),
+                child: AnimatedOpacity(
+                  duration: Duration(milliseconds: 300),
+                  opacity: _isEditMode ? 1.0 : 0.0,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        _isEditMode = false;
+                        customMenus.forEach((menu) {
+                          menu['isSelected'] = false;
+                        });
+                      });
+                    },
+                    child: Icon(Icons.cancel),
+                    backgroundColor: Colors.red,
+                    heroTag: 'cancelButton',
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openActionSelectionPage,
-        child: Text('新增'),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomRight,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16, bottom: 16),
+          child: FloatingActionButton(
+            onPressed: _openActionSelectionPage,
+            child: Text('新增'),
+          ),
+        ),
       ),
     );
   }
 
-  // 構建菜單
-  Widget _buildMenu(
+  // 構建自定義菜單
+  Widget _buildCustomMenu(
     String title,
     String description,
     List<Meal> meals,
     bool isExpanded,
     ValueChanged<String> onTitleChanged,
     ValueChanged<String> onDescriptionChanged,
-    ValueChanged<bool> onExpansionChanged,
-  ) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue.shade400, Colors.blue.shade800],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+    ValueChanged<bool> onExpansionChanged, {
+    bool isSelected = false,
+    ValueChanged<bool?>? onSelectChanged,
+  }) {
+    return GestureDetector(
+      onTap: _isEditMode
+          ? () {
+              onSelectChanged?.call(!isSelected);
+            }
+          : null,
+      onLongPress: () {
+        setState(() {
+          _isEditMode = true;
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.purple.shade400, Colors.purple.shade800],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
         ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          dividerColor: Colors.transparent,
-          unselectedWidgetColor: Colors.white,
-        ),
-        child: ExpansionTile(
-          title: Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            dividerColor: Colors.transparent,
+            unselectedWidgetColor: Colors.white,
+          ),
+          child: ExpansionTile(
+            leading: _isEditMode
+                ? Checkbox(
+                    value: isSelected,
+                    onChanged: onSelectChanged,
+                  )
+                : null,
+            title: Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            subtitle: Text(
+              description,
+              style: TextStyle(color: Colors.white),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!_isEditMode)
+                  IconButton(
+                    icon: Icon(Icons.edit, color: Colors.white),
+                    onPressed: () {
+                      _showEditCustomMenuDialog(
+                        title,
+                        description,
+                        meals,
+                        onTitleChanged,
+                        onDescriptionChanged,
+                      );
+                    },
+                  ),
+                if (!_isEditMode)
+                  RotationTransition(
+                    turns: isExpanded
+                        ? AlwaysStoppedAnimation(0.5)
+                        : AlwaysStoppedAnimation(0),
+                    child: Icon(Icons.expand_more, color: Colors.white),
+                  ),
+              ],
+            ),
+            children: _isEditMode
+                ? []
+                : meals.map((meal) {
+                    return _CustomMenuMealItem(
+                      key: Key(meal.id),
+                      meal: meal,
+                      count: mealCountsForCustomMenu[meal] ?? 1,
+                      onCountChanged: (count) =>
+                          _updateMealCountForCustomMenu(meal, count),
+                    );
+                  }).toList(),
+            onExpansionChanged: _isEditMode
+                ? null
+                : (bool? expanded) {
+                    onExpansionChanged(expanded ?? false);
+                  },
+            initiallyExpanded: isExpanded,
           ),
-          subtitle: Text(
-            description,
-            style: TextStyle(color: Colors.white),
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.edit, color: Colors.white),
-                onPressed: () {
-                  _showEditMenuDialog(
-                    title,
-                    description,
-                    meals,
-                    onTitleChanged,
-                    onDescriptionChanged,
-                  );
-                },
-              ),
-              RotationTransition(
-                turns: isExpanded
-                    ? AlwaysStoppedAnimation(0.5)
-                    : AlwaysStoppedAnimation(0),
-                child: Icon(Icons.expand_more, color: Colors.white),
-              ),
-            ],
-          ),
-          children: meals.map((meal) {
-            return ListTile(
-              title: Text(
-                meal.title,
-                style: TextStyle(color: Colors.white),
-              ),
-            );
-          }).toList(),
-          onExpansionChanged: onExpansionChanged,
-          initiallyExpanded: isExpanded,
         ),
       ),
     );
   }
 }
 
-class _MealItem extends StatefulWidget {
+// 自定義菜單中的餐點項目
+class _CustomMenuMealItem extends StatefulWidget {
   final Meal meal;
   final int count;
   final ValueChanged<String> onCountChanged;
 
-  const _MealItem({
+  const _CustomMenuMealItem({
     Key? key,
     required this.meal,
     required this.count,
@@ -322,10 +394,10 @@ class _MealItem extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MealItemState createState() => _MealItemState();
+  _CustomMenuMealItemState createState() => _CustomMenuMealItemState();
 }
 
-class _MealItemState extends State<_MealItem> {
+class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
   bool _isExpanded = false;
 
   @override
@@ -363,7 +435,6 @@ class _MealItemState extends State<_MealItem> {
     );
   }
 
-  // 構建收起狀態下的內容
   Widget _buildCollapsedContent() {
     return Container(
       decoration: BoxDecoration(
@@ -390,7 +461,6 @@ class _MealItemState extends State<_MealItem> {
     );
   }
 
-  // 構建展開狀態下的內容
   Widget _buildExpandedContent() {
     return Container(
       decoration: BoxDecoration(
