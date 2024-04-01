@@ -292,11 +292,13 @@ class _StartPageState extends State<CustomizeMenuPage> {
               onSelectChanged?.call(!isSelected);
             }
           : null,
-      onLongPress: () {
-        setState(() {
-          _isEditMode = true;
-        });
-      },
+      onLongPress: !isExpanded
+          ? () {
+              setState(() {
+                _isEditMode = true;
+              });
+            }
+          : null,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
@@ -358,15 +360,46 @@ class _StartPageState extends State<CustomizeMenuPage> {
             ),
             children: _isEditMode
                 ? []
-                : meals.map((meal) {
-                    return _CustomMenuMealItem(
-                      key: Key(meal.id),
-                      meal: meal,
-                      count: mealCountsForCustomMenu[meal] ?? 1,
-                      onCountChanged: (count) =>
-                          _updateMealCountForCustomMenu(meal, count),
-                    );
-                  }).toList(),
+                : [
+                    ReorderableListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: meals.map((meal) {
+                        return _CustomMenuMealItem(
+                          key: Key(meal.id),
+                          meal: meal,
+                          count: mealCountsForCustomMenu[meal] ?? 1,
+                          onCountChanged: (count) =>
+                              _updateMealCountForCustomMenu(meal, count),
+                          onDismissed: (direction) {
+                            setState(() {
+                              meals.remove(meal);
+                              mealCountsForCustomMenu.remove(meal);
+                            });
+                          },
+                        );
+                      }).toList(),
+                      onReorder: (oldIndex, newIndex) {
+                        setState(() {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final Meal item = meals.removeAt(oldIndex);
+                          meals.insert(newIndex, item);
+                        });
+                      },
+                    ),
+                    if (isExpanded)
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // TODO: 導航到運動頁面
+                          },
+                          child: Text('開始運動'),
+                        ),
+                      ),
+                  ],
             onExpansionChanged: _isEditMode
                 ? null
                 : (bool? expanded) {
@@ -385,12 +418,14 @@ class _CustomMenuMealItem extends StatefulWidget {
   final Meal meal;
   final int count;
   final ValueChanged<String> onCountChanged;
+  final DismissDirectionCallback onDismissed;
 
   const _CustomMenuMealItem({
     Key? key,
     required this.meal,
     required this.count,
     required this.onCountChanged,
+    required this.onDismissed,
   }) : super(key: key);
 
   @override
@@ -402,34 +437,36 @@ class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isExpanded = !_isExpanded;
-        });
-      },
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-        height: _isExpanded ? 200 : 100,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          elevation: 4,
+    return Dismissible(
+      key: Key(widget.meal.id),
+      direction: DismissDirection.endToStart,
+      onDismissed: widget.onDismissed,
+      background: Container(
+        color: Colors.red,
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.only(right: 20),
+        child: Icon(Icons.delete, color: Colors.white),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _isExpanded = !_isExpanded;
+          });
+        },
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: _isExpanded ? 220 : 120,
           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(
-                image: NetworkImage(widget.meal.imageUrl),
-                fit: BoxFit.cover,
-              ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            image: DecorationImage(
+              image: NetworkImage(widget.meal.imageUrl),
+              fit: BoxFit.cover,
             ),
-            child: _isExpanded
-                ? _buildExpandedContent()
-                : _buildCollapsedContent(),
           ),
+          child:
+              _isExpanded ? _buildExpandedContent() : _buildCollapsedContent(),
         ),
       ),
     );
@@ -486,10 +523,12 @@ class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 8),
             Text(
               '執行次數: ${widget.count}',
               style: TextStyle(color: Colors.white),
             ),
+            SizedBox(height: 8),
             TextField(
               style: TextStyle(color: Colors.white),
               keyboardType: TextInputType.number,
