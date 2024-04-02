@@ -20,14 +20,17 @@ const availableCategories = [
     title: '強化腿部力量和耐力',
     color: Colors.orange,
   ),
+  Category(
+    id: 'c4',
+    title: '全部動作',
+    color: Color.fromARGB(255, 26, 218, 8),
+  ),
 ];
 
 const dummyMeals = [
   Meal(
     id: 'm1',
-    categories: [
-      'c2',
-    ],
+    categories: ['c2', 'c4'],
     title: 'BOAT POSE (船式)',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
@@ -57,9 +60,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm2',
-    categories: [
-      'c2',
-    ],
+    categories: ['c2', 'c4'],
     title: 'COW POSE(牛式)',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
@@ -84,9 +85,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm3',
-    categories: [
-      'c3',
-    ],
+    categories: ['c3', 'c4'],
     title: 'Crescent Lunge(新月弓箭步)',
     affordability: Affordability.pricey,
     complexity: Complexity.simple,
@@ -114,9 +113,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm4',
-    categories: [
-      'c2',
-    ],
+    categories: ['c2', 'c4'],
     title: 'Downward Dog(下犬式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.challenging,
@@ -148,9 +145,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm5',
-    categories: [
-      'c2',
-    ],
+    categories: ['c2', 'c4'],
     title: 'Single Leg Downward Facing Dog(單腳下犬式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
@@ -181,9 +176,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm6',
-    categories: [
-      'c1',
-    ],
+    categories: ['c1', 'c4'],
     title: 'TREE POSE(樹式)',
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
@@ -215,9 +208,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm7',
-    categories: [
-      'c2',
-    ],
+    categories: ['c2', 'c4'],
     title: 'Upward Facing Dog Pose(上犬式) ',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
@@ -245,9 +236,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm8',
-    categories: [
-      'c3',
-    ],
+    categories: ['c3', 'c4'],
     title: 'Warrior I(戰士一式)',
     affordability: Affordability.pricey,
     complexity: Complexity.challenging,
@@ -277,9 +266,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm9',
-    categories: [
-      'c3',
-    ],
+    categories: ['c3', 'c4'],
     title: 'Warrior II(戰士二式)',
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
@@ -325,9 +312,7 @@ const dummyMeals = [
   ),
   Meal(
     id: 'm10',
-    categories: [
-      'c1',
-    ],
+    categories: ['c1', 'c4'],
     title: 'Warrior III(戰士三式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,

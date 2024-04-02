@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mvp_one/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
@@ -107,12 +108,9 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      _selectedDate == null
-                          ? 'No Date Selected!'
-                          : formatter.format(
-                              _selectedDate!), // 使用!操作符因为我们已经确认了_selectedDate不是null
-                    ),
+                    Text(_selectedDate == null
+                        ? 'No Date Selected!'
+                        : formatter.format(_selectedDate!)),
                     IconButton(
                       onPressed: _presentDatePicker,
                       icon: const Icon(Icons.calendar_month),
@@ -153,7 +151,7 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Cancel'),
+                child: Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: _submitExpenseData,
