@@ -118,19 +118,6 @@ class _SigninsreenState extends State<Signinsreen> {
                   },
                   child: Text('跳過僅限測試'),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    String testUid = "somwwwe-test-uid";
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UserInfoPage(
-                                uid: testUid,
-                              )), // 替换TheDestinationPage为你的目标页面
-                    );
-                  },
-                  child: Text('測試firebase用'),
-                ),
                 signUpOption()
               ],
             ),
