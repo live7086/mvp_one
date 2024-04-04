@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/user/UserInformationPage.dart';
-import 'package:mvp_one/user/aboutme.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/user/userInfoPage.dart';
 import 'package:mvp_one/utils/color_utils.dart';

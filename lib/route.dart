@@ -15,7 +15,6 @@ import 'model.dart';
 import 'sign/signin.dart';
 import 'sign/signup.dart';
 import 'sign/home.dart';
-import 'user/aboutme.dart';
 import 'screens/tabs.dart';
 
 class AppRoutes {
@@ -72,8 +71,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case homee:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
-      case aboutme:
-        return MaterialPageRoute(builder: (_) => const Aboutme());
       case tabscreen:
         return MaterialPageRoute(
             builder: (_) => const TabsScreen(

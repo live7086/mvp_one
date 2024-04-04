@@ -383,7 +383,7 @@ class MyBottomNavigationBar extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.of(context)
-                  .push(SlidePageRoute(page: const Expenses()));
+                  .push(SlidePageRoute(page: Expenses(uid: '')));
             },
             child: const Column(
               mainAxisSize: MainAxisSize.min,

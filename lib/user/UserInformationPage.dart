@@ -117,14 +117,15 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       padding: const EdgeInsets.fromLTRB(50, 20, 50, 200),
                       child: ElevatedButton(
                         onPressed: _signOut,
+                        // ignore: sort_child_properties_last
                         child: const Text('登出'),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
-                          backgroundColor: Color.fromARGB(
+                          backgroundColor: const Color.fromARGB(
                               255, 173, 99, 243), // Button text color
                           shape:
-                              StadiumBorder(), // Stadium shape for the button
-                          minimumSize: Size(200,
+                              const StadiumBorder(), // Stadium shape for the button
+                          minimumSize: const Size(200,
                               50), // Button size, adjust the width to make it wider
                         ),
                       ),

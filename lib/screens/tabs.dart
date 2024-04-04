@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_one/User_menu.dart';
-import 'package:mvp_one/user/aboutme.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/screens/categories.dart';
@@ -63,7 +61,9 @@ class _TabsScreenState extends State<TabsScreen> {
     switch (index) {
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const Expenses(),
+          builder: (context) => Expenses(
+            uid: widget.uid,
+          ),
         ));
         break;
       case 3:
