@@ -3,9 +3,9 @@ bool TreePoseThreePass(Map<String, int> angles) {
   //min max 值還需要調整
 
 // r_elbow angle
-  const int r_elbow_perfect_min = 60;
+  const int r_elbow_perfect_min = 80;
   const int r_elbow_good_min = r_elbow_perfect_min - 20;
-  const int r_elbow_perfect_max = 80;
+  const int r_elbow_perfect_max = 90;
   const int r_elbow_good_max = r_elbow_perfect_max + 20;
 
   // r_knee angle
