@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +7,20 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat.yMd();
 
 const uuid = Uuid();
+
+// ignore: constant_identifier_names
+enum Yoga {
+  BOAT_POSE,
+  COW_POSE,
+  Crescent_Lunge,
+  Downward_Dog,
+  Single_Leg_Downward_Facing_Dog,
+  TREE_POSE,
+  Upward_Facing_Dog_Pose,
+  Warrior_I,
+  Warrior_II,
+  Warrior_III
+}
 
 // ignore: constant_identifier_names
 enum Category { Upperbody, Lowerbody, Fullbody, other }
@@ -25,7 +41,7 @@ class Expense {
       : id = uuid.v4();
 
   final String id;
-  final String title;
+  final Yoga title;
   final double time;
   final DateTime date;
   final Category category;

@@ -18,7 +18,10 @@ class ExpenseItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              expense.title,
+              expense.title
+                  .toString()
+                  .replaceAll("Yoga.", "")
+                  .replaceAll("_", " "),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 4),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/customize_menu/cus_menu.dart';
 import 'package:mvp_one/models/meal.dart';
-import 'package:mvp_one/screens/categories.dart';
-import 'package:mvp_one/screens/move.dart';
 import 'package:mvp_one/screens/tabs.dart';
 import 'package:mvp_one/user/UserInformationPage.dart';
 import 'package:mvp_one/widget_expense/chart/chart.dart';
@@ -26,13 +24,13 @@ class _ExpensesState extends State<Expenses> {
   final List<Meal> _favoriteMeals = [];
   final List<Expense> _registeredExpenses = [
     Expense(
-      title: "Warrior I(戰士一式)",
+      title: Yoga.Warrior_I,
       time: 20,
       date: DateTime.now(),
       category: Category.Fullbody,
     ),
     Expense(
-      title: "TREE POSE(樹式)",
+      title: Yoga.Downward_Dog,
       time: 30,
       date: DateTime.now(),
       category: Category.Upperbody,
