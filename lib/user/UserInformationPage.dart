@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mvp_one/customize_menu/cus_menu.dart';
+import 'package:mvp_one/screens/tabs.dart';
+import 'package:mvp_one/widget_expense/expenses.dart';
 
 class UserInformationPage extends StatefulWidget {
   const UserInformationPage({Key? key, required this.uid}) : super(key: key);
@@ -14,6 +17,8 @@ class UserInformationPage extends StatefulWidget {
 class _UserInformationPageState extends State<UserInformationPage> {
   Map<String, dynamic>? userSpecificData;
   bool isLoading = true;
+
+  int _selectedPageIndex = 3;
 
   @override
   void initState() {
@@ -58,6 +63,41 @@ class _UserInformationPageState extends State<UserInformationPage> {
     await FirebaseAuth.instance.signOut();
     // Navigate back to the login screen, or root of navigation stack
     Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
+  void _selectPage(int index) {
+    switch (index) {
+      case 0:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => TabsScreen(
+            uid: widget.uid,
+          ),
+        ));
+        break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => CustomizeMenuPage(),
+        ));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => Expenses(
+            uid: widget.uid,
+          ),
+        ));
+        break;
+      case 3:
+        // 由于我们已经确保了 TabsScreen 接收了 uid，我们可以直接使用 widget.uid
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UserInformationPage(uid: widget.uid),
+        ));
+        break;
+      default:
+        setState(() {
+          _selectedPageIndex = index;
+        });
+        break;
+    }
   }
 
   @override
@@ -132,6 +172,32 @@ class _UserInformationPageState extends State<UserInformationPage> {
                     ),
                   ],
                 ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        currentIndex: _selectedPageIndex,
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.set_meal),
+            label: '動作菜單',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.post_add),
+            label: '自訂菜單',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.my_library_add_outlined),
+            label: '訓練紀錄',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: '設定',
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/customize_menu/cus_menu.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/screens/categories.dart';
 import 'package:mvp_one/screens/move.dart';
@@ -10,8 +11,6 @@ import 'package:mvp_one/models/expense.dart';
 import 'package:mvp_one/widget_expense/new_expense.dart';
 
 class Expenses extends StatefulWidget {
-  var onToggleFavorite;
-
   Expenses({super.key, required this.uid});
 
   final String uid;
@@ -56,31 +55,7 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
-  void _toggleMealFavoriteStatus(Meal meal) {
-    final isExisting = _favoriteMeals.contains(meal);
-
-    void showInfoMessage(String message) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
-    }
-
-    if (isExisting == true) {
-      setState(() {
-        _favoriteMeals.remove(meal);
-      });
-      showInfoMessage('Meal is no longer a favorite');
-      _favoriteMeals.remove(meal);
-    } else {
-      _favoriteMeals.add(meal);
-      showInfoMessage('Marked as favorite');
-    }
-  }
-
-  // ignore: unused_element
   void _removeExpense(Expense expense) {
-    // ignore: non_constant_identifier_names
     final ExpenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
@@ -111,13 +86,11 @@ class _ExpensesState extends State<Expenses> {
           ),
         ));
         break;
-      // case 1:
-      //   Navigator.of(context).push(MaterialPageRoute(
-      //       // builder: (context) => MealsScreen(
-      //       //       meals: [],
-      //       //       onToggleFavorite: (Meal meal) {},
-      //       //     )));
-      //   break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => CustomizeMenuPage(),
+        ));
+        break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => Expenses(
@@ -181,8 +154,8 @@ class _ExpensesState extends State<Expenses> {
             label: '動作菜單',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: '我的最愛',
+            icon: Icon(Icons.post_add),
+            label: '自訂菜單',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.my_library_add_outlined),

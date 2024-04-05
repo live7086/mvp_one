@@ -150,8 +150,8 @@ class _TabsScreenState extends State<TabsScreen> {
             label: '動作菜單',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: '我的最愛',
+            icon: Icon(Icons.post_add),
+            label: '自訂菜單',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.my_library_add_outlined),

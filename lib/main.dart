@@ -32,9 +32,8 @@ void main() async {
         ),
         textTheme: ThemeData().textTheme.copyWith(
               titleLarge: TextStyle(
-                fontWeight: FontWeight.bold,
                 color: kColorScheme.onSecondaryContainer,
-                fontSize: 16,
+                fontSize: 26,
               ),
             ),
       ),
