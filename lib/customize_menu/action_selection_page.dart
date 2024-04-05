@@ -5,7 +5,8 @@ import 'package:mvp_one/data/dummy_data.dart';
 class ActionSelectionPage extends StatefulWidget {
   final List<Meal> selectedMealsForCustomMenu;
 
-  ActionSelectionPage({required this.selectedMealsForCustomMenu});
+  const ActionSelectionPage(
+      {super.key, required this.selectedMealsForCustomMenu});
 
   @override
   _ActionSelectionPageState createState() => _ActionSelectionPageState();
@@ -38,12 +39,12 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('新增自定義菜單'),
+          title: const Text('新增自定義菜單'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                decoration: InputDecoration(labelText: '菜單名稱'),
+                decoration: const InputDecoration(labelText: '菜單名稱'),
                 onChanged: (value) {
                   setState(() {
                     customMenuTitle = value;
@@ -51,7 +52,7 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
                 },
               ),
               TextField(
-                decoration: InputDecoration(labelText: '介紹文字'),
+                decoration: const InputDecoration(labelText: '介紹文字'),
                 onChanged: (value) {
                   setState(() {
                     customMenuDescription = value;
@@ -65,7 +66,7 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('取消'),
+              child: const Text('取消'),
             ),
             TextButton(
               onPressed: () {
@@ -76,7 +77,7 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
                   'menuDescription': customMenuDescription,
                 });
               },
-              child: Text('完成'),
+              child: const Text('完成'),
             ),
           ],
         );
@@ -111,7 +112,7 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _completeSelection,
-        child: Icon(Icons.check),
+        child: const Icon(Icons.check),
       ),
     );
   }
@@ -144,13 +145,13 @@ class _MealItem extends StatelessWidget {
           ),
         ),
         elevation: 4,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         child: Column(
           children: [
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
                   ),
@@ -167,10 +168,11 @@ class _MealItem extends StatelessWidget {
                   child: Container(
                     width: 300,
                     color: Colors.black54,
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     child: Text(
                       meal.title,
-                      style: TextStyle(fontSize: 26, color: Colors.white),
+                      style: const TextStyle(fontSize: 26, color: Colors.white),
                       softWrap: true,
                       overflow: TextOverflow.fade,
                     ),

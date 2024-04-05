@@ -3,7 +3,6 @@ import 'package:mvp_one/customize_menu/cus_menu.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectScreen});
-
   final void Function(String identifier) onSelectScreen;
 
   @override
@@ -64,7 +63,7 @@ class MainDrawer extends StatelessWidget {
               color: Theme.of(context).colorScheme.onBackground,
             ),
             title: Text(
-              'Filters',
+              '動作篩選',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
                     fontSize: 24,
@@ -72,26 +71,6 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               onSelectScreen('Filters');
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.menu,
-              size: 26,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            title: Text(
-              '客製化菜單',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
-                  ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CustomizeMenuPage()),
-              );
             },
           ),
         ],

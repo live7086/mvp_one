@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
+import 'package:mvp_one/screens/tabs.dart';
+import 'package:mvp_one/user/UserInformationPage.dart';
+import 'package:mvp_one/widget_expense/expenses.dart';
 import 'action_selection_page.dart';
 
 class CustomizeMenuPage extends StatefulWidget {
+  const CustomizeMenuPage({super.key, required this.uid});
+  final String uid;
   @override
   _StartPageState createState() => _StartPageState();
 }
@@ -11,6 +16,7 @@ class CustomizeMenuPage extends StatefulWidget {
 class _StartPageState extends State<CustomizeMenuPage> {
   List<Meal> selectedMealsForCustomMenu = []; // 為自定義菜單選擇的餐點列表
   Map<Meal, int> mealCountsForCustomMenu = {}; // 自定義菜單中每個餐點的數量
+  int _selectedPageIndex = 1;
 
   List<Map<String, dynamic>> customMenus = [
     // 自定義菜單列表
@@ -85,6 +91,43 @@ class _StartPageState extends State<CustomizeMenuPage> {
     }
   }
 
+  void _selectPage(int index) {
+    switch (index) {
+      case 0:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => TabsScreen(
+            uid: widget.uid,
+          ),
+        ));
+        break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => CustomizeMenuPage(
+            uid: widget.uid,
+          ),
+        ));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => Expenses(
+            uid: widget.uid,
+          ),
+        ));
+        break;
+      case 3:
+        // 由于我们已经确保了 TabsScreen 接收了 uid，我们可以直接使用 widget.uid
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UserInformationPage(uid: widget.uid),
+        ));
+        break;
+      default:
+        setState(() {
+          _selectedPageIndex = index;
+        });
+        break;
+    }
+  }
+
   // 顯示編輯自定義菜單的對話框
   void _showEditCustomMenuDialog(
     String title,
@@ -100,20 +143,20 @@ class _StartPageState extends State<CustomizeMenuPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('編輯自定義菜單'),
+          title: const Text('編輯自定義菜單'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: TextEditingController(text: title),
-                decoration: InputDecoration(labelText: '菜單標題'),
+                decoration: const InputDecoration(labelText: '菜單標題'),
                 onChanged: (value) {
                   newTitle = value;
                 },
               ),
               TextField(
                 controller: TextEditingController(text: description),
-                decoration: InputDecoration(labelText: '介紹文字'),
+                decoration: const InputDecoration(labelText: '介紹文字'),
                 onChanged: (value) {
                   newDescription = value;
                 },
@@ -125,7 +168,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('取消'),
+              child: const Text('取消'),
             ),
             TextButton(
               onPressed: () {
@@ -133,7 +176,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
                 onDescriptionChanged(newDescription);
                 Navigator.of(context).pop();
               },
-              child: Text('保存'),
+              child: const Text('保存'),
             ),
           ],
         );
@@ -144,7 +187,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
   // 構建刪除自定義菜單的圖標
   Widget _buildDeleteCustomMenuIcon() {
     return IconButton(
-      icon: Icon(Icons.delete),
+      icon: const Icon(Icons.delete),
       onPressed: () {
         showDialog(
           context: context,
@@ -159,8 +202,8 @@ class _StartPageState extends State<CustomizeMenuPage> {
                 }
               },
               child: AlertDialog(
-                title: Text('刪除自定義菜單'),
-                content: Text('確定要刪除選中的自定義菜單嗎?'),
+                title: const Text('刪除自定義菜單'),
+                content: const Text('確定要刪除選中的自定義菜單嗎?'),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -169,7 +212,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
                         _isEditMode = false;
                       });
                     },
-                    child: Text('取消'),
+                    child: const Text('取消'),
                   ),
                   TextButton(
                     onPressed: () {
@@ -180,7 +223,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text('確定'),
+                    child: const Text('確定'),
                   ),
                 ],
               ),
@@ -195,7 +238,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('起始頁面'),
+        title: const Text('起始頁面'),
         actions: [
           if (_isEditMode) _buildDeleteCustomMenuIcon(),
         ],
@@ -241,7 +284,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, bottom: 28),
                 child: AnimatedOpacity(
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   opacity: _isEditMode ? 1.0 : 0.0,
                   child: FloatingActionButton(
                     onPressed: () {
@@ -252,7 +295,8 @@ class _StartPageState extends State<CustomizeMenuPage> {
                         });
                       });
                     },
-                    child: Icon(Icons.cancel),
+                    // ignore: sort_child_properties_last
+                    child: const Icon(Icons.cancel),
                     backgroundColor: Colors.red,
                     heroTag: 'cancelButton',
                   ),
@@ -261,13 +305,39 @@ class _StartPageState extends State<CustomizeMenuPage> {
             ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        currentIndex: _selectedPageIndex,
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.set_meal),
+            label: '動作菜單',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.post_add),
+            label: '自訂菜單',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.my_library_add_outlined),
+            label: '訓練紀錄',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: '設定',
+          ),
+        ],
+      ),
       floatingActionButton: Align(
         alignment: Alignment.bottomRight,
         child: Padding(
           padding: const EdgeInsets.only(right: 16, bottom: 16),
           child: FloatingActionButton(
             onPressed: _openActionSelectionPage,
-            child: Text('新增'),
+            child: const Text('新增'),
           ),
         ),
       ),
@@ -300,7 +370,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
             }
           : null,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.purple.shade400, Colors.purple.shade800],
@@ -323,7 +393,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
                 : null,
             title: Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -331,14 +401,14 @@ class _StartPageState extends State<CustomizeMenuPage> {
             ),
             subtitle: Text(
               description,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (!_isEditMode)
                   IconButton(
-                    icon: Icon(Icons.edit, color: Colors.white),
+                    icon: const Icon(Icons.edit, color: Colors.white),
                     onPressed: () {
                       _showEditCustomMenuDialog(
                         title,
@@ -352,18 +422,19 @@ class _StartPageState extends State<CustomizeMenuPage> {
                 if (!_isEditMode)
                   RotationTransition(
                     turns: isExpanded
-                        ? AlwaysStoppedAnimation(0.5)
-                        : AlwaysStoppedAnimation(0),
-                    child: Icon(Icons.expand_more, color: Colors.white),
+                        ? const AlwaysStoppedAnimation(0.5)
+                        : const AlwaysStoppedAnimation(0),
+                    child: const Icon(Icons.expand_more, color: Colors.white),
                   ),
               ],
             ),
+            // ignore: sort_child_properties_last
             children: _isEditMode
                 ? []
                 : [
                     ReorderableListView(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: meals.map((meal) {
                         return _CustomMenuMealItem(
                           key: Key(meal.id),
@@ -396,7 +467,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
                           onPressed: () {
                             // TODO: 導航到運動頁面
                           },
-                          child: Text('開始運動'),
+                          child: const Text('開始運動'),
                         ),
                       ),
                   ],
@@ -444,8 +515,8 @@ class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
       background: Container(
         color: Colors.red,
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: 20),
-        child: Icon(Icons.delete, color: Colors.white),
+        padding: const EdgeInsets.only(right: 20),
+        child: const Icon(Icons.delete, color: Colors.white),
       ),
       child: GestureDetector(
         onTap: () {
@@ -454,10 +525,10 @@ class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
           });
         },
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
           height: _isExpanded ? 220 : 120,
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             image: DecorationImage(
@@ -488,7 +559,7 @@ class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
       child: ListTile(
         title: Text(
           widget.meal.title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -514,7 +585,7 @@ class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
       child: ListTile(
         title: Text(
           widget.meal.title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -523,16 +594,16 @@ class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               '執行次數: ${widget.count}',
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             TextField(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: '執行次數',
                 labelStyle: TextStyle(color: Colors.white),
               ),

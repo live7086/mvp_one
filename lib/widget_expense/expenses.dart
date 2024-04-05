@@ -26,13 +26,13 @@ class _ExpensesState extends State<Expenses> {
   final List<Meal> _favoriteMeals = [];
   final List<Expense> _registeredExpenses = [
     Expense(
-      title: "訓練時間",
+      title: "Warrior I(戰士一式)",
       time: 20,
       date: DateTime.now(),
       category: Category.Fullbody,
     ),
     Expense(
-      title: "12/21訓練",
+      title: "TREE POSE(樹式)",
       time: 30,
       date: DateTime.now(),
       category: Category.Upperbody,
@@ -88,7 +88,7 @@ class _ExpensesState extends State<Expenses> {
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CustomizeMenuPage(),
+          builder: (context) => CustomizeMenuPage(uid: widget.uid),
         ));
         break;
       case 2:

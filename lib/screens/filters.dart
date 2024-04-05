@@ -71,13 +71,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 });
               },
               title: Text(
-                'Gluten-free',
+                '腿部',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
               ),
               subtitle: Text(
-                'Only include gluten-free meals',
+                '只包含腿部動作',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
@@ -93,13 +93,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 });
               },
               title: Text(
-                'Lactose-free',
+                '平衡',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
               ),
               subtitle: Text(
-                'Only include lactose-free meals',
+                '只包含平衡動作',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
@@ -115,13 +115,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 });
               },
               title: Text(
-                'vegetarian',
+                '核心',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
               ),
               subtitle: Text(
-                'Only include vegetarian meals',
+                '只包含核心動作',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
@@ -137,13 +137,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 });
               },
               title: Text(
-                'Vagan',
+                '四肢',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
               ),
               subtitle: Text(
-                'Only include Vagan meals',
+                '只包含四肢動作',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),

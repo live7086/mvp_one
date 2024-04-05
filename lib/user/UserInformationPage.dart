@@ -76,7 +76,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CustomizeMenuPage(),
+          builder: (context) => CustomizeMenuPage(uid: widget.uid),
         ));
         break;
       case 2:

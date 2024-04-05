@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/customize_menu/cus_menu.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/screens/categories.dart';
@@ -61,12 +62,17 @@ class _TabsScreenState extends State<TabsScreen> {
     switch (index) {
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => CustomizeMenuPage(uid: widget.uid),
+        ));
+        break;
+      case 3:
+        Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => Expenses(
             uid: widget.uid,
           ),
         ));
         break;
-      case 3:
+      case 4:
         // 由于我们已经确保了 TabsScreen 接收了 uid，我们可以直接使用 widget.uid
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => UserInformationPage(uid: widget.uid),
@@ -148,6 +154,10 @@ class _TabsScreenState extends State<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.set_meal),
             label: '動作菜單',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: '我的最愛',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.post_add),
