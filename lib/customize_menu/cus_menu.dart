@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
@@ -5,6 +6,7 @@ import 'package:mvp_one/screens/tabs.dart';
 import 'package:mvp_one/user/UserInformationPage.dart';
 import 'package:mvp_one/widget_expense/expenses.dart';
 import 'action_selection_page.dart';
+import 'pose_menu.dart';
 
 class CustomizeMenuPage extends StatefulWidget {
   const CustomizeMenuPage({super.key, required this.uid});
@@ -464,8 +466,19 @@ class _StartPageState extends State<CustomizeMenuPage> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: ElevatedButton(
-                          onPressed: () {
-                            // TODO: 導航到運動頁面
+                          onPressed: () async {
+                            final cameras = await availableCameras();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MenuCameraScreen(
+                                  cameras: cameras,
+                                  selectedMeals: meals,
+                                  mealCounts:
+                                      mealCountsForCustomMenu.values.toList(),
+                                ),
+                              ),
+                            );
                           },
                           child: const Text('開始運動'),
                         ),
