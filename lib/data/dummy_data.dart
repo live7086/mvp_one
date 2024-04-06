@@ -37,21 +37,14 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/QObVvEu.png',
     duration: 20,
     ingredients: [
-      '4 Tomatoes',
-      '1 Tablespoon of Olive Oil',
-      '1 Onion',
-      '250g Spaghetti',
-      'Spices',
-      'Cheese (optional)'
+      '坐在墊上,雙腿伸直,上身後仰,手掌放在大腿後側,胸部打開。',
+      '吸氣時,雙腿向上提,腳尖勾起,形成V字形。',
     ],
     steps: [
-      'Cut the tomatoes and the onion into small pieces.',
-      'Boil some water - add salt to it once it boils.',
-      'Put the spaghetti into the boiling water - they should be done in about 10 to 12 minutes.',
-      'In the meantime, heaten up some olive oil and add the cut onion.',
-      'After 2 minutes, add the tomato pieces, salt, pepper and your other spices.',
-      'The sauce will be done once the spaghetti are.',
-      'Feel free to add some cheese on top of the finished dish.'
+      '坐直,雙腿伸直',
+      '手掌放在大腿後側,上身略向後仰',
+      '吸氣,將雙腿提離地面,保持腿部伸直,腳尖勾起',
+      '保持呼吸,維持20-30秒',
     ],
     isGlutenFree: false, //腿部
     isLactoseFree: true, //平衡
@@ -67,17 +60,10 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/cAY337U.png',
     duration: 10,
     ingredients: [
-      '1 Slice White Bread',
-      '1 Slice Ham',
-      '1 Slice Pineapple',
-      '1-2 Slices of Cheese',
-      'Butter'
+      '跪在墊上,手掌和膝蓋與肩同寬。',
+      '吸氣時,腹部下沉,胸部向上提,頭向上看。',
     ],
-    steps: [
-      'Butter one side of the white bread',
-      'Layer ham, the pineapple and cheese on the white bread',
-      'Bake the toast for round about 10 minutes in the oven at 200°C'
-    ],
+    steps: ['跪在墊上,手掌和膝蓋與肩同寬', '吸氣,腹部下沉,胸部向上提,頭向上看', '保持呼吸,維持5-10秒'],
     isGlutenFree: false, //腿部
     isLactoseFree: false, //平衡
     isVegetarian: true, //核心
@@ -92,19 +78,15 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/rbySss7.png',
     duration: 45,
     ingredients: [
-      '300g Cattle Hack',
-      '1 Tomato',
-      '1 Cucumber',
-      '1 Onion',
-      'Ketchup',
-      '2 Burger Buns'
+      '左腳在前,右腳在後,左膝彎曲呈90度,右腿伸直。',
+      '雙手舉高過頭,掌心相對。',
     ],
     steps: [
-      'Form 2 patties',
-      'Fry the patties for c. 4 minutes on each side',
-      'Quickly fry the buns for c. 1 minute on each side',
-      'Bruch buns with ketchup',
-      'Serve burger with tomato, cucumber and onion'
+      '左腳向前一大步,右腳在後',
+      '彎曲左膝,保持左膝不超過腳尖',
+      '右腿伸直,腳跟提起',
+      '雙手舉高過頭,掌心相對',
+      '保持呼吸,維持20-30秒,然後換邊'
     ],
     isGlutenFree: true, //腿部
     isLactoseFree: true, //平衡
@@ -120,23 +102,15 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/YlUIHMi.png',
     duration: 60,
     ingredients: [
-      '8 Veal Cutlets',
-      '4 Eggs',
-      '200g Bread Crumbs',
-      '100g Flour',
-      '300ml Butter',
-      '100g Vegetable Oil',
-      'Salt',
-      'Lemon Slices'
+      '雙手與肩同寬,與地面呈90度。',
+      '雙腳與髖同寬,腳跟盡量與地面接觸。',
+      '頭部放鬆,眼睛看向腳尖。',
     ],
     steps: [
-      'Tenderize the veal to about 2–4mm, and salt on both sides.',
-      'On a flat plate, stir the eggs briefly with a fork.',
-      'Lightly coat the cutlets in flour then dip into the egg, and finally, coat in breadcrumbs.',
-      'Heat the butter and oil in a large pan (allow the fat to get very hot) and fry the schnitzels until golden brown on both sides.',
-      'Make sure to toss the pan regularly so that the schnitzels are surrounded by oil and the crumbing becomes ‘fluffy’.',
-      'Remove, and drain on kitchen paper. Fry the parsley in the remaining oil and drain.',
-      'Place the schnitzels on awarmed plate and serve garnishedwith parsley and slices of lemon.'
+      '跪在墊上,雙手與肩同寬',
+      '吸氣,將髖部向上提,膝蓋離地,腳跟盡量與地面接觸',
+      '保持手臂和背部伸直,頭部放鬆',
+      '維持5-10個呼吸',
     ],
     isGlutenFree: true, //腿部
     isLactoseFree: false, //平衡
@@ -152,22 +126,14 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/hMA9LNV.png',
     duration: 15,
     ingredients: [
-      'Arugula',
-      'Lamb\'s Lettuce',
-      'Parsley',
-      'Fennel',
-      '200g Smoked Salmon',
-      'Mustard',
-      'Balsamic Vinegar',
-      'Olive Oil',
-      'Salt and Pepper'
+      '從下犬式開始,將右腳提離地面,伸直右腿,腳尖向上。',
+      '保持左腿伸直,左腳跟與地面接觸。',
     ],
     steps: [
-      'Wash and cut salad and herbs',
-      'Dice the salmon',
-      'Process mustard, vinegar and olive oil into a dessing',
-      'Prepare the salad',
-      'Add salmon cubes and dressing'
+      '從下犬式開始',
+      '吸氣,將右腳提離地面,伸直右腿,腳尖向上',
+      '保持左腿伸直,左腳跟盡量與地面接觸',
+      '維持3-5個呼吸,然後換邊',
     ],
     isGlutenFree: true, //腿部
     isLactoseFree: false, //平衡
@@ -183,23 +149,15 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/MwdS0ll.png',
     duration: 240,
     ingredients: [
-      '4 Sheets of Gelatine',
-      '150ml Orange Juice',
-      '80g Sugar',
-      '300g Yoghurt',
-      '200g Cream',
-      'Orange Peel',
+      '站立,將右腳放在左大腿內側(避免放在膝蓋上)。',
+      '雙手合十於胸前或舉高過頭。眼睛注視前方一點。',
     ],
     steps: [
-      'Dissolve gelatine in pot',
-      'Add orange juice and sugar',
-      'Take pot off the stove',
-      'Add 2 tablespoons of yoghurt',
-      'Stir gelatin under remaining yoghurt',
-      'Cool everything down in the refrigerator',
-      'Whip the cream and lift it under die orange mass',
-      'Cool down again for at least 4 hours',
-      'Serve with orange peel',
+      '站直,雙腳併攏',
+      '將右腳放在左大腿內側,腳掌貼著大腿',
+      '雙手合十於胸前',
+      '眼睛注視前方一點,保持呼吸',
+      '維持20-30秒,然後換邊',
     ],
     isGlutenFree: true, //腿部
     isLactoseFree: true, //平衡
@@ -215,19 +173,16 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/gP9lF0v.png',
     duration: 20,
     ingredients: [
-      '1 1/2 Cups all-purpose Flour',
-      '3 1/2 Teaspoons Baking Powder',
-      '1 Teaspoon Salt',
-      '1 Tablespoon White Sugar',
-      '1 1/4 cups Milk',
-      '1 Egg',
-      '3 Tablespoons Butter, melted',
+      '俯臥,雙手放在胸側。',
+      '吸氣時,將上身向上提,伸直手臂,僅有手掌和腳尖觸地。',
+      '頭向上看,胸部打開。',
     ],
     steps: [
-      'In a large bowl, sift together the flour, baking powder, salt and sugar.',
-      'Make a well in the center and pour in the milk, egg and melted butter; mix until smooth.',
-      'Heat a lightly oiled griddle or frying pan over medium high heat.',
-      'Pour or scoop the batter onto the griddle, using approximately 1/4 cup for each pancake. Brown on both sides and serve hot.'
+      '俯臥,雙手放在胸側',
+      '吸氣,將上身向上提,伸直手臂',
+      '僅有手掌和腳尖觸地,腿部離地',
+      '頭向上看,胸部打開',
+      '保持呼吸,維持15-20秒',
     ],
     isGlutenFree: false, //腿部
     isLactoseFree: false, //平衡
@@ -243,21 +198,16 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/s3hKZ0h.png',
     duration: 35,
     ingredients: [
-      '4 Chicken Breasts',
-      '1 Onion',
-      '2 Cloves of Garlic',
-      '1 Piece of Ginger',
-      '4 Tablespoons Almonds',
-      '1 Teaspoon Cayenne Pepper',
-      '500ml Coconut Milk',
+      '左腳在前,右腳在後,左膝彎曲呈90度,右腿伸直。',
+      '上身正面向前,雙手舉高過頭,掌心相對。',
     ],
     steps: [
-      'Slice and fry the chicken breast',
-      'Process onion, garlic and ginger into paste and sauté everything',
-      'Add spices and stir fry',
-      'Add chicken breast + 250ml of water and cook everything for 10 minutes',
-      'Add coconut milk',
-      'Serve with rice'
+      '左腳向前一大步,右腳在後',
+      '左腳為正面,右腳約45度角',
+      '彎曲左膝,保持左膝不超過腳尖',
+      '右腿伸直,腳跟著地',
+      '上身正面向前,雙手舉高過頭,掌心相對',
+      '保持呼吸,維持20-30秒,然後換邊'
     ],
     isGlutenFree: true, //腿部
     isLactoseFree: true, //平衡
@@ -273,37 +223,16 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/ZHniU18.png',
     duration: 45,
     ingredients: [
-      '1 Teaspoon melted Butter',
-      '2 Tablespoons white Sugar',
-      '2 Ounces 70% dark Chocolate, broken into pieces',
-      '1 Tablespoon Butter',
-      '1 Tablespoon all-purpose Flour',
-      '4 1/3 tablespoons cold Milk',
-      '1 Pinch Salt',
-      '1 Pinch Cayenne Pepper',
-      '1 Large Egg Yolk',
-      '2 Large Egg Whites',
-      '1 Pinch Cream of Tartar',
-      '1 Tablespoon white Sugar',
+      '右腳在前,左腳在後,右膝彎曲呈90度,左腿伸直。',
+      '上身側面向前,雙手平舉與地面平行,目視右手指尖。',
     ],
     steps: [
-      'Preheat oven to 190°C. Line a rimmed baking sheet with parchment paper.',
-      'Brush bottom and sides of 2 ramekins lightly with 1 teaspoon melted butter; cover bottom and sides right up to the rim.',
-      'Add 1 tablespoon white sugar to ramekins. Rotate ramekins until sugar coats all surfaces.',
-      'Place chocolate pieces in a metal mixing bowl.',
-      'Place bowl over a pan of about 3 cups hot water over low heat.',
-      'Melt 1 tablespoon butter in a skillet over medium heat. Sprinkle in flour. Whisk until flour is incorporated into butter and mixture thickens.',
-      'Whisk in cold milk until mixture becomes smooth and thickens. Transfer mixture to bowl with melted chocolate.',
-      'Add salt and cayenne pepper. Mix together thoroughly. Add egg yolk and mix to combine.',
-      'Leave bowl above the hot (not simmering) water to keep chocolate warm while you whip the egg whites.',
-      'Place 2 egg whites in a mixing bowl; add cream of tartar. Whisk until mixture begins to thicken and a drizzle from the whisk stays on the surface about 1 second before disappearing into the mix.',
-      'Add 1/3 of sugar and whisk in. Whisk in a bit more sugar about 15 seconds.',
-      'whisk in the rest of the sugar. Continue whisking until mixture is about as thick as shaving cream and holds soft peaks, 3 to 5 minutes.',
-      'Transfer a little less than half of egg whites to chocolate.',
-      'Mix until egg whites are thoroughly incorporated into the chocolate.',
-      'Add the rest of the egg whites; gently fold into the chocolate with a spatula, lifting from the bottom and folding over.',
-      'Stop mixing after the egg white disappears. Divide mixture between 2 prepared ramekins. Place ramekins on prepared baking sheet.',
-      'Bake in preheated oven until scuffles are puffed and have risen above the top of the rims, 12 to 15 minutes.',
+      '右腳向右一大步,右腳約120度角',
+      '彎曲右膝,保持右膝不超過腳尖',
+      '左腿伸直,腳跟著地',
+      '上身側面向前,雙手平舉與地面平行',
+      '目視右手指尖,保持呼吸',
+      '維持20-30秒,然後換邊',
     ],
     isGlutenFree: true, //腿部
     isLactoseFree: true, //平衡
@@ -319,20 +248,15 @@ const dummyMeals = [
     imageUrl: 'https://i.imgur.com/s72FHow.png',
     duration: 30,
     ingredients: [
-      'White and Green Asparagus',
-      '30g Pine Nuts',
-      '300g Cherry Tomatoes',
-      'Salad',
-      'Salt, Pepper and Olive Oil'
+      '單腳站立,另一腳向後伸直與地面平行。',
+      '上身向前平行於地面,雙手向前伸直或置於身體兩側。',
     ],
     steps: [
-      'Wash, peel and cut the asparagus',
-      'Cook in salted water',
-      'Salt and pepper the asparagus',
-      'Roast the pine nuts',
-      'Halve the tomatoes',
-      'Mix with asparagus, salad and dressing',
-      'Serve with Baguette'
+      '單腳站立,另一腳向後抬起',
+      '上身向前,與另一腿平行於地面',
+      '雙手向前伸直或置於身體兩側',
+      '眼睛注視前方一點,保持呼吸',
+      '維持20-30秒,然後換邊',
     ],
     isGlutenFree: true, //腿部
     isLactoseFree: true, //平衡
