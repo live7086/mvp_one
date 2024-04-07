@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mvp_one/sign/signup.dart';
 import 'package:mvp_one/user/UserInformationPage.dart';
 import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/user/userInfoPage.dart';
@@ -133,7 +134,10 @@ class _SigninsreenState extends State<Signinsreen> {
         const Text("還沒註冊嗎?", style: TextStyle(color: Colors.white70)),
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, '/signup');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignUpScreen()),
+            );
           },
           child: const Text(
             "Sign Up",

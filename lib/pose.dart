@@ -4,17 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:mvp_one/models/meal.dart';
+import 'package:mvp_one/pose_related/posePainter.dart';
 import 'package:mvp_one/screens/move_result.dart';
 import 'dart:typed_data';
 import 'dart:math' as math;
 import 'package:flutter_tts/flutter_tts.dart';
-// TreeOise
+// TreePose
 import 'Pose_Guide/TreePose/TreePose_Guide_One.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Two.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Three.dart';
 import 'Pose_Correction/TreePose/TreePose_Correction_One.dart';
 import 'Pose_Correction/TreePose/TreePose_Correction_Two.dart';
 import 'Pose_Correction/TreePose/TreePose_Correction_Three.dart';
+
 //Warrior2
 import 'Pose_Guide/Warrior2/Warrior2_Guide_One.dart';
 import 'Pose_Guide/Warrior2/Warrior2_Guide_Two.dart';
@@ -64,7 +66,7 @@ class CameraScreenState extends State<CameraScreen> {
   List<Pose> poses = [];
   //相機相關
   late CameraController _cameraController;
-  bool isFrontCamera = false;
+  bool isFrontCamera = true;
   //fps設定
   double _fpsAverage = 0.0;
   int _fpsCounter = 0;
@@ -161,8 +163,8 @@ class CameraScreenState extends State<CameraScreen> {
     // print("_detectPose poseIndex$poseIndex");
 
     final InputImageRotation rotation = isFrontCamera
-        ? InputImageRotation.rotation270deg // 前置摄像头
-        : InputImageRotation.rotation90deg; // 后置摄像头
+        ? InputImageRotation.rotation270deg // 前置鏡頭
+        : InputImageRotation.rotation90deg; // 後置鏡頭
 
     final InputImage inputImage = InputImage.fromBytes(
       bytes: _concatenatePlanes(image.planes),
@@ -287,19 +289,6 @@ class CameraScreenState extends State<CameraScreen> {
         }
         // 集中輸出所有 print 語句
         Future.delayed(Duration(seconds: 1));
-        // print("右手腕的角度是: ${angles['r_wrist']} 度");
-        // print("右手肘的角度是: ${angles['r_elbow']} 度");
-        // print("右肩膀的角度是: ${angles['r_shoulder']} 度");
-        // print("右髖部的角度是: ${angles['r_hip']} 度");
-        // print("右膝蓋的角度是: ${angles['r_knee']} 度");
-        // print("右腳趾的角度是: ${angles['r_footindex']} 度");
-        // print("左手腕的角度是: ${angles['l_wrist']} 度");
-        // print("左手肘的角度是: ${angles['l_elbow']} 度");
-        // print("左肩膀的角度是: ${angles['l_shoulder']} 度");
-        // print("左髖部的角度是: ${angles['l_hip']} 度");
-        // print("左膝蓋的角度是: ${angles['l_knee']} 度");
-        // print("左腳趾的角度是: ${angles['l_footindex']} 度");
-        // print("/n");
       }
       setState(() {
         poses = detectedPoses;
@@ -658,70 +647,6 @@ class CameraScreenState extends State<CameraScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
     );
-  }
-}
-
-// 繪製身體骨架
-class PosePainter extends CustomPainter {
-  final List<Pose> poses;
-  final bool isFrontCamera;
-
-  PosePainter(this.poses, this.isFrontCamera);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 5;
-
-    for (var pose in poses) {
-      final landmarks = pose.landmarks.values.toList();
-
-      // 定義身體部位之間的連接關係
-      final connections = [
-        [PoseLandmarkType.leftShoulder, PoseLandmarkType.rightShoulder],
-        [PoseLandmarkType.leftShoulder, PoseLandmarkType.leftElbow],
-        [PoseLandmarkType.leftElbow, PoseLandmarkType.leftWrist],
-        [PoseLandmarkType.rightShoulder, PoseLandmarkType.rightElbow],
-        [PoseLandmarkType.rightElbow, PoseLandmarkType.rightWrist],
-        [PoseLandmarkType.leftShoulder, PoseLandmarkType.leftHip],
-        [PoseLandmarkType.rightShoulder, PoseLandmarkType.rightHip],
-        [PoseLandmarkType.leftHip, PoseLandmarkType.rightHip],
-        [PoseLandmarkType.leftHip, PoseLandmarkType.leftKnee],
-        [PoseLandmarkType.leftKnee, PoseLandmarkType.leftAnkle],
-        [PoseLandmarkType.rightHip, PoseLandmarkType.rightKnee],
-        [PoseLandmarkType.rightKnee, PoseLandmarkType.rightAnkle],
-      ];
-
-      for (final connection in connections) {
-        final startLandmark = landmarks[connection[0].index];
-        final endLandmark = landmarks[connection[1].index];
-        //調整完位置，符合角度。
-        double startX = startLandmark.x - 150;
-        double startY = startLandmark.y - 150;
-        double endX = endLandmark.x - 150;
-        double endY = endLandmark.y - 150;
-
-        // 如果是前置摄像头，进行垂直翻转
-        if (isFrontCamera) {
-          startX = size.width + 300 - startX;
-          endX = size.width + 300 - endX;
-          startY = size.width - 20 - startY;
-          endY = size.width - 20 - endY;
-        }
-
-        canvas.drawLine(
-          Offset(startX, startY),
-          Offset(endX, endY),
-          paint,
-        );
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
   }
 }
 
