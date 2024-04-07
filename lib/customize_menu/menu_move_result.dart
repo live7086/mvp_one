@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/models/meal.dart';
+import 'package:mvp_one/provider/provider.dart';
 import 'package:mvp_one/screens/move.dart';
 import 'package:mvp_one/screens/move_detail.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 
 //先測試是否可以順利前往這個頁面，到時候要返回cus_menu就可以了。
 
@@ -38,6 +40,8 @@ class _MenuResultPageState extends State<MenuResultPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 從provider.dart獲取menuTitle
+    String menuTitle = Provider.of<MenuTitleProvider>(context).menuTitle;
     return Scaffold(
       backgroundColor: Colors.grey[200], // 設置背景顏色為淺灰色
       body: Column(
@@ -58,7 +62,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                   left: 20,
                   top: 100,
                   child: Text(
-                    '恭喜您完成瑜珈練習!',
+                    '恭喜您完成$menuTitle練習!',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,

@@ -1,10 +1,13 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:mvp_one/customize_menu/menu_move_result.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
+import 'package:mvp_one/provider/provider.dart';
 import 'package:mvp_one/screens/tabs.dart';
 import 'package:mvp_one/user/UserInformationPage.dart';
 import 'package:mvp_one/widget_expense/expenses.dart';
+import 'package:provider/provider.dart';
 import 'action_selection_page.dart';
 import 'pose_menu.dart';
 
@@ -468,16 +471,22 @@ class _StartPageState extends State<CustomizeMenuPage> {
                         child: ElevatedButton(
                           onPressed: () async {
                             final cameras = await availableCameras();
+                            // 在開始運動前,將當前菜單的標題設置到 Provider 中
+                            Provider.of<MenuTitleProvider>(context,
+                                    listen: false)
+                                .setMenuTitle(title);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MenuCameraScreen(
-                                  cameras: cameras,
-                                  selectedMeals: meals,
-                                  mealCounts:
-                                      mealCountsForCustomMenu.values.toList(),
-                                ),
-                              ),
+                                  builder: (context) =>
+                                      MenuResultPage(duration: 1)
+                                  // MenuCameraScreen(
+                                  //   cameras: cameras,
+                                  //   selectedMeals: meals,
+                                  //   mealCounts:
+                                  //       mealCountsForCustomMenu.values.toList(),
+                                  // ),
+                                  ),
                             );
                           },
                           child: const Text('開始運動'),
