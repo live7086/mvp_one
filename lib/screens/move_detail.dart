@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/pose.dart';
 import 'package:mvp_one/screens/move_result.dart';
-import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MealDetailsScreen extends StatefulWidget {
   const MealDetailsScreen({
@@ -19,39 +19,30 @@ class MealDetailsScreen extends StatefulWidget {
   _MealDetailsScreenState createState() => _MealDetailsScreenState();
 }
 
-@override
 class _MealDetailsScreenState extends State<MealDetailsScreen> {
-  late VideoPlayerController _controller;
-  bool _isPlaying = false;
+  late YoutubePlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
-      ..initialize().then((_) {
-        setState(() {
-          _isPlaying = true;
-          _controller.play();
-        });
-      });
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.meal.videoUrl)!,
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+        loop: true,
+        enableCaption: false,
+        hideControls: false,
+        showLiveFullscreenButton: false,
+        forceHD: false,
+      ),
+    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  void _togglePlayPause() {
-    setState(() {
-      if (_isPlaying) {
-        _controller.pause();
-      } else {
-        _controller.play();
-      }
-      _isPlaying = !_isPlaying;
-    });
   }
 
   @override
@@ -76,19 +67,10 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
           children: [
             Stack(
               children: [
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: _controller.value.isInitialized
-                      ? VideoPlayer(_controller)
-                      : Image.network(widget.meal.imageUrl, fit: BoxFit.cover),
-                ),
-                Positioned.fill(
-                  child: GestureDetector(
-                    onTap: _togglePlayPause,
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
-                  ),
+                YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: Colors.amber,
                 ),
                 Positioned(
                   bottom: 16,
@@ -101,20 +83,6 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: 28,
                         ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: VideoProgressIndicator(
-                    _controller,
-                    allowScrubbing: true,
-                    colors: VideoProgressColors(
-                      playedColor: Theme.of(context).colorScheme.secondary,
-                      bufferedColor: Colors.grey[400]!,
-                      backgroundColor: Colors.grey[800]!,
-                    ),
                   ),
                 ),
               ],

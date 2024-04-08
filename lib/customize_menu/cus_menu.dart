@@ -478,15 +478,13 @@ class _StartPageState extends State<CustomizeMenuPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      MenuResultPage(duration: 1)
-                                  // MenuCameraScreen(
-                                  //   cameras: cameras,
-                                  //   selectedMeals: meals,
-                                  //   mealCounts:
-                                  //       mealCountsForCustomMenu.values.toList(),
-                                  // ),
-                                  ),
+                                builder: (context) => MenuCameraScreen(
+                                  cameras: cameras,
+                                  selectedMeals: meals,
+                                  mealCounts:
+                                      mealCountsForCustomMenu.values.toList(),
+                                ),
+                              ),
                             );
                           },
                           child: const Text('開始運動'),

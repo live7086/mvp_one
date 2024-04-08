@@ -36,7 +36,7 @@ const dummyMeals = [
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/QObVvEu.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=QVEINjrYUPU&pp=ygUJQk9BVCBQT1NF', // 新增videoUrl
 
     duration: 20,
     ingredients: [
@@ -62,7 +62,7 @@ const dummyMeals = [
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/cAY337U.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=W5KVx0ZbB_4&pp=ygUIQ09XIFBPU0U%3D', // 新增videoUrl
 
     duration: 10,
     ingredients: [
@@ -83,7 +83,7 @@ const dummyMeals = [
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/rbySss7.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=zaongQlYTto&pp=ygUOQ3Jlc2NlbnQgTHVuZ2U%3D', // 新增videoUrl
 
     duration: 45,
     ingredients: [
@@ -110,7 +110,7 @@ const dummyMeals = [
     complexity: Complexity.challenging,
     imageUrl: 'https://i.imgur.com/YlUIHMi.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=EC7RGJ975iM&pp=ygUMRG93bndhcmQgRG9n', // 新增videoUrl
 
     duration: 60,
     ingredients: [
@@ -137,7 +137,7 @@ const dummyMeals = [
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/hMA9LNV.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=EC7RGJ975iM&pp=ygUeU2luZ2xlIExlZyBEb3dud2FyZCBGYWNpbmcgRG9n', // 新增videoUrl
 
     duration: 15,
     ingredients: [
@@ -190,7 +190,7 @@ const dummyMeals = [
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/gP9lF0v.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=pVmOOluGAv8&pp=ygUWVXB3YXJkIEZhY2luZyBEb2cgUG9zZQ%3D%3D', // 新增videoUrl
 
     duration: 20,
     ingredients: [
@@ -218,7 +218,7 @@ const dummyMeals = [
     complexity: Complexity.challenging,
     imageUrl: 'https://i.imgur.com/s3hKZ0h.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=NytDpa2r34g&pp=ygUJV2FycmlvciBJ', // 新增videoUrl
 
     duration: 35,
     ingredients: [
@@ -246,7 +246,7 @@ const dummyMeals = [
     complexity: Complexity.hard,
     imageUrl: 'https://i.imgur.com/ZHniU18.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=Mn6RSIRCV3w&pp=ygUKV2FycmlvciBJSQ%3D%3D', // 新增videoUrl
 
     duration: 45,
     ingredients: [
@@ -274,7 +274,7 @@ const dummyMeals = [
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/s72FHow.png',
     videoUrl:
-        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+        'https://www.youtube.com/watch?v=uEc5hrgIYx4&pp=ygULV2FycmlvciBJSUk%3D', // 新增videoUrl
 
     duration: 30,
     ingredients: [
