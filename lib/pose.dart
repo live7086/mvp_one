@@ -73,6 +73,10 @@ class CameraScreenState extends State<CameraScreen> {
   DateTime? _lastFrameTime;
   String poseType = '';
   //初始化camera 以及 poseDetector
+  bool _showFps = true;
+  bool _showAngles = true;
+  double _fontSize = 16.0; // 預設為中等字體大小
+  double _tipBoxHeight = 50.0; // 語音提示框的高度
   @override
   void initState() {
     //賦予本地的meal 為 接收的meal值
@@ -95,6 +99,88 @@ class CameraScreenState extends State<CameraScreen> {
       ),
     );
     checkPoses();
+  }
+
+  void _showSettingsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('設置'),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SwitchListTile(
+                    title: Text('鏡頭翻轉'),
+                    value: !isFrontCamera,
+                    onChanged: (value) {
+                      setState(() {
+                        isFrontCamera = !value;
+                        _initializeCamera();
+                      });
+                    },
+                  ),
+                  SwitchListTile(
+                    title: Text('顯示FPS'),
+                    value: _showFps,
+                    onChanged: (value) {
+                      setState(() {
+                        _showFps = value;
+                      });
+                    },
+                  ),
+                  SwitchListTile(
+                    title: Text('顯示角度'),
+                    value: _showAngles,
+                    onChanged: (value) {
+                      setState(() {
+                        _showAngles = value;
+                      });
+                    },
+                  ),
+                  ListTile(
+                    title: Text('字體大小'),
+                    trailing: DropdownButton<double>(
+                      value: _fontSize,
+                      onChanged: (double? newValue) {
+                        setState(() {
+                          _fontSize = newValue!;
+                          _tipBoxHeight = _fontSize * 3; // 根據字體大小調整提示框高度
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          value: 12.0,
+                          child: Text('小'),
+                        ),
+                        DropdownMenuItem(
+                          value: 16.0,
+                          child: Text('中'),
+                        ),
+                        DropdownMenuItem(
+                          value: 20.0,
+                          child: Text('大'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('關閉'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   //實作初始化相機
@@ -152,6 +238,24 @@ class CameraScreenState extends State<CameraScreen> {
     setState(() {
       isFrontCamera = !isFrontCamera;
       _initializeCamera();
+    });
+  }
+
+  void _toggleFps() {
+    setState(() {
+      _showFps = !_showFps;
+    });
+  }
+
+  void _toggleAngles() {
+    setState(() {
+      _showAngles = !_showAngles;
+    });
+  }
+
+  void _changeFontSize(double size) {
+    setState(() {
+      _fontSize = size;
     });
   }
 
@@ -602,50 +706,68 @@ class CameraScreenState extends State<CameraScreen> {
           ),
           Positioned(
             top: 30.0,
-            right: 10.0,
-            child: Text(
-              poseTip,
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 30.0,
             left: 10.0,
-            child: Text(
-              'FPS: ${_getFps()}',
-              style: const TextStyle(
+            child: IconButton(
+              icon: Icon(
+                Icons.settings,
                 color: Colors.white,
-                fontSize: 16.0,
+                size: 30.0,
               ),
+              onPressed: _showSettingsDialog,
             ),
           ),
+          if (_showFps)
+            Positioned(
+              top: 30.0,
+              right: 10.0,
+              child: Text(
+                'FPS: ${_getFps()}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: _fontSize,
+                ),
+              ),
+            ),
+          if (_showAngles)
+            Positioned(
+              bottom: _tipBoxHeight + 10,
+              left: 0,
+              right: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var entry in this.angles.entries)
+                    Text(
+                      '${entry.key}: ${entry.value}度',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: _fontSize,
+                      ),
+                    ),
+                ],
+              ),
+            ),
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (var entry in this.angles.entries)
-                  Text(
-                    '${entry.key}: ${entry.value}度',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              padding: EdgeInsets.all(10.0),
+              child: Center(
+                child: Text(
+                  poseTip,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: _fontSize,
                   ),
-              ],
+                ),
+              ),
+              height: _tipBoxHeight,
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleCamera,
-        child: const Icon(Icons.switch_camera),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
     );
   }
 }
