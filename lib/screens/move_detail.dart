@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/pose.dart';
 import 'package:mvp_one/screens/move_result.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:video_player/video_player.dart';
 
-class MealDetailsScreen extends StatelessWidget {
+class MealDetailsScreen extends StatefulWidget {
   const MealDetailsScreen({
     super.key,
     required this.meal,
@@ -14,6 +14,46 @@ class MealDetailsScreen extends StatelessWidget {
 
   final Meal meal;
   final void Function(Meal meal) onToggleFavorite;
+
+  @override
+  _MealDetailsScreenState createState() => _MealDetailsScreenState();
+}
+
+@override
+class _MealDetailsScreenState extends State<MealDetailsScreen> {
+  late VideoPlayerController _controller;
+  bool _isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+      ..initialize().then((_) {
+        setState(() {
+          _isPlaying = true;
+          _controller.play();
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      if (_isPlaying) {
+        _controller.pause();
+      } else {
+        _controller.play();
+      }
+      _isPlaying = !_isPlaying;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +64,7 @@ class MealDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              onToggleFavorite(meal);
+              widget.onToggleFavorite(widget.meal);
             },
             icon: const Icon(Icons.star, color: Colors.white),
           ),
@@ -36,47 +76,45 @@ class MealDetailsScreen extends StatelessWidget {
           children: [
             Stack(
               children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 300,
-                    viewportFraction: 1.0,
-                    enlargeCenterPage: false,
-                  ),
-                  items: [
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(meal.imageUrl),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [
-                              Colors.black.withOpacity(0.7),
-                              Colors.transparent,
-                            ],
-                          ),
-                        ),
-                      ),
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: _controller.value.isInitialized
+                      ? VideoPlayer(_controller)
+                      : Image.network(widget.meal.imageUrl, fit: BoxFit.cover),
+                ),
+                Positioned.fill(
+                  child: GestureDetector(
+                    onTap: _togglePlayPause,
+                    child: Container(
+                      color: Colors.transparent,
                     ),
-                  ],
+                  ),
                 ),
                 Positioned(
                   bottom: 16,
                   left: 16,
                   right: 16,
                   child: Text(
-                    meal.title.split('(').first.trim(),
+                    widget.meal.title.split('(').first.trim(),
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 28,
                         ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: VideoProgressIndicator(
+                    _controller,
+                    allowScrubbing: true,
+                    colors: VideoProgressColors(
+                      playedColor: Theme.of(context).colorScheme.secondary,
+                      bufferedColor: Colors.grey[400]!,
+                      backgroundColor: Colors.grey[800]!,
+                    ),
                   ),
                 ),
               ],
@@ -87,7 +125,7 @@ class MealDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    meal.title.split('(').last.split(')').first.trim(),
+                    widget.meal.title.split('(').last.split(')').first.trim(),
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Colors.grey[600],
                           fontSize: 28,
@@ -137,7 +175,7 @@ class MealDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        for (final ingredient in meal.ingredients)
+                        for (final ingredient in widget.meal.ingredients)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Text(
@@ -189,7 +227,7 @@ class MealDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        for (int i = 0; i < meal.steps.length; i++)
+                        for (int i = 0; i < widget.meal.steps.length; i++)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
@@ -222,7 +260,7 @@ class MealDetailsScreen extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    meal.steps[i],
+                                    widget.meal.steps[i],
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
@@ -255,8 +293,8 @@ class MealDetailsScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => CameraScreen(
                           cameras: cameras,
-                          meal: meal,
-                          onToggleFavorite: onToggleFavorite,
+                          meal: widget.meal,
+                          onToggleFavorite: widget.onToggleFavorite,
                         ),
                       ),
                     );
@@ -300,8 +338,8 @@ class MealDetailsScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => ResultPage(
                           duration: 1,
-                          meal: meal,
-                          onToggleFavorite: onToggleFavorite,
+                          meal: widget.meal,
+                          onToggleFavorite: widget.onToggleFavorite,
                         ),
                       ),
                     );

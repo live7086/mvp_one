@@ -1,3 +1,5 @@
+import 'dart:core';
+
 enum Complexity {
   simple,
   challenging,
@@ -25,12 +27,14 @@ class Meal {
     required this.isLactoseFree,
     required this.isVegan,
     required this.isVegetarian,
+    required this.videoUrl,
   });
 
   final String id;
   final List<String> categories;
   final String title;
   final String imageUrl;
+  final String videoUrl;
   final List<String> ingredients;
   final List<String> steps;
   final int duration;

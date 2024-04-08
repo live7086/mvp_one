@@ -35,6 +35,9 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/QObVvEu.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 20,
     ingredients: [
       '坐在墊上,雙腿伸直,上身後仰,手掌放在大腿後側,胸部打開。',
@@ -58,6 +61,9 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/cAY337U.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 10,
     ingredients: [
       '跪在墊上,手掌和膝蓋與肩同寬。',
@@ -76,6 +82,9 @@ const dummyMeals = [
     affordability: Affordability.pricey,
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/rbySss7.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 45,
     ingredients: [
       '左腳在前,右腳在後,左膝彎曲呈90度,右腿伸直。',
@@ -100,6 +109,9 @@ const dummyMeals = [
     affordability: Affordability.luxurious,
     complexity: Complexity.challenging,
     imageUrl: 'https://i.imgur.com/YlUIHMi.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 60,
     ingredients: [
       '雙手與肩同寬,與地面呈90度。',
@@ -124,6 +136,9 @@ const dummyMeals = [
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/hMA9LNV.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 15,
     ingredients: [
       '從下犬式開始,將右腳提離地面,伸直右腿,腳尖向上。',
@@ -147,6 +162,9 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
     imageUrl: 'https://i.imgur.com/MwdS0ll.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 240,
     ingredients: [
       '站立,將右腳放在左大腿內側(避免放在膝蓋上)。',
@@ -171,6 +189,9 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/gP9lF0v.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 20,
     ingredients: [
       '俯臥,雙手放在胸側。',
@@ -196,6 +217,9 @@ const dummyMeals = [
     affordability: Affordability.pricey,
     complexity: Complexity.challenging,
     imageUrl: 'https://i.imgur.com/s3hKZ0h.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 35,
     ingredients: [
       '左腳在前,右腳在後,左膝彎曲呈90度,右腿伸直。',
@@ -221,6 +245,9 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
     imageUrl: 'https://i.imgur.com/ZHniU18.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 45,
     ingredients: [
       '右腳在前,左腳在後,右膝彎曲呈90度,左腿伸直。',
@@ -246,6 +273,9 @@ const dummyMeals = [
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
     imageUrl: 'https://i.imgur.com/s72FHow.png',
+    videoUrl:
+        'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
+
     duration: 30,
     ingredients: [
       '單腳站立,另一腳向後伸直與地面平行。',
