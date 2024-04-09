@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:mvp_one/customize_menu/menu_move_result.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/provider/provider.dart';
@@ -47,6 +46,10 @@ class _StartPageState extends State<CustomizeMenuPage> {
 
   // 打開動作選擇頁面
   void _openActionSelectionPage() async {
+    Provider.of<MenuTitleProvider>(context, listen: false).setMeals([]);
+    Provider.of<MenuTitleProvider>(context, listen: false)
+        .setSource(MenuSource.newMenu);
+
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -72,6 +75,89 @@ class _StartPageState extends State<CustomizeMenuPage> {
         });
       });
     }
+  }
+
+// 顯示編輯自定義菜單的對話框
+  void _showEditCustomMenuDialog(
+    String title,
+    String description,
+    List<Meal> meals,
+    ValueChanged<String> onTitleChanged,
+    ValueChanged<String> onDescriptionChanged,
+  ) {
+    String newTitle = title;
+    String newDescription = description;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('編輯自定義菜單'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: TextEditingController(text: title),
+                decoration: const InputDecoration(labelText: '菜單標題'),
+                onChanged: (value) {
+                  newTitle = value;
+                },
+              ),
+              TextField(
+                controller: TextEditingController(text: description),
+                decoration: const InputDecoration(labelText: '介紹文字'),
+                onChanged: (value) {
+                  newDescription = value;
+                },
+              ),
+            ],
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    onTitleChanged(newTitle);
+                    onDescriptionChanged(newDescription);
+                    Provider.of<MenuTitleProvider>(context, listen: false)
+                        .setMeals(meals);
+                    Provider.of<MenuTitleProvider>(context, listen: false)
+                        .setSource(MenuSource.editMenu);
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ActionSelectionPage(
+                            selectedMealsForCustomMenu: meals),
+                      ),
+                    );
+                    if (result != null) {
+                      setState(() {
+                        meals.clear();
+                        meals.addAll(result['selectedMeals']);
+                        mealCountsForCustomMenu = {
+                          for (var meal in meals)
+                            meal: mealCountsForCustomMenu[meal] ?? 1
+                        };
+                      });
+                    }
+                  },
+                  child: const Text('編輯動作'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    onTitleChanged(newTitle);
+                    onDescriptionChanged(newDescription);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('確定'),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // 更新自定義菜單中餐點的數量
@@ -131,62 +217,6 @@ class _StartPageState extends State<CustomizeMenuPage> {
         });
         break;
     }
-  }
-
-  // 顯示編輯自定義菜單的對話框
-  void _showEditCustomMenuDialog(
-    String title,
-    String description,
-    List<Meal> meals,
-    ValueChanged<String> onTitleChanged,
-    ValueChanged<String> onDescriptionChanged,
-  ) {
-    String newTitle = title;
-    String newDescription = description;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('編輯自定義菜單'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: TextEditingController(text: title),
-                decoration: const InputDecoration(labelText: '菜單標題'),
-                onChanged: (value) {
-                  newTitle = value;
-                },
-              ),
-              TextField(
-                controller: TextEditingController(text: description),
-                decoration: const InputDecoration(labelText: '介紹文字'),
-                onChanged: (value) {
-                  newDescription = value;
-                },
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('取消'),
-            ),
-            TextButton(
-              onPressed: () {
-                onTitleChanged(newTitle);
-                onDescriptionChanged(newDescription);
-                Navigator.of(context).pop();
-              },
-              child: const Text('保存'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   // 構建刪除自定義菜單的圖標

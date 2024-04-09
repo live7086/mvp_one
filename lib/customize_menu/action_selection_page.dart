@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/data/dummy_data.dart';
+import 'package:mvp_one/provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class ActionSelectionPage extends StatefulWidget {
   final List<Meal> selectedMealsForCustomMenu;
@@ -22,6 +24,10 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
   void initState() {
     super.initState();
     selectedMealsForCustomMenu = List.from(widget.selectedMealsForCustomMenu);
+
+    // 從provider中獲取已選擇的meals
+    final meals = Provider.of<MenuTitleProvider>(context, listen: false).meals;
+    selectedMealsForCustomMenu = List.from(meals);
   }
 
   @override
@@ -31,58 +37,72 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
         oldWidget.selectedMealsForCustomMenu) {
       selectedMealsForCustomMenu = List.from(widget.selectedMealsForCustomMenu);
     }
+
+    // 從provider中獲取已選擇的meals
+    final meals = Provider.of<MenuTitleProvider>(context, listen: false).meals;
+    selectedMealsForCustomMenu = List.from(meals);
   }
 
   // 完成動作選擇
   void _completeSelection() async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('新增自定義菜單'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: const InputDecoration(labelText: '菜單名稱'),
-                onChanged: (value) {
-                  setState(() {
-                    customMenuTitle = value;
-                  });
+    Provider.of<MenuTitleProvider>(context, listen: false)
+        .setMeals(selectedMealsForCustomMenu);
+
+    if (Provider.of<MenuTitleProvider>(context, listen: false).source ==
+        MenuSource.newMenu) {
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('新增自定義菜單'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(labelText: '菜單名稱'),
+                  onChanged: (value) {
+                    setState(() {
+                      customMenuTitle = value;
+                    });
+                  },
+                ),
+                TextField(
+                  decoration: const InputDecoration(labelText: '介紹文字'),
+                  onChanged: (value) {
+                    setState(() {
+                      customMenuDescription = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
                 },
+                child: const Text('取消'),
               ),
-              TextField(
-                decoration: const InputDecoration(labelText: '介紹文字'),
-                onChanged: (value) {
-                  setState(() {
-                    customMenuDescription = value;
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pop(context, {
+                    'selectedMeals': selectedMealsForCustomMenu,
+                    'menuTitle': customMenuTitle,
+                    'menuDescription': customMenuDescription,
                   });
                 },
+                child: const Text('完成'),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('取消'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.pop(context, {
-                  'selectedMeals': selectedMealsForCustomMenu,
-                  'menuTitle': customMenuTitle,
-                  'menuDescription': customMenuDescription,
-                });
-              },
-              child: const Text('完成'),
-            ),
-          ],
-        );
-      },
-    );
+          );
+        },
+      );
+    } else {
+      Navigator.pop(context, {
+        'selectedMeals': selectedMealsForCustomMenu,
+      });
+    }
   }
 
   @override

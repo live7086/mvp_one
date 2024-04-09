@@ -37,14 +37,20 @@ class PosePainter extends CustomPainter {
         final endLandmark = landmarks[connection[1].index];
         //調整完位置，符合角度。
         double startX = startLandmark.x - 150;
-        double startY = startLandmark.y - 150;
+        double startY = startLandmark.y - 170;
         double endX = endLandmark.x - 150;
-        double endY = endLandmark.y - 150;
+        double endY = endLandmark.y - 170;
 
         // 如果是前置鏡頭,进行垂直翻转
         if (isFrontCamera) {
-          startX = size.width - startX;
-          endX = size.width - endX;
+          // double startX = startLandmark.x - 150;
+          // double endX = endLandmark.x - 150;
+
+          double startY = startLandmark.y - 150;
+          double endY = endLandmark.y - 150;
+
+          startX = size.width - startX + 250;
+          endX = size.width - endX + 250;
         }
 
         canvas.drawLine(
