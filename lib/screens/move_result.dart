@@ -7,7 +7,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 class ResultPage extends StatefulWidget {
   final int duration;
   final Meal meal;
-  final void Function(Meal meal) onToggleFavorite;
+  final void Function(Meal meal) onToggleFavorite;  
 
   ResultPage({
     required this.duration,
