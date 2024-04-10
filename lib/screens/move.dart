@@ -22,54 +22,54 @@ class MealsScreen extends StatefulWidget {
   _MealsScreenState createState() => _MealsScreenState();
 }
 
-class _MealsScreenState extends State<MealsScreen> with WidgetsBindingObserver {
-  bool _isResuming = false;
+class _MealsScreenState extends State<MealsScreen> {
+  // bool _isResuming = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    // WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    // WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // 應用程式進入背景時執行的函數
-      onAppBackground();
-    }
-  }
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (state == AppLifecycleState.paused) {
+  //     // 應用程式進入背景時執行的函數
+  //     onAppBackground();
+  //   }
+  // }
 
-  void onAppBackground() {
-    if (!_isResuming) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.6,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: MealResumePage(
-                meal: widget.meals.first,
-                onToggleFavorite: widget.onToggleFavorite,
-                onResume: _resumeMeal,
-              ),
-            ),
-          );
-        },
-      );
-    }
-  }
+  // void onAppBackground() {
+  //   if (!_isResuming) {
+  //     showDialog(
+  //       context: context,
+  //       barrierDismissible: false,
+  //       builder: (BuildContext context) {
+  //         return Center(
+  //           child: Container(
+  //             width: MediaQuery.of(context).size.width * 0.8,
+  //             height: MediaQuery.of(context).size.height * 0.6,
+  //             decoration: BoxDecoration(
+  //               color: Colors.white,
+  //               borderRadius: BorderRadius.circular(16),
+  //             ),
+  //             child: MealResumePage(
+  //               meal: widget.meals.first,
+  //               // onToggleFavorite: widget.onToggleFavorite,
+  //               onResume: _resumeMeal,
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
   void selectMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(
@@ -82,10 +82,10 @@ class _MealsScreenState extends State<MealsScreen> with WidgetsBindingObserver {
     );
   }
 
-  void _resumeMeal() {
-    _isResuming = true;
-    Navigator.pop(context);
-  }
+  // void _resumeMeal() {
+  //   _isResuming = true;
+  //   Navigator.pop(context);
+  // }
 
   @override
   Widget build(BuildContext context) {

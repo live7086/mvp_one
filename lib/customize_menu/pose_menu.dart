@@ -7,6 +7,7 @@ import 'package:mvp_one/customize_menu/menu_move_result.dart';
 import 'dart:typed_data';
 import 'dart:math' as math;
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:mvp_one/customize_menu/menu_resume.dart';
 
 // TreePose imports
 import '../Pose_Guide/TreePose/TreePose_Guide_One.dart';
@@ -39,7 +40,9 @@ class MenuCameraScreen extends StatefulWidget {
   MenuCameraScreenState createState() => MenuCameraScreenState();
 }
 
-class MenuCameraScreenState extends State<MenuCameraScreen> {
+class MenuCameraScreenState extends State<MenuCameraScreen>
+    with WidgetsBindingObserver {
+  bool _isResuming = false; //頁面是否需要恢復
   late Meal meal; // 當前正在執行的動作
   late Timer _timer; // 計時器
   int _elapsedSeconds = 0; // 經過的秒數
@@ -65,6 +68,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     meal = widget.selectedMeals[currentMealIndex]; // 初始化當前動作
     currentMealCount = widget.mealCounts[currentMealIndex]; // 初始化當前動作的執行次數
     _initializeCamera(); // 初始化相機
@@ -536,9 +540,51 @@ class MenuCameraScreenState extends State<MenuCameraScreen> {
     return _fpsAverage.toStringAsFixed(1);
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      onAppBackground();
+    } else if (state == AppLifecycleState.resumed) {
+      setState(() {
+        _isResuming = false;
+      });
+    }
+  }
+
+  void onAppBackground() {
+    if (!_isResuming) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.6,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: MealResumePage(
+                meal: widget.selectedMeals,
+                onResume: _resumeMeal,
+              ),
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  void _resumeMeal() {
+    _isResuming = true;
+    Navigator.pop(context);
+  }
+
 //放棄資源
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _timer.cancel();
     flutterTts.stop();
     _cameraController.dispose();

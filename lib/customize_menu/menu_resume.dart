@@ -3,13 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:mvp_one/models/meal.dart';
 
 class MealResumePage extends StatefulWidget {
-  final Meal meal;
-  final void Function(Meal meal) onToggleFavorite;
+  final List<Meal> meal;
+  // final void Function(Meal meal) onToggleFavorite;
   final VoidCallback onResume;
 
   MealResumePage({
     required this.meal,
-    required this.onToggleFavorite,
+    // required this.onToggleFavorite,
     required this.onResume,
   });
 
@@ -32,7 +32,7 @@ class _MealResumePageState extends State<MealResumePage> {
                   margin: EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(widget.meal.imageUrl),
+                      image: NetworkImage(widget.meal.first.imageUrl),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -88,7 +88,7 @@ class _MealResumePageState extends State<MealResumePage> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    widget.meal.title,
+                    widget.meal.first.title,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -121,6 +121,7 @@ class _MealResumePageState extends State<MealResumePage> {
                       ),
                       OutlinedButton(
                         onPressed: () {
+                          Navigator.pop(context);
                           Navigator.pop(context);
                         },
                         style: OutlinedButton.styleFrom(
