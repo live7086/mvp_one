@@ -2,29 +2,29 @@
 bool Warrior2TwoPass(Map<String, int> angles) {
   //min max 值還需要調整
   // l_hip angle
-  const int lHipPerfectMin = 130;
-  const int lHipGoodMin = lHipPerfectMin - 10;
-  const int lHipPerfectMax = 140;
-  const int lHipGoodMax = lHipPerfectMax + 10;
+  const int l_hip_perfect_min = 130;
+  const int l_hip_good_min = l_hip_perfect_min - 10;
+  const int l_hip_perfect_max = 140;
+  const int l_hip_good_max = l_hip_perfect_max + 10;
   // r_knee angle
-  const int rKneePerfectMin = 125;
-  const int rKneeGoodMin = rKneePerfectMin - 5;
-  const int rKneePerfectMax = 140;
-  const int rKneeGoodMax = rKneePerfectMax + 5;
+  const int r_knee_perfect_min = 125;
+  const int r_knee_good_min = r_knee_perfect_min - 5;
+  const int r_knee_perfect_max = 140;
+  const int r_knee_good_max = r_knee_perfect_max + 5;
 
   if (angles.containsKey('r_knee') && angles.containsKey('l_hip')) {
-    int rKnee = angles['r_knee']!;
-    int lHip = angles['l_hip']!;
+    int r_knee = angles['r_knee']!;
+    int l_hip = angles['l_hip']!;
     // Angles In Perfect Level
-    if (rKnee >= rKneePerfectMin &&
-        rKnee <= rKneePerfectMax &&
-        lHip >= lHipPerfectMin &&
-        lHip <= lHipPerfectMax) {
+    if (r_knee >= r_knee_perfect_min &&
+        r_knee <= r_knee_perfect_max &&
+        l_hip >= l_hip_perfect_min &&
+        l_hip <= l_hip_perfect_max) {
       return true; // 符合條件
-    } else if (rKnee >= rKneeGoodMin &&
-        rKnee <= rKneeGoodMax &&
-        lHip >= lHipGoodMin &&
-        lHip <= lHipGoodMax) {
+    } else if (r_knee >= r_knee_good_min &&
+        r_knee <= r_knee_good_max &&
+        l_hip >= l_hip_good_min &&
+        l_hip <= l_hip_good_max) {
       // Angles In Good Level
       return true;
     } else {
