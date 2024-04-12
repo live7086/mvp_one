@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:mvp_one/route.dart';
 import 'package:mvp_one/sign/signin.dart';
@@ -132,14 +133,16 @@ class _UserInfoPageState extends State<UserInfoPage> {
             title: Text(
               '出生日期',
               style: TextStyle(
-                  color: isBirthdateValid ? Colors.black : Colors.red),
+                color: isBirthdateValid ? Colors.black : Colors.red,
+              ),
             ),
             subtitle: Text(
               birthdate == null
                   ? '請選擇出生日期'
-                  : '${birthdate!.year}/${birthdate!.month}/${birthdate!.day}',
+                  : DateFormat('yyyy/MM/dd').format(birthdate!), // 修改此行
               style: TextStyle(
-                  color: isBirthdateValid ? Colors.black : Colors.red),
+                color: isBirthdateValid ? Colors.black : Colors.red,
+              ),
             ),
             onTap: () => _selectDate(context),
           ),

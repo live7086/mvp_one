@@ -100,6 +100,142 @@ class _UserInformationPageState extends State<UserInformationPage> {
     }
   }
 
+  void _showEditDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController _nicknameController =
+            TextEditingController(text: userSpecificData!['nickname'] ?? '');
+        TextEditingController _genderController =
+            TextEditingController(text: userSpecificData!['Gender'] ?? '');
+        TextEditingController _birthdateController =
+            TextEditingController(text: userSpecificData!['birthdate'] ?? '');
+        TextEditingController _heightController =
+            TextEditingController(text: userSpecificData!['height'] ?? '');
+        TextEditingController _weightController =
+            TextEditingController(text: userSpecificData!['weight'] ?? '');
+
+        return AlertDialog(
+          title: const Text('編輯個人資料'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextFormField(
+                  controller: _nicknameController,
+                  decoration: const InputDecoration(
+                    labelText: '暱稱',
+                  ),
+                ),
+                TextFormField(
+                  controller: _genderController,
+                  decoration: const InputDecoration(
+                    labelText: '性別',
+                  ),
+                ),
+                TextFormField(
+                  controller: _birthdateController,
+                  decoration: const InputDecoration(
+                    labelText: '生日',
+                  ),
+                ),
+                TextFormField(
+                  controller: _heightController,
+                  decoration: const InputDecoration(
+                    labelText: '身高 (cm)',
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                TextFormField(
+                  controller: _weightController,
+                  decoration: const InputDecoration(
+                    labelText: '體重 (kg)',
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('取消'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('保存'),
+              onPressed: () async {
+                // 在此處調用更新用戶數據的函數
+                await _updateUserData(
+                  _nicknameController.text,
+                  _genderController.text,
+                  _birthdateController.text,
+                  _heightController.text,
+                  _weightController.text,
+                );
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _updateUserData(String nickname, String gender, String birthdate,
+      String height, String weight) async {
+    final url = Uri.https(
+      'flutter-dogshit-default-rtdb.firebaseio.com',
+      '/user-information.json',
+    );
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        String? key;
+        data.forEach((k, value) {
+          if (value['uid'] == widget.uid) {
+            key = k;
+          }
+        });
+
+        if (key != null) {
+          final updateUrl = Uri.https(
+            'flutter-dogshit-default-rtdb.firebaseio.com',
+            '/user-information/$key.json',
+          );
+
+          final updateData = {
+            'nickname': nickname,
+            'Gender': gender,
+            'birthdate': birthdate,
+            'height': height,
+            'weight': weight,
+          };
+
+          final updateResponse = await http.patch(
+            updateUrl,
+            body: json.encode(updateData),
+          );
+
+          if (updateResponse.statusCode == 200) {
+            print('用户数据更新成功');
+            fetchUserData(widget.uid); // 重新获取用户数据
+          } else {
+            print('用户数据更新失败，状态码：${updateResponse.statusCode}');
+          }
+        } else {
+          print('未找到对应UID的用户');
+        }
+      } else {
+        print('请求失败，状态码：${response.statusCode}');
+      }
+    } catch (e) {
+      print('请求异常：$e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,7 +272,10 @@ class _UserInformationPageState extends State<UserInformationPage> {
                                   ),
                                   ListTile(
                                     title: Text(
-                                        '生日: ${userSpecificData!['birthdate'] ?? '未設定'}'),
+                                      userSpecificData!['birthdate'] != null
+                                          ? '生日: ${userSpecificData!['birthdate'].split('T')[0]}'
+                                          : '生日: 未設定',
+                                    ),
                                   ),
                                   ListTile(
                                     title: Text(
@@ -145,6 +284,11 @@ class _UserInformationPageState extends State<UserInformationPage> {
                                   ListTile(
                                     title: Text(
                                         '體重: ${userSpecificData!['weight'] ?? '未設定'}kg'),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  ElevatedButton(
+                                    onPressed: _showEditDialog,
+                                    child: const Text('編輯資料'),
                                   ),
                                 ],
                               ),

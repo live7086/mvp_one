@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvp_one/customize_menu/cus_menu.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
+import 'package:mvp_one/provider/memory.dart';
 import 'package:mvp_one/screens/categories.dart';
 import 'package:mvp_one/screens/filters.dart';
 import 'package:mvp_one/screens/move.dart';
@@ -15,6 +16,11 @@ const kInitialFilters = {
   Filter.lactoseFree: false,
   Filter.vegetarian: false,
   Filter.vegan: false,
+  Filter.time1: false,
+  Filter.time2: false,
+  Filter.level1: false,
+  Filter.level2: false,
+  Filter.level3: false,
 };
 
 class TabsScreen extends StatefulWidget {
@@ -119,6 +125,21 @@ class _TabsScreenState extends State<TabsScreen> {
       if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
         return false;
       }
+      if (_selectedFilters[Filter.time1]! && !meal.istime1) {
+        return false;
+      }
+      if (_selectedFilters[Filter.time2]! && !meal.istime2) {
+        return false;
+      }
+      if (_selectedFilters[Filter.level1]! && !meal.islevel1) {
+        return false;
+      }
+      if (_selectedFilters[Filter.level2]! && !meal.islevel2) {
+        return false;
+      }
+      if (_selectedFilters[Filter.level3]! && !meal.islevel3) {
+        return false;
+      }
       return true;
     }).toList();
 
@@ -136,43 +157,46 @@ class _TabsScreenState extends State<TabsScreen> {
       activePageTitle = 'Your Favorites';
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(activePageTitle),
-      ),
-      drawer: MainDrawer(
-        onSelectScreen: _setScreen,
-      ),
-      body: activePage,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.set_meal),
-            label: '動作菜單',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: '我的最愛',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
-            label: '自訂菜單',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.my_library_add_outlined),
-            label: '訓練紀錄',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '設定',
-          ),
-        ],
+    return MemoryProvider(
+      uid: widget.uid,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(activePageTitle),
+        ),
+        drawer: MainDrawer(
+          onSelectScreen: _setScreen,
+        ),
+        body: activePage,
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: _selectPage,
+          currentIndex: _selectedPageIndex,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.set_meal),
+              label: '動作菜單',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star),
+              label: '我的最愛',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.post_add),
+              label: '自訂菜單',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.my_library_add_outlined),
+              label: '訓練紀錄',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: '設定',
+            ),
+          ],
+        ),
       ),
     );
   }

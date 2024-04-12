@@ -4,6 +4,7 @@ import 'package:mvp_one/sign/signup.dart';
 import 'package:mvp_one/user/userInfoPage.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
+import 'package:mvp_one/provider/memory.dart';
 
 import '../screens/tabs.dart';
 
@@ -57,17 +58,9 @@ class _SigninsreenState extends State<Signinsreen> {
 
                     if (user != null) {
                       print('登入成功，用戶UID是: ${user.uid}');
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TabsScreen(uid: user.uid), // 传递UID到TabsScreen
-                        ),
-                      );
                     } else {
                       // 登录失败的逻辑处理
                     }
-
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => TabsScreen(uid: user!.uid),
                     )); // 成功登录后跳转
