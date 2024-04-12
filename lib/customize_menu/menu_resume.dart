@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mvp_one/models/meal.dart';
 
 class MealResumePage extends StatefulWidget {
@@ -7,7 +6,7 @@ class MealResumePage extends StatefulWidget {
   // final void Function(Meal meal) onToggleFavorite;
   final VoidCallback onResume;
 
-  MealResumePage({
+  const MealResumePage({super.key, 
     required this.meal,
     // required this.onToggleFavorite,
     required this.onResume,
@@ -29,7 +28,7 @@ class _MealResumePageState extends State<MealResumePage> {
             child: Stack(
               children: [
                 Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(widget.meal.first.imageUrl),
@@ -41,13 +40,13 @@ class _MealResumePageState extends State<MealResumePage> {
                   left: 20,
                   bottom: 40,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.5),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.white, width: 2),
                     ),
-                    child: Text(
+                    child: const Text(
                       '歡迎回來!',
                       style: TextStyle(
                         fontSize: 24,
@@ -63,8 +62,8 @@ class _MealResumePageState extends State<MealResumePage> {
           Expanded(
             flex: 1,
             child: Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(20),
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -72,24 +71,24 @@ class _MealResumePageState extends State<MealResumePage> {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 10,
-                    offset: Offset(0, 5),
+                    offset: const Offset(0, 5),
                   ),
                 ],
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     '您先前離開了此菜單',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     widget.meal.first.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -105,13 +104,13 @@ class _MealResumePageState extends State<MealResumePage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 40,
                             vertical: 15,
                           ),
                           // minimumSize: Size(150, 50), // 設置按鈕的最小尺寸
                         ),
-                        child: Text(
+                        child: const Text(
                           '繼續',
                           style: TextStyle(
                             fontSize: 16,
@@ -129,7 +128,7 @@ class _MealResumePageState extends State<MealResumePage> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           side: BorderSide(color: Colors.grey[800]!),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 40,
                             vertical: 15,
                           ),

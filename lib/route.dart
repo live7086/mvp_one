@@ -8,7 +8,6 @@ import 'beginning/startPage.dart';
 import 'user/userInfoPage.dart';
 import 'user/userLevelPage.dart';
 import 'beginning/setupDonePage.dart';
-import 'User_menu.dart';
 import 'search.dart';
 import 'posePage.dart';
 import 'model.dart';

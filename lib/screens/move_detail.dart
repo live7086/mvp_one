@@ -125,7 +125,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                       children: [
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.info_outline,
                               color: Colors.white,
                             ),

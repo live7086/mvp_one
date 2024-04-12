@@ -28,6 +28,11 @@ class Meal {
     required this.isVegan,
     required this.isVegetarian,
     required this.videoUrl,
+    required this.istime1,
+    required this.istime2,
+    required this.islevel1,
+    required this.islevel2,
+    required this.islevel3,
   });
 
   final String id;
@@ -44,4 +49,9 @@ class Meal {
   final bool isLactoseFree;
   final bool isVegan;
   final bool isVegetarian;
+  final bool istime1;
+  final bool istime2;
+  final bool islevel1;
+  final bool islevel2;
+  final bool islevel3;
 }

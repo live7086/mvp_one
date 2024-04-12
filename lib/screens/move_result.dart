@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/models/meal.dart';
-import 'package:mvp_one/screens/move.dart';
 import 'package:mvp_one/screens/move_detail.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -9,7 +8,7 @@ class ResultPage extends StatefulWidget {
   final Meal meal;
   final void Function(Meal meal) onToggleFavorite;  
 
-  ResultPage({
+  const ResultPage({super.key, 
     required this.duration,
     required this.meal,
     required this.onToggleFavorite,
@@ -52,7 +51,7 @@ class _ResultPageState extends State<ResultPage> {
                     ),
                   ),
                 ),
-                Positioned(
+                const Positioned(
                   left: 20,
                   top: 100,
                   child: Text(
@@ -69,7 +68,7 @@ class _ResultPageState extends State<ResultPage> {
                   bottom: 20,
                   child: Text(
                     widget.meal.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       color: Colors.white,
                     ),
@@ -111,7 +110,7 @@ class _ResultPageState extends State<ResultPage> {
                               size: 28,
                               color: Colors.grey[600],
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               '組數',
                               style: TextStyle(
@@ -120,7 +119,7 @@ class _ResultPageState extends State<ResultPage> {
                                 color: Colors.grey[600],
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               '${widget.duration ~/ 60}',
                               style: TextStyle(
@@ -145,7 +144,7 @@ class _ResultPageState extends State<ResultPage> {
                               size: 28,
                               color: Colors.grey[600],
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               '時間',
                               style: TextStyle(
@@ -154,7 +153,7 @@ class _ResultPageState extends State<ResultPage> {
                                 color: Colors.grey[600],
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               formatDuration(widget.duration),
                               style: TextStyle(
@@ -191,7 +190,7 @@ class _ResultPageState extends State<ResultPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '感覺如何?',
                       style: TextStyle(
                         fontSize: 24,
@@ -199,7 +198,7 @@ class _ResultPageState extends State<ResultPage> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       '請選擇您對這次瑜珈練習的感受',
                       style: TextStyle(
@@ -207,7 +206,7 @@ class _ResultPageState extends State<ResultPage> {
                         color: Colors.grey[600],
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -216,7 +215,7 @@ class _ResultPageState extends State<ResultPage> {
                           child: Column(
                             children: [
                               AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                                 padding: EdgeInsets.all(
                                     selectedIndex == 0 ? 16 : 12),
@@ -234,7 +233,7 @@ class _ResultPageState extends State<ResultPage> {
                                       : Colors.grey[600],
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Text(
                                 '太難',
                                 style: TextStyle(
@@ -253,7 +252,7 @@ class _ResultPageState extends State<ResultPage> {
                           child: Column(
                             children: [
                               AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                                 padding: EdgeInsets.all(
                                     selectedIndex == 1 ? 16 : 12),
@@ -271,7 +270,7 @@ class _ResultPageState extends State<ResultPage> {
                                       : Colors.grey[600],
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Text(
                                 '剛剛好',
                                 style: TextStyle(
@@ -290,7 +289,7 @@ class _ResultPageState extends State<ResultPage> {
                           child: Column(
                             children: [
                               AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                                 padding: EdgeInsets.all(
                                     selectedIndex == 2 ? 16 : 12),
@@ -308,7 +307,7 @@ class _ResultPageState extends State<ResultPage> {
                                       : Colors.grey[600],
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Text(
                                 '太簡單',
                                 style: TextStyle(
@@ -345,12 +344,12 @@ class _ResultPageState extends State<ResultPage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[800],
-                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 '返回動作列表',
                 style: TextStyle(fontSize: 24, color: Colors.white),
               ),

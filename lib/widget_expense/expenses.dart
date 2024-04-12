@@ -9,7 +9,7 @@ import 'package:mvp_one/models/expense.dart';
 import 'package:mvp_one/widget_expense/new_expense.dart';
 
 class Expenses extends StatefulWidget {
-  Expenses({super.key, required this.uid});
+  const Expenses({super.key, required this.uid});
 
   final String uid;
 

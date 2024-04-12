@@ -105,13 +105,13 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
 
   void _startTimer() {
     // 啟動計時器
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       setState(() {
         _elapsedSeconds++;
       });
       if (_isAllPosesCompleted) {
         _timer.cancel();
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 5));
         _navigateToResultPage();
       }
     });
@@ -140,7 +140,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
   Future<void> _detectPose(CameraImage image, bool isFrontCamera) async {
     // 檢測姿勢
     if (_isAllPosesCompleted) {
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       return; // 如果所有動作已完成,直接返回,不再進行姿勢檢測
     }
 
@@ -161,7 +161,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
     try {
       final List<Pose> detectedPoses =
           await _poseDetector.processImage(inputImage);
-      this.angles.clear();
+      angles.clear();
 
       if (detectedPoses.isNotEmpty) {
         final Pose firstPose = detectedPoses.first;
@@ -201,60 +201,60 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
 
         // 計算身體各部位的角度
         if (rightIndex != null && rightWrist != null && rightElbow != null) {
-          final int r_wrist =
+          final int rWrist =
               getAngle(rightIndex, rightWrist, rightElbow).round();
-          angles['r_wrist'] = r_wrist;
+          angles['r_wrist'] = rWrist;
         }
         if (rightWrist != null && rightElbow != null && rightShoulder != null) {
-          final int r_elbow =
+          final int rElbow =
               getAngle(rightWrist, rightElbow, rightShoulder).round();
-          angles['r_elbow'] = r_elbow;
+          angles['r_elbow'] = rElbow;
         }
         if (rightElbow != null && rightShoulder != null && rightHip != null) {
-          final int r_shoulder =
+          final int rShoulder =
               getAngle(rightElbow, rightShoulder, rightHip).round();
-          angles['r_shoulder'] = r_shoulder;
+          angles['r_shoulder'] = rShoulder;
         }
         if (rightShoulder != null && rightHip != null && rightKnee != null) {
-          final int r_hip =
+          final int rHip =
               getAngle(rightShoulder, rightHip, rightKnee).round();
-          angles['r_hip'] = r_hip;
+          angles['r_hip'] = rHip;
         }
         if (rightHip != null && rightKnee != null && rightAnkle != null) {
-          final int r_knee = getAngle(rightHip, rightKnee, rightAnkle).round();
-          angles['r_knee'] = r_knee;
+          final int rKnee = getAngle(rightHip, rightKnee, rightAnkle).round();
+          angles['r_knee'] = rKnee;
         }
         if (rightKnee != null && rightAnkle != null && rightFootIndex != null) {
-          final int r_footindex =
+          final int rFootindex =
               getAngle(rightKnee, rightAnkle, rightFootIndex).round();
-          angles['r_footindex'] = r_footindex;
+          angles['r_footindex'] = rFootindex;
         }
         if (leftIndex != null && leftWrist != null && leftElbow != null) {
-          final int l_wrist = getAngle(leftIndex, leftWrist, leftElbow).round();
-          angles['l_wrist'] = l_wrist;
+          final int lWrist = getAngle(leftIndex, leftWrist, leftElbow).round();
+          angles['l_wrist'] = lWrist;
         }
         if (leftWrist != null && leftElbow != null && leftShoulder != null) {
-          final int l_elbow =
+          final int lElbow =
               getAngle(leftWrist, leftElbow, leftShoulder).round();
-          angles['l_elbow'] = l_elbow;
+          angles['l_elbow'] = lElbow;
         }
         if (leftElbow != null && leftShoulder != null && leftHip != null) {
-          final int l_shoulder =
+          final int lShoulder =
               getAngle(leftElbow, leftShoulder, leftHip).round();
-          angles['l_shoulder'] = l_shoulder;
+          angles['l_shoulder'] = lShoulder;
         }
         if (leftShoulder != null && leftHip != null && leftKnee != null) {
-          final int l_hip = getAngle(leftShoulder, leftHip, leftKnee).round();
-          angles['l_hip'] = l_hip;
+          final int lHip = getAngle(leftShoulder, leftHip, leftKnee).round();
+          angles['l_hip'] = lHip;
         }
         if (leftHip != null && leftKnee != null && leftAnkle != null) {
-          final int l_knee = getAngle(leftHip, leftKnee, leftAnkle).round();
-          angles['l_knee'] = l_knee;
+          final int lKnee = getAngle(leftHip, leftKnee, leftAnkle).round();
+          angles['l_knee'] = lKnee;
         }
         if (leftKnee != null && leftAnkle != null && leftFootIndex != null) {
-          final int l_footindex =
+          final int lFootindex =
               getAngle(leftKnee, leftAnkle, leftFootIndex).round();
-          angles['l_footindex'] = l_footindex;
+          angles['l_footindex'] = lFootindex;
         }
       }
       setState(() {
@@ -299,19 +299,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await TreePoseOnePass(angles);
+                  result = TreePoseOnePass(angles);
                   poseTipText = '這是 Tree Pose 1';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 1';
                 break;
               }
@@ -325,19 +325,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await TreePoseTwoPass(angles);
+                  result = TreePoseTwoPass(angles);
                   poseTipText = '這是 Tree Pose 2';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 2';
                 break;
               }
@@ -350,19 +350,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
 // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await TreePoseThreePass(angles);
+                  result = TreePoseThreePass(angles);
                   poseTipText = '這是 Tree Pose 3';
                 }
                 break;
               } else {
 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 3';
                 break;
               }
@@ -380,19 +380,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
 // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
 // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await Warrior2OnePass(angles);
+                  result = Warrior2OnePass(angles);
                   poseTipText = '這是 Warrior2 1';
                 }
                 break;
               } else {
 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 1';
                 break;
               }
@@ -405,19 +405,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await Warrior2TwoPass(angles);
+                  result = Warrior2TwoPass(angles);
                   poseTipText = '這是 Warrior2 2';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 2';
                 break;
               }
@@ -430,19 +430,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await Warrior2ThreePass(angles);
+                  result = Warrior2ThreePass(angles);
                   poseTipText = '這是 Warrior2 3';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 3';
                 break;
               }
@@ -457,9 +457,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
           // 進入下一個動作檢查
           poseTip = '$poseTipText通過，進入下一個動作';
           flutterTts.speak(poseTip);
-          await Future.delayed(Duration(seconds: 5));
+          await Future.delayed(const Duration(seconds: 5));
           setState(() {});
-          await Future.delayed(Duration(milliseconds: 700));
+          await Future.delayed(const Duration(milliseconds: 700));
           await _checkPose(poseIndex + 1);
         } else {
           // 如果當前階段通過且是最後一個階段
@@ -468,9 +468,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
             // 如果當前動作還有剩餘次數，重新開始檢查
             poseTip = '$poseTipText通過，還有 $currentMealCount 次';
             flutterTts.speak(poseTip);
-            await Future.delayed(Duration(seconds: 5));
+            await Future.delayed(const Duration(seconds: 5));
             setState(() {});
-            await Future.delayed(Duration(milliseconds: 700));
+            await Future.delayed(const Duration(milliseconds: 700));
             await _checkPose(0);
           } else {
             // 如果當前動作完成，進入下一個動作
@@ -480,18 +480,18 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
               currentMealCount = widget.mealCounts[currentMealIndex];
               poseTip = '$poseTipText通過，進入下一個動作';
               flutterTts.speak(poseTip);
-              await Future.delayed(Duration(seconds: 5));
+              await Future.delayed(const Duration(seconds: 5));
               setState(() {});
-              await Future.delayed(Duration(milliseconds: 700));
+              await Future.delayed(const Duration(milliseconds: 700));
               await _checkPose(0);
             } else {
               // 如果所有動作都完成，提示所有動作完成
               poseTip = '$poseTipText通過，所有動作完成';
               flutterTts.speak(poseTip);
-              await Future.delayed(Duration(seconds: 5));
+              await Future.delayed(const Duration(seconds: 5));
               flutterTts.speak("KongShi KongShi");
               FlutterTts().stop();
-              await Future.delayed(Duration(seconds: 5));
+              await Future.delayed(const Duration(seconds: 5));
               setState(() {
                 _isAllPosesCompleted = true; // 設置標誌變量為 true
               });
@@ -502,9 +502,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
         // 如果當前階段未通過,提示重試當前階段
         poseTip = '$poseTipText未通過，請重試';
         flutterTts.speak(poseTip);
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 5));
         setState(() {});
-        await Future.delayed(Duration(milliseconds: 700));
+        await Future.delayed(const Duration(milliseconds: 700));
         await _checkPose(poseIndex);
       }
     } else {
@@ -621,7 +621,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
             right: 10.0,
             child: Text(
               poseTip,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),
@@ -644,10 +644,10 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                for (var entry in this.angles.entries)
+                for (var entry in angles.entries)
                   Text(
                     '${entry.key}: ${entry.value}度',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16.0,
                     ),

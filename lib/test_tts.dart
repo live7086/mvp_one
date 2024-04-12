@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
-  runApp(TTS_TEST());
+  runApp(const TTS_TEST());
 }
 
 class TTS_TEST extends StatelessWidget {
+  const TTS_TEST({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,6 +25,8 @@ class TTS_TEST extends StatelessWidget {
 class TextToSpeech extends StatelessWidget {
   final FlutterTts flutterTts = FlutterTts();
   final TextEditingController textEditingController = TextEditingController();
+
+  TextToSpeech({super.key});
 
   speak(String text) async {
     await flutterTts.setLanguage("zh-CN");
@@ -45,7 +47,7 @@ class TextToSpeech extends StatelessWidget {
               controller: textEditingController,
             ),
             ElevatedButton(
-              child: Text("文字轉語音"),
+              child: const Text("文字轉語音"),
               onPressed: () => speak(textEditingController.text),
             )
           ],

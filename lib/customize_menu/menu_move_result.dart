@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/provider/provider.dart';
-import 'package:mvp_one/screens/move.dart';
-import 'package:mvp_one/screens/move_detail.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +10,7 @@ class MenuResultPage extends StatefulWidget {
   // final Meal meal;
   // final void Function(Meal meal) onToggleFavorite;
 
-  MenuResultPage({
+  const MenuResultPage({super.key, 
     required this.duration,
     // required this.meal,
     // required this.onToggleFavorite,
@@ -51,7 +48,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
             child: Stack(
               children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage("https://imgur.com/gallery/joUkRsg"),
                       fit: BoxFit.cover,
@@ -63,14 +60,14 @@ class _MenuResultPageState extends State<MenuResultPage> {
                   top: 100,
                   child: Text(
                     '恭喜您完成$menuTitle練習!',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
-                Positioned(
+                const Positioned(
                   left: 20,
                   bottom: 20,
                   child: Text(
@@ -117,7 +114,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                               size: 28,
                               color: Colors.grey[600],
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               '組數',
                               style: TextStyle(
@@ -126,7 +123,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                                 color: Colors.grey[600],
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               '${widget.duration ~/ 60}',
                               style: TextStyle(
@@ -151,7 +148,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                               size: 28,
                               color: Colors.grey[600],
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               '時間',
                               style: TextStyle(
@@ -160,7 +157,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                                 color: Colors.grey[600],
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               formatDuration(widget.duration),
                               style: TextStyle(
@@ -197,7 +194,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '感覺如何?',
                       style: TextStyle(
                         fontSize: 24,
@@ -205,7 +202,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       '請選擇您對這次瑜珈練習的感受',
                       style: TextStyle(
@@ -213,7 +210,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                         color: Colors.grey[600],
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -222,7 +219,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                           child: Column(
                             children: [
                               AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                                 padding: EdgeInsets.all(
                                     selectedIndex == 0 ? 16 : 12),
@@ -240,7 +237,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                                       : Colors.grey[600],
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Text(
                                 '太難',
                                 style: TextStyle(
@@ -259,7 +256,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                           child: Column(
                             children: [
                               AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                                 padding: EdgeInsets.all(
                                     selectedIndex == 1 ? 16 : 12),
@@ -277,7 +274,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                                       : Colors.grey[600],
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Text(
                                 '剛剛好',
                                 style: TextStyle(
@@ -296,7 +293,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                           child: Column(
                             children: [
                               AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                                 padding: EdgeInsets.all(
                                     selectedIndex == 2 ? 16 : 12),
@@ -314,7 +311,7 @@ class _MenuResultPageState extends State<MenuResultPage> {
                                       : Colors.grey[600],
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Text(
                                 '太簡單',
                                 style: TextStyle(
@@ -351,12 +348,12 @@ class _MenuResultPageState extends State<MenuResultPage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[800],
-                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 '返回動作列表',
                 style: TextStyle(fontSize: 24, color: Colors.white),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/sign/signin.dart';
 
 class SetupDonePage extends StatelessWidget {
   const SetupDonePage({super.key});
@@ -9,7 +10,10 @@ class SetupDonePage extends StatelessWidget {
       body: GestureDetector(
         onTap: () {
           // Handle button tap here
-          Navigator.pushNamed(context, '/signin');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Signinsreen()),
+          );
         },
         child: Stack(
           children: [

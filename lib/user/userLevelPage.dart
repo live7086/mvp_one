@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/beginning/setupDonePage.dart';
+import 'package:mvp_one/route.dart';
 
 class UserLevelPage extends StatefulWidget {
   const UserLevelPage({Key? key}) : super(key: key);
@@ -31,16 +33,24 @@ class _UserLevelPage extends State<UserLevelPage> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: isSelected[0] ? Colors.blue.withOpacity(0.5) : Colors.white,
+                    color: isSelected[0]
+                        ? Colors.blue.withOpacity(0.5)
+                        : Colors.white,
                     border: Border.all(
-                      color: isSelected[0] ? Colors.blue : Colors.grey.withOpacity(0.5),
+                      color: isSelected[0]
+                          ? Colors.blue
+                          : Colors.grey.withOpacity(0.5),
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Text('從沒接觸過', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.center,),
+                    child: Text(
+                      '從沒接觸過',
+                      style: TextStyle(fontSize: 18.0),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ),
@@ -54,16 +64,24 @@ class _UserLevelPage extends State<UserLevelPage> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: isSelected[1] ? Colors.blue.withOpacity(0.5) : Colors.white,
+                    color: isSelected[1]
+                        ? Colors.blue.withOpacity(0.5)
+                        : Colors.white,
                     border: Border.all(
-                      color: isSelected[1] ? Colors.blue : Colors.grey.withOpacity(0.5),
+                      color: isSelected[1]
+                          ? Colors.blue
+                          : Colors.grey.withOpacity(0.5),
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Text('初學者', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.center,),
+                    child: Text(
+                      '初學者',
+                      style: TextStyle(fontSize: 18.0),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ),
@@ -77,23 +95,35 @@ class _UserLevelPage extends State<UserLevelPage> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: isSelected[2] ? Colors.blue.withOpacity(0.5) : Colors.white,
+                    color: isSelected[2]
+                        ? Colors.blue.withOpacity(0.5)
+                        : Colors.white,
                     border: Border.all(
-                      color: isSelected[2] ? Colors.blue : Colors.grey.withOpacity(0.5),
+                      color: isSelected[2]
+                          ? Colors.blue
+                          : Colors.grey.withOpacity(0.5),
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Text('中高階', style: TextStyle(fontSize: 18.0),textAlign: TextAlign.center,),
+                    child: Text(
+                      '中高階',
+                      style: TextStyle(fontSize: 18.0),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 50.0),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/setupDone');
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SetupDonePage()),
+                  );
                   // 在這裡處理下一步的邏輯
                   // 例如，導航到下一個頁面
                 },

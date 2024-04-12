@@ -53,6 +53,11 @@ const dummyMeals = [
     isLactoseFree: true, //平衡
     isVegetarian: true, //核心
     isVegan: false, //四肢
+    istime1: false,
+    istime2: true,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
   Meal(
     id: 'm2',
@@ -74,6 +79,11 @@ const dummyMeals = [
     isLactoseFree: false, //平衡
     isVegetarian: true, //核心
     isVegan: true, //四肢
+    istime1: true,
+    istime2: false,
+    islevel1: false,
+    islevel2: true,
+    islevel3: false,
   ),
   Meal(
     id: 'm3',
@@ -101,6 +111,11 @@ const dummyMeals = [
     isLactoseFree: true, //平衡
     isVegetarian: false, //核心
     isVegan: false, //四
+    istime1: false,
+    istime2: true,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
   Meal(
     id: 'm4',
@@ -112,7 +127,7 @@ const dummyMeals = [
     videoUrl:
         'https://www.youtube.com/watch?v=EC7RGJ975iM&pp=ygUMRG93bndhcmQgRG9n', // 新增videoUrl
 
-    duration: 60,
+    duration: 15,
     ingredients: [
       '雙手與肩同寬,與地面呈90度。',
       '雙腳與髖同寬,腳跟盡量與地面接觸。',
@@ -128,6 +143,11 @@ const dummyMeals = [
     isLactoseFree: false, //平衡
     isVegetarian: false, //核心
     isVegan: false, //四
+    istime1: false,
+    istime2: true,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
   Meal(
     id: 'm5',
@@ -154,6 +174,11 @@ const dummyMeals = [
     isLactoseFree: false, //平衡
     isVegetarian: true, //核心
     isVegan: true, //四
+    istime1: false,
+    istime2: true,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
   Meal(
     id: 'm6',
@@ -165,7 +190,7 @@ const dummyMeals = [
     videoUrl:
         'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
 
-    duration: 240,
+    duration: 8,
     ingredients: [
       '站立,將右腳放在左大腿內側(避免放在膝蓋上)。',
       '雙手合十於胸前或舉高過頭。眼睛注視前方一點。',
@@ -181,6 +206,11 @@ const dummyMeals = [
     isLactoseFree: true, //平衡
     isVegetarian: false, //核心
     isVegan: true, //四
+    istime1: true,
+    istime2: false,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
   Meal(
     id: 'm7',
@@ -192,7 +222,7 @@ const dummyMeals = [
     videoUrl:
         'https://www.youtube.com/watch?v=pVmOOluGAv8&pp=ygUWVXB3YXJkIEZhY2luZyBEb2cgUG9zZQ%3D%3D', // 新增videoUrl
 
-    duration: 20,
+    duration: 8,
     ingredients: [
       '俯臥,雙手放在胸側。',
       '吸氣時,將上身向上提,伸直手臂,僅有手掌和腳尖觸地。',
@@ -209,6 +239,11 @@ const dummyMeals = [
     isLactoseFree: false, //平衡
     isVegetarian: true, //核心
     isVegan: true, //四肢
+    istime1: true,
+    istime2: false,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
   Meal(
     id: 'm8',
@@ -237,6 +272,11 @@ const dummyMeals = [
     isLactoseFree: true, //平衡
     isVegetarian: false, //核心
     isVegan: false, //四肢
+    istime1: false,
+    istime2: true,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
   Meal(
     id: 'm9',
@@ -248,7 +288,7 @@ const dummyMeals = [
     videoUrl:
         'https://www.youtube.com/watch?v=Mn6RSIRCV3w&pp=ygUKV2FycmlvciBJSQ%3D%3D', // 新增videoUrl
 
-    duration: 45,
+    duration: 20,
     ingredients: [
       '右腳在前,左腳在後,右膝彎曲呈90度,左腿伸直。',
       '上身側面向前,雙手平舉與地面平行,目視右手指尖。',
@@ -265,6 +305,11 @@ const dummyMeals = [
     isLactoseFree: true, //平衡
     isVegetarian: false, //核心
     isVegan: false, //四//四肢
+    istime1: false,
+    istime2: true,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
   Meal(
     id: 'm10',
@@ -292,5 +337,10 @@ const dummyMeals = [
     isLactoseFree: true, //平衡
     isVegetarian: false, //核心
     isVegan: false, //四肢
+    istime1: false,
+    istime2: true,
+    islevel1: true,
+    islevel2: false,
+    islevel3: false,
   ),
 ];

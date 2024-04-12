@@ -325,9 +325,9 @@ class _StartPageState extends State<CustomizeMenuPage> {
                     onPressed: () {
                       setState(() {
                         _isEditMode = false;
-                        customMenus.forEach((menu) {
+                        for (var menu in customMenus) {
                           menu['isSelected'] = false;
-                        });
+                        }
                       });
                     },
                     // ignore: sort_child_properties_last

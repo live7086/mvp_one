@@ -120,7 +120,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                           ),
                           const SizedBox(height: 20),
                           Text('歡迎 ${userSpecificData!['nickname'] ?? '未設定'} ！',
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.titleLarge,
                               textAlign: TextAlign.center),
                           const SizedBox(height: 10),
                           Card(

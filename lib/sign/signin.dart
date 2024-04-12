@@ -1,12 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/sign/signup.dart';
-import 'package:mvp_one/user/UserInformationPage.dart';
-import 'package:mvp_one/slidePageAnimation.dart';
 import 'package:mvp_one/user/userInfoPage.dart';
 import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
-import 'package:mvp_one/widget_expense/expenses.dart';
 
 import '../screens/tabs.dart';
 
@@ -106,17 +103,31 @@ class _SigninsreenState extends State<Signinsreen> {
                 }),
                 ElevatedButton(
                   onPressed: () {
+                    // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的 // 使用测试UID或者从应用逻辑中获取真实的UID
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TabsScreen(uid: ''), // 使用测试UID或有效的UID
+                      ),
+                    );
+                  },
+                  child: const Text('跳過僅限測試'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
                     // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的
                     String testUid = "some-test-uid"; // 使用测试UID或者从应用逻辑中获取真实的UID
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            TabsScreen(uid: testUid), // 使用测试UID或有效的UID
+                        builder: (context) => UserInfoPage(
+                          uid: '',
+                        ), // 使用测试UID或有效的UID
                       ),
                     );
                   },
-                  child: Text('跳過僅限測試'),
+                  child: const Text('firebase測試用戶資料頁面'),
                 ),
                 signUpOption()
               ],
@@ -136,7 +147,7 @@ class _SigninsreenState extends State<Signinsreen> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SignUpScreen()),
+              MaterialPageRoute(builder: (context) => const SignUpScreen()),
             );
           },
           child: const Text(

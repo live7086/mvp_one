@@ -4,7 +4,6 @@ import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/screens/move_detail.dart';
 import 'package:mvp_one/widgets/meal_item.dart';
 
-import '../customize_menu/menu_resume.dart';
 
 class MealsScreen extends StatefulWidget {
   const MealsScreen({

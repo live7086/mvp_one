@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/beginning/startPage.dart';
-import 'package:mvp_one/widget_expense/expenses.dart';
-import 'route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'provider/provider.dart';

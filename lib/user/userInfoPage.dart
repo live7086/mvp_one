@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:mvp_one/route.dart';
+import 'package:mvp_one/sign/signin.dart';
+import 'package:mvp_one/user/userLevelPage.dart';
 
 enum Gender { male, female, other }
 
@@ -51,7 +54,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       children: Gender.values.map((gender) {
         return Expanded(
           child: ListTile(
-            title: Text(genderToString(gender)), // 使用上面定義的函數轉換
+            title: Text(genderToString(gender)),
             leading: Radio<Gender>(
               value: gender,
               groupValue: _selectedGender,
@@ -82,7 +85,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      locale: Localizations.localeOf(context), // 使用當地語言
+      locale: Localizations.localeOf(context),
     );
     if (picked != null && picked != birthdate) {
       setState(() {
@@ -143,11 +146,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () async {
-              // 標記此處為 async
               validateFields();
               if (areAllFieldsFilled()) {
-                Navigator.pushNamed(context, '/userLevel');
-
                 final url = Uri.https(
                     'flutter-dogshit-default-rtdb.firebaseio.com',
                     'user-information.json');
@@ -171,11 +171,32 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   print(response.body);
                   print(response.statusCode);
 
+                  if (response.statusCode == 200) {
+                    print('資料寫入成功');
+                    // 導航到 SigninScreen
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UserLevelPage()),
+                    );
+                  } else {
+                    print('寫入資料時發生錯誤，狀態碼：${response.statusCode}');
+                    // 顯示錯誤提示給使用者
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('寫入資料時發生錯誤，請稍後再試。')),
+                    );
+                  }
+
                   if (!context.mounted) {
                     return;
                   }
-                } catch (e) {
-                  // 異常處理
+                } catch (e, stackTrace) {
+                  print('寫入資料時發生錯誤：$e');
+                  print('堆棧跟踪：$stackTrace');
+                  // 顯示錯誤提示給使用者
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('寫入資料時發生錯誤，請稍後再試。')),
+                  );
                 }
               }
             },

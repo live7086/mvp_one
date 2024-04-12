@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mvp_one/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
@@ -77,7 +76,7 @@ class _NewExpenseState extends State<NewExpense> {
                   return;
                 }
                 setState(() {
-                  _titleController = value as Yoga;
+                  _titleController = value;
                 });
                 print(value);
               }),
@@ -142,7 +141,7 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: _submitExpenseData,

@@ -109,7 +109,7 @@ class _ActionSelectionPageState extends State<ActionSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('選擇動作'),
+        title: const Text('選擇動作'),
       ),
       body: ListView.builder(
         itemCount: availableMeals.length,

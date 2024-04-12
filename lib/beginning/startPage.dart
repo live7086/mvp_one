@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/sign/signin.dart';
-import 'package:mvp_one/widget_expense/expenses.dart';
-import 'package:mvp_one/route.dart';
 
 class startPage extends StatelessWidget {
   const startPage({Key? key}) : super(key: key);
