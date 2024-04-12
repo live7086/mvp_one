@@ -92,6 +92,12 @@ flutter:
     - assets/images/c8.png
     - assets/images/c9.png
     - assets/images/c10.png
+    - assets/images/tree_pose_1.jpg
+    - assets/images/tree_pose_2.jpg
+    - assets/images/tree_pose_3.jpg
+    - assets/images/warrior2_pose_1.jpg
+    - assets/images/warrior2_pose_2.jpg
+    - assets/images/warrior2_pose_3.jpg
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
