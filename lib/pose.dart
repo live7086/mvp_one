@@ -9,6 +9,8 @@ import 'package:mvp_one/screens/move_result.dart';
 import 'dart:typed_data';
 import 'dart:math' as math;
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 // TreePose
 import 'Pose_Guide/TreePose/TreePose_Guide_One.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Two.dart';
@@ -24,6 +26,47 @@ import 'Pose_Guide/Warrior2/Warrior2_Guide_Three.dart';
 import 'Pose_Correction/Warrior2/Warrior2_Correction_One.dart';
 import 'Pose_Correction/Warrior2/Warrior2_Correction_Two.dart';
 import 'Pose_Correction/Warrior2/Warrior2_Correction_Three.dart';
+
+class GuideWindow extends StatefulWidget {
+  final String guideImagePath;
+
+  GuideWindow({required this.guideImagePath});
+
+  @override
+  _GuideWindowState createState() => _GuideWindowState();
+}
+
+class _GuideWindowState extends State<GuideWindow> {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 20,
+      top: 50,
+      child: Container(
+        width: 120,
+        height: 210,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 6,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            widget.guideImagePath,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -77,6 +120,13 @@ class CameraScreenState extends State<CameraScreen> {
   bool _showAngles = true;
   double _fontSize = 16.0; // 預設為中等字體大小
   double _tipBoxHeight = 50.0; // 語音提示框的高度
+  bool isTreePoseCase1Played = false;
+  bool isTreePoseCase2Played = false;
+  bool isTreePoseCase3Played = false;
+  bool isWarrior2Case1Played = false;
+  bool isWarrior2Case2Played = false;
+  bool isWarrior2Case3Played = false;
+
   @override
   void initState() {
     //賦予本地的meal 為 接收的meal值
@@ -169,6 +219,46 @@ class CameraScreenState extends State<CameraScreen> {
                 ],
               );
             },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('關閉'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+// 添加一個新的方法用於顯示菜單進度對話框
+  void _showMenuProgressDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('菜單進度'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: widget.meal.steps.asMap().entries.map((entry) {
+                int index = entry.key;
+                String step = entry.value;
+                bool isCurrentStep = index == poseIndex;
+
+                return Container(
+                  color: isCurrentStep ? Colors.grey[200] : null,
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    '${index + 1}. $step',
+                    style: TextStyle(
+                      fontWeight: isCurrentStep ? FontWeight.bold : null,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
           ),
           actions: [
             TextButton(
@@ -445,6 +535,8 @@ class CameraScreenState extends State<CameraScreen> {
         case 'TreePose':
           switch (poseIndex) {
             case 0:
+              // 播放第一個樹式姿勢的語音引導和示範圖片
+              await _playPoseGuide('TreePose', 1);
               // 檢查第一個樹式姿勢是否需要修正
               correctionTip = checkTreePoseOneNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -471,6 +563,8 @@ class CameraScreenState extends State<CameraScreen> {
               }
 
             case 1:
+              // 播放第二個樹式姿勢的語音引導和示範圖片
+              await _playPoseGuide('TreePose', 2);
               // 檢查第二個樹式姿勢是否需要修正
               correctionTip = checkTreePoseTwoNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -496,6 +590,8 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               }
             case 2:
+              // 播放第三個樹式姿勢的語音引導和示範圖片
+              await _playPoseGuide('TreePose', 3);
               // 檢查第三個樹式姿勢是否需要修正
               correctionTip = checkTreePoseThreeNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -526,6 +622,8 @@ class CameraScreenState extends State<CameraScreen> {
         case 'Warrior2':
           switch (poseIndex) {
             case 0:
+              // 播放第一個戰士二式姿勢的語音引導和示範圖片
+              await _playPoseGuide('Warrior2', 1);
               // 檢查第一個樹式姿勢是否需要修正
               correctionTip = checkWarrior2OneNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -552,6 +650,8 @@ class CameraScreenState extends State<CameraScreen> {
               }
 
             case 1:
+              // 播放第二個戰士二式姿勢的語音引導和示範圖片
+              await _playPoseGuide('Warrior2', 2);
               // 檢查第二個樹式姿勢是否需要修正
               correctionTip = checkWarrior2TwoNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -577,6 +677,8 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               }
             case 2:
+              // 播放第三個戰士二式姿勢的語音引導和示範圖片
+              await _playPoseGuide('Warrior2', 3);
               // 檢查第三個樹式姿勢是否需要修正
               correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -641,6 +743,104 @@ class CameraScreenState extends State<CameraScreen> {
       return;
     }
   }
+
+// 播放動作引導的函數
+  Future<void> _playPoseGuide(String pose, int step) async {
+    String guideText = '';
+    String guideImagePath = '';
+
+    switch (pose) {
+      case 'TreePose':
+        switch (step) {
+          case 1:
+            guideText = '請按照圖片中的姿勢站立,雙手合十放在胸前。';
+            guideImagePath = ('assets/images/tree_pose_1.jpg');
+            break;
+          case 2:
+            guideText = '請慢慢將右腳抬起,放在左腿內側。';
+            guideImagePath = ('assets/images/tree_pose_2.jpg');
+            break;
+          case 3:
+            guideText = '保持平衡,雙手舉過頭頂。';
+            guideImagePath = ('assets/images/tree_pose_3.jpg');
+            break;
+        }
+        break;
+      case 'Warrior2':
+        switch (step) {
+          case 1:
+            guideText = '請站直,雙腳打開與肩同寬。';
+            guideImagePath = ('assets/images/warrior2_pose_1.jpg');
+            break;
+          case 2:
+            guideText = '左腳向左旋轉90度,右腳微向內扣。';
+            guideImagePath = ('assets/images/warrior2_pose_2.jpg');
+            break;
+          case 3:
+            guideText = '彎左膝,右腿伸直,雙臂平舉與地面平行。';
+            guideImagePath = ('assets/images/warrior2_pose_3.jpg');
+            break;
+        }
+        break;
+    }
+
+    setState(() {
+      _guideImagePath = guideImagePath;
+      poseTip = guideText;
+    });
+
+    bool shouldPlayGuide = false;
+
+    switch (pose) {
+      case 'TreePose':
+        switch (step) {
+          case 1:
+            shouldPlayGuide = !isTreePoseCase1Played;
+            isTreePoseCase1Played = true;
+            break;
+          case 2:
+            shouldPlayGuide = !isTreePoseCase2Played;
+            isTreePoseCase2Played = true;
+            break;
+          case 3:
+            shouldPlayGuide = !isTreePoseCase3Played;
+            isTreePoseCase3Played = true;
+            break;
+        }
+        break;
+      case 'Warrior2':
+        switch (step) {
+          case 1:
+            shouldPlayGuide = !isWarrior2Case1Played;
+            isWarrior2Case1Played = true;
+            break;
+          case 2:
+            shouldPlayGuide = !isWarrior2Case2Played;
+            isWarrior2Case2Played = true;
+            break;
+          case 3:
+            shouldPlayGuide = !isWarrior2Case3Played;
+            isWarrior2Case3Played = true;
+            break;
+        }
+        break;
+    }
+
+    if (shouldPlayGuide) {
+      await flutterTts.speak(guideText);
+      await Future.delayed(Duration(seconds: 6));
+      await flutterTts.speak('請保持動作,檢測即將開始');
+      await Future.delayed(Duration(seconds: 5));
+    }
+
+    setState(() {
+      _guideImagePath = guideImagePath;
+    });
+  }
+
+// 添加Widget來顯示引導圖片和文字
+  String _guideText = '';
+  String _guideImagePath = '';
 
   Uint8List _concatenatePlanes(List<Plane> planes) {
     List<int> allBytes = [];
@@ -716,6 +916,18 @@ class CameraScreenState extends State<CameraScreen> {
               onPressed: _showSettingsDialog,
             ),
           ),
+          Positioned(
+            top: 30.0,
+            left: 40.0,
+            child: IconButton(
+              icon: Icon(
+                Icons.menu,
+                color: Colors.white,
+                size: 30.0,
+              ),
+              onPressed: _showMenuProgressDialog,
+            ),
+          ),
           if (_showFps)
             Positioned(
               top: 30.0,
@@ -756,7 +968,7 @@ class CameraScreenState extends State<CameraScreen> {
               padding: EdgeInsets.all(10.0),
               child: Center(
                 child: Text(
-                  poseTip,
+                  poseTip, // 在半透明區塊中顯示動作引導提示文字
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: _fontSize,
@@ -766,28 +978,32 @@ class CameraScreenState extends State<CameraScreen> {
               height: _tipBoxHeight,
             ),
           ),
+          if (_guideImagePath.isNotEmpty) // 只顯示動作引導圖片,不顯示文字
+            GuideWindow(
+              guideImagePath: _guideImagePath,
+            ),
         ],
       ),
     );
   }
-}
 
 // 計算角度的函式
-double getAngle(
-    PoseLandmark firstPoint, PoseLandmark midPoint, PoseLandmark lastPoint) {
-  // 確保midPoint在firstPoint和lastPoint之間
-  if ((midPoint.x - firstPoint.x) * (lastPoint.x - firstPoint.x) +
-          (midPoint.y - firstPoint.y) * (lastPoint.y - firstPoint.y) <
-      0) {
-    final temp = firstPoint;
-    firstPoint = lastPoint;
-    lastPoint = temp;
+  double getAngle(
+      PoseLandmark firstPoint, PoseLandmark midPoint, PoseLandmark lastPoint) {
+    // 確保midPoint在firstPoint和lastPoint之間
+    if ((midPoint.x - firstPoint.x) * (lastPoint.x - firstPoint.x) +
+            (midPoint.y - firstPoint.y) * (lastPoint.y - firstPoint.y) <
+        0) {
+      final temp = firstPoint;
+      firstPoint = lastPoint;
+      lastPoint = temp;
+    }
+
+    final result =
+        math.atan2(lastPoint.y - midPoint.y, lastPoint.x - midPoint.x) -
+            math.atan2(firstPoint.y - midPoint.y, firstPoint.x - midPoint.x);
+    final angle = result * (180 / math.pi);
+
+    return angle.abs() <= 180 ? angle.abs() : 360 - angle.abs();
   }
-
-  final result =
-      math.atan2(lastPoint.y - midPoint.y, lastPoint.x - midPoint.x) -
-          math.atan2(firstPoint.y - midPoint.y, firstPoint.x - midPoint.x);
-  final angle = result * (180 / math.pi);
-
-  return angle.abs() <= 180 ? angle.abs() : 360 - angle.abs();
 }
