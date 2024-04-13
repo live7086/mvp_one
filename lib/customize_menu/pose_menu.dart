@@ -105,13 +105,13 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
 
   void _startTimer() {
     // 啟動計時器
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       setState(() {
         _elapsedSeconds++;
       });
       if (_isAllPosesCompleted) {
         _timer.cancel();
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 5));
         _navigateToResultPage();
       }
     });
@@ -140,7 +140,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
   Future<void> _detectPose(CameraImage image, bool isFrontCamera) async {
     // 檢測姿勢
     if (_isAllPosesCompleted) {
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       return; // 如果所有動作已完成,直接返回,不再進行姿勢檢測
     }
 
@@ -299,9 +299,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -311,7 +311,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 1';
                 break;
               }
@@ -325,9 +325,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -337,7 +337,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 2';
                 break;
               }
@@ -350,9 +350,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
 // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -362,7 +362,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 break;
               } else {
 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 3';
                 break;
               }
@@ -380,9 +380,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
 // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
 // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -392,7 +392,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 break;
               } else {
 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 1';
                 break;
               }
@@ -405,9 +405,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -417,7 +417,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 2';
                 break;
               }
@@ -430,9 +430,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -442,7 +442,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 3';
                 break;
               }
@@ -457,9 +457,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
           // 進入下一個動作檢查
           poseTip = '$poseTipText通過，進入下一個動作';
           flutterTts.speak(poseTip);
-          await Future.delayed(Duration(seconds: 5));
+          await Future.delayed(const Duration(seconds: 5));
           setState(() {});
-          await Future.delayed(Duration(milliseconds: 700));
+          await Future.delayed(const Duration(milliseconds: 700));
           await _checkPose(poseIndex + 1);
         } else {
           // 如果當前階段通過且是最後一個階段
@@ -468,9 +468,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
             // 如果當前動作還有剩餘次數，重新開始檢查
             poseTip = '$poseTipText通過，還有 $currentMealCount 次';
             flutterTts.speak(poseTip);
-            await Future.delayed(Duration(seconds: 5));
+            await Future.delayed(const Duration(seconds: 5));
             setState(() {});
-            await Future.delayed(Duration(milliseconds: 700));
+            await Future.delayed(const Duration(milliseconds: 700));
             await _checkPose(0);
           } else {
             // 如果當前動作完成，進入下一個動作
@@ -480,18 +480,18 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
               currentMealCount = widget.mealCounts[currentMealIndex];
               poseTip = '$poseTipText通過，進入下一個動作';
               flutterTts.speak(poseTip);
-              await Future.delayed(Duration(seconds: 5));
+              await Future.delayed(const Duration(seconds: 5));
               setState(() {});
-              await Future.delayed(Duration(milliseconds: 700));
+              await Future.delayed(const Duration(milliseconds: 700));
               await _checkPose(0);
             } else {
               // 如果所有動作都完成，提示所有動作完成
               poseTip = '$poseTipText通過，所有動作完成';
               flutterTts.speak(poseTip);
-              await Future.delayed(Duration(seconds: 5));
+              await Future.delayed(const Duration(seconds: 5));
               flutterTts.speak("KongShi KongShi");
               FlutterTts().stop();
-              await Future.delayed(Duration(seconds: 5));
+              await Future.delayed(const Duration(seconds: 5));
               setState(() {
                 _isAllPosesCompleted = true; // 設置標誌變量為 true
               });
@@ -502,9 +502,9 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
         // 如果當前階段未通過,提示重試當前階段
         poseTip = '$poseTipText未通過，請重試';
         flutterTts.speak(poseTip);
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 5));
         setState(() {});
-        await Future.delayed(Duration(milliseconds: 700));
+        await Future.delayed(const Duration(milliseconds: 700));
         await _checkPose(poseIndex);
       }
     } else {
@@ -621,7 +621,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
             right: 10.0,
             child: Text(
               poseTip,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),
@@ -647,7 +647,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 for (var entry in this.angles.entries)
                   Text(
                     '${entry.key}: ${entry.value}度',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16.0,
                     ),

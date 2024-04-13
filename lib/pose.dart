@@ -52,7 +52,7 @@ class _GuideWindowState extends State<GuideWindow> {
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
               blurRadius: 6,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -156,14 +156,14 @@ class CameraScreenState extends State<CameraScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('設置'),
+          title: const Text('設置'),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SwitchListTile(
-                    title: Text('鏡頭翻轉'),
+                    title: const Text('鏡頭翻轉'),
                     value: !isFrontCamera,
                     onChanged: (value) {
                       setState(() {
@@ -173,7 +173,7 @@ class CameraScreenState extends State<CameraScreen> {
                     },
                   ),
                   SwitchListTile(
-                    title: Text('顯示FPS'),
+                    title: const Text('顯示FPS'),
                     value: _showFps,
                     onChanged: (value) {
                       setState(() {
@@ -182,7 +182,7 @@ class CameraScreenState extends State<CameraScreen> {
                     },
                   ),
                   SwitchListTile(
-                    title: Text('顯示角度'),
+                    title: const Text('顯示角度'),
                     value: _showAngles,
                     onChanged: (value) {
                       setState(() {
@@ -191,7 +191,7 @@ class CameraScreenState extends State<CameraScreen> {
                     },
                   ),
                   ListTile(
-                    title: Text('字體大小'),
+                    title: const Text('字體大小'),
                     trailing: DropdownButton<double>(
                       value: _fontSize,
                       onChanged: (double? newValue) {
@@ -200,7 +200,7 @@ class CameraScreenState extends State<CameraScreen> {
                           _tipBoxHeight = _fontSize * 3; // 根據字體大小調整提示框高度
                         });
                       },
-                      items: [
+                      items: const [
                         DropdownMenuItem(
                           value: 12.0,
                           child: Text('小'),
@@ -225,7 +225,7 @@ class CameraScreenState extends State<CameraScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('關閉'),
+              child: const Text('關閉'),
             ),
           ],
         );
@@ -239,7 +239,7 @@ class CameraScreenState extends State<CameraScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('菜單進度'),
+          title: const Text('菜單進度'),
           content: SingleChildScrollView(
             child: ListBody(
               children: widget.meal.steps.asMap().entries.map((entry) {
@@ -249,7 +249,7 @@ class CameraScreenState extends State<CameraScreen> {
 
                 return Container(
                   color: isCurrentStep ? Colors.grey[200] : null,
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     '${index + 1}. $step',
                     style: TextStyle(
@@ -265,7 +265,7 @@ class CameraScreenState extends State<CameraScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('關閉'),
+              child: const Text('關閉'),
             ),
           ],
         );
@@ -299,13 +299,13 @@ class CameraScreenState extends State<CameraScreen> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       setState(() {
         _elapsedSeconds++;
       });
       if (_isAllPosesCompleted) {
         _timer.cancel();
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 5));
         _navigateToResultPage();
       }
     });
@@ -351,7 +351,7 @@ class CameraScreenState extends State<CameraScreen> {
 
   Future<void> _detectPose(CameraImage image, bool isFrontCamera) async {
     if (_isAllPosesCompleted) {
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       return; // 如果所有動作已完成,直接返回,不再進行姿勢檢測
     }
     // print("_detectPose poseIndex$poseIndex");
@@ -482,7 +482,7 @@ class CameraScreenState extends State<CameraScreen> {
           angles['l_footindex'] = l_footindex;
         }
         // 集中輸出所有 print 語句
-        Future.delayed(Duration(seconds: 1));
+        Future.delayed(const Duration(seconds: 1));
       }
       setState(() {
         poses = detectedPoses;
@@ -545,9 +545,9 @@ class CameraScreenState extends State<CameraScreen> {
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -557,7 +557,7 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 1';
                 break;
               }
@@ -573,9 +573,9 @@ class CameraScreenState extends State<CameraScreen> {
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -585,7 +585,7 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 2';
                 break;
               }
@@ -600,9 +600,9 @@ class CameraScreenState extends State<CameraScreen> {
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -612,7 +612,7 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Tree Pose 3';
                 break;
               }
@@ -632,9 +632,9 @@ class CameraScreenState extends State<CameraScreen> {
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -644,7 +644,7 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 1';
                 break;
               }
@@ -660,9 +660,9 @@ class CameraScreenState extends State<CameraScreen> {
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -672,7 +672,7 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 2';
                 break;
               }
@@ -687,9 +687,9 @@ class CameraScreenState extends State<CameraScreen> {
                   // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
-                  await Future.delayed(Duration(seconds: 6));
+                  await Future.delayed(const Duration(seconds: 6));
                   setState(() {});
-                  await Future.delayed(Duration(milliseconds: 700));
+                  await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
@@ -699,7 +699,7 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               } else {
                 //不然就等一下再檢查一次
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 poseTipText = '這是 Warrior2 3';
                 break;
               }
@@ -714,18 +714,18 @@ class CameraScreenState extends State<CameraScreen> {
           // 進入下一個動作檢查
           poseTip = '$poseTipText通過，進入下一個動作';
           flutterTts.speak(poseTip);
-          await Future.delayed(Duration(seconds: 5));
+          await Future.delayed(const Duration(seconds: 5));
           setState(() {});
-          await Future.delayed(Duration(milliseconds: 700));
+          await Future.delayed(const Duration(milliseconds: 700));
           await _checkPose(poseIndex + 1);
         } else {
           // 如果當前階段通過且是最後一個階段,提示所有動作完成
           poseTip = '$poseTipText通過，所有動作完成';
           flutterTts.speak(poseTip);
-          await Future.delayed(Duration(seconds: 5));
+          await Future.delayed(const Duration(seconds: 5));
           flutterTts.speak("KongShi KongShi");
           FlutterTts().stop();
-          await Future.delayed(Duration(seconds: 5));
+          await Future.delayed(const Duration(seconds: 5));
           setState(() {
             _isAllPosesCompleted = true; // 設置標誌變量為 true
           });
@@ -734,9 +734,9 @@ class CameraScreenState extends State<CameraScreen> {
         // 如果當前階段未通過,提示重試當前階段
         poseTip = '$poseTipText未通過，請重試';
         flutterTts.speak(poseTip);
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 5));
         setState(() {});
-        await Future.delayed(Duration(milliseconds: 700));
+        await Future.delayed(const Duration(milliseconds: 700));
         await _checkPose(poseIndex);
       }
     } else {
@@ -828,9 +828,9 @@ class CameraScreenState extends State<CameraScreen> {
 
     if (shouldPlayGuide) {
       await flutterTts.speak(guideText);
-      await Future.delayed(Duration(seconds: 6));
+      await Future.delayed(const Duration(seconds: 6));
       await flutterTts.speak('請保持動作,檢測即將開始');
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
     }
 
     setState(() {
@@ -908,7 +908,7 @@ class CameraScreenState extends State<CameraScreen> {
             top: 30.0,
             left: 10.0,
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.settings,
                 color: Colors.white,
                 size: 30.0,
@@ -920,7 +920,7 @@ class CameraScreenState extends State<CameraScreen> {
             top: 30.0,
             left: 40.0,
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.menu,
                 color: Colors.white,
                 size: 30.0,
@@ -965,7 +965,7 @@ class CameraScreenState extends State<CameraScreen> {
             right: 0,
             child: Container(
               color: Colors.black.withOpacity(0.5),
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Center(
                 child: Text(
                   poseTip, // 在半透明區塊中顯示動作引導提示文字

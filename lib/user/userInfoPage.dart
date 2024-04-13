@@ -198,7 +198,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   print('堆棧跟踪：$stackTrace');
                   // 顯示錯誤提示給使用者
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('寫入資料時發生錯誤，請稍後再試。')),
+                    const SnackBar(content: Text('寫入資料時發生錯誤，請稍後再試。')),
                   );
                 }
               }

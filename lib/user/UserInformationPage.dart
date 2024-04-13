@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mvp_one/customize_menu/cus_menu.dart';
 import 'package:mvp_one/screens/tabs.dart';
 import 'package:mvp_one/widget_expense/expenses.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class UserInformationPage extends StatefulWidget {
   const UserInformationPage({Key? key, required this.uid}) : super(key: key);
@@ -17,6 +19,7 @@ class UserInformationPage extends StatefulWidget {
 class _UserInformationPageState extends State<UserInformationPage> {
   Map<String, dynamic>? userSpecificData;
   bool isLoading = true;
+  File? _avatarImage;
 
   int _selectedPageIndex = 3;
 
@@ -152,6 +155,10 @@ class _UserInformationPageState extends State<UserInformationPage> {
                   ),
                   keyboardType: TextInputType.number,
                 ),
+                TextButton(
+                  child: const Text('更改頭像'),
+                  onPressed: _pickImage,
+                ),
               ],
             ),
           ),
@@ -236,6 +243,16 @@ class _UserInformationPageState extends State<UserInformationPage> {
     }
   }
 
+  Future<void> _pickImage() async {
+    final pickedImage =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _avatarImage = File(pickedImage.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -250,14 +267,21 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       child: ListView(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         children: [
-                          const CircleAvatar(
+                          CircleAvatar(
                             radius: 40,
-                            child: Icon(Icons.person, size: 40),
+                            backgroundImage: _avatarImage != null
+                                ? FileImage(_avatarImage!)
+                                : null,
+                            child: _avatarImage == null
+                                ? const Icon(Icons.person, size: 40)
+                                : null,
                           ),
                           const SizedBox(height: 20),
-                          Text('歡迎 ${userSpecificData!['nickname'] ?? '未設定'} ！',
-                              style: Theme.of(context).textTheme.titleLarge,
-                              textAlign: TextAlign.center),
+                          Text(
+                            '歡迎 ${userSpecificData!['nickname'] ?? '未設定'} ！',
+                            style: Theme.of(context).textTheme.titleLarge,
+                            textAlign: TextAlign.center,
+                          ),
                           const SizedBox(height: 10),
                           Card(
                             margin: const EdgeInsets.symmetric(
@@ -301,16 +325,13 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       padding: const EdgeInsets.fromLTRB(50, 20, 50, 200),
                       child: ElevatedButton(
                         onPressed: _signOut,
-                        // ignore: sort_child_properties_last
                         child: const Text('登出'),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: const Color.fromARGB(
                               255, 173, 99, 243), // Button text color
-                          shape:
-                              const StadiumBorder(), // Stadium shape for the button
-                          minimumSize: const Size(200,
-                              50), // Button size, adjust the width to make it wider
+                          shape: const StadiumBorder(),
+                          minimumSize: const Size(200, 50),
                         ),
                       ),
                     ),

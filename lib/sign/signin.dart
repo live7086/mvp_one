@@ -101,7 +101,7 @@ class _SigninsreenState extends State<Signinsreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            TabsScreen(uid: ''), // 使用测试UID或有效的UID
+                            const TabsScreen(uid: ''), // 使用测试UID或有效的UID
                       ),
                     );
                   },
@@ -114,7 +114,7 @@ class _SigninsreenState extends State<Signinsreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UserInfoPage(
+                        builder: (context) => const UserInfoPage(
                           uid: '',
                         ), // 使用测试UID或有效的UID
                       ),
