@@ -20,7 +20,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
   Map<String, dynamic>? userSpecificData;
   bool isLoading = true;
   File? _avatarImage;
-
+  Offset _avatarPosition = Offset.zero;
   int _selectedPageIndex = 3;
 
   @override
@@ -155,10 +155,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
                   ),
                   keyboardType: TextInputType.number,
                 ),
-                TextButton(
-                  child: const Text('更改頭像'),
-                  onPressed: _pickImage,
-                ),
               ],
             ),
           ),
@@ -267,15 +263,27 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       child: ListView(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         children: [
-                          CircleAvatar(
-                            radius: 40,
-                            backgroundImage: _avatarImage != null
-                                ? FileImage(_avatarImage!)
-                                : null,
-                            child: _avatarImage == null
-                                ? const Icon(Icons.person, size: 40)
-                                : null,
-                          ),
+                          GestureDetector(
+                              onPanUpdate: (details) {
+                                setState(() {
+                                  _avatarPosition += details.delta;
+                                });
+                              },
+                              child: Center(
+                                child: GestureDetector(
+                                  onTap: _pickImage, // 當點擊頭像時,觸發_pickImage函數
+                                  child: CircleAvatar(
+                                    radius: 80,
+                                    backgroundImage: _avatarImage != null
+                                        ? FileImage(_avatarImage!)
+                                        : null,
+                                    child: _avatarImage == null
+                                        ? const Icon(Icons.cameraswitch,
+                                            size: 60)
+                                        : null,
+                                  ),
+                                ),
+                              )),
                           const SizedBox(height: 20),
                           Text(
                             '歡迎 ${userSpecificData!['nickname'] ?? '未設定'} ！',
@@ -322,7 +330,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 20, 50, 200),
+                      padding: const EdgeInsets.fromLTRB(50, 20, 50, 50),
                       child: ElevatedButton(
                         onPressed: _signOut,
                         child: const Text('登出'),
