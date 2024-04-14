@@ -2,15 +2,15 @@
 bool TreePoseOnePass(Map<String, int> angles) {
   //min max 值還需要調整
   // r_hip angle
-  const int r_hip_perfect_min = 150;
-  const int r_hip_good_min = r_hip_perfect_min - 20;
-  const int r_hip_perfect_max = 160;
-  const int r_hip_good_max = r_hip_perfect_max + 20;
+  const int r_hip_perfect_min = 70;
+  const int r_hip_good_min = r_hip_perfect_min - 10;
+  const int r_hip_perfect_max = 80;
+  const int r_hip_good_max = r_hip_perfect_max + 10;
   // r_knee angle
-  const int r_knee_perfect_min = 150;
-  const int r_knee_good_min = r_knee_perfect_min - 20;
-  const int r_knee_perfect_max = 160;
-  const int r_knee_good_max = r_knee_perfect_max + 20;
+  const int r_knee_perfect_min = 60;
+  const int r_knee_good_min = r_knee_perfect_min - 10;
+  const int r_knee_perfect_max = 70;
+  const int r_knee_good_max = r_knee_perfect_max + 10;
 
   // 假設 "右膝" 是判斷 Tree Pose 的關鍵角度之一
   if (angles.containsKey('r_knee') && angles.containsKey('r_hip')) {
