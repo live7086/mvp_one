@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  wakelock: ^0.6.2
   camera: ^0.10.1
   flutter:
     sdk: flutter
@@ -81,19 +82,16 @@ flutter:
   assets:
     - assets/
     - assets/meunicon.png
-    - assets/yoga_1.jpg
-    - assets/yoga_2.jpg
-    - assets/yoga_3.jpg
-    - assets/images/c1.png
-    - assets/images/c2.png
-    - assets/images/c3.png
-    - assets/images/c4.png
-    - assets/images/c5.png
-    - assets/images/c6.png
-    - assets/images/c7.png
-    - assets/images/c8.png
-    - assets/images/c9.png
-    - assets/images/c10.png
+    - assets/images/boatPose.png
+    - assets/images/cowPose.png
+    - assets/images/CrescentLungePose.png
+    - assets/images/downwardFacingDogPose.png
+    - assets/images/singleLegDownwardFacingDogPose.png
+    - assets/images/treePose.png
+    - assets/images/upwardFacingDogPose.png
+    - assets/images/warriorOnePose.png
+    - assets/images/warriorTwoPose.png
+    - assets/images/warriorThreePose.png
     - assets/images/tree_pose_1.jpg
     - assets/images/tree_pose_2.jpg
     - assets/images/tree_pose_3.jpg

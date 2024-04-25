@@ -6,7 +6,8 @@ class MealResumePage extends StatefulWidget {
   // final void Function(Meal meal) onToggleFavorite;
   final VoidCallback onResume;
 
-  const MealResumePage({super.key, 
+  const MealResumePage({
+    super.key,
     required this.meal,
     // required this.onToggleFavorite,
     required this.onResume,
@@ -31,7 +32,7 @@ class _MealResumePageState extends State<MealResumePage> {
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(widget.meal.first.imageUrl),
+                      image: widget.meal.first.imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -40,7 +41,8 @@ class _MealResumePageState extends State<MealResumePage> {
                   left: 20,
                   bottom: 40,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.5),
                       borderRadius: BorderRadius.circular(10),

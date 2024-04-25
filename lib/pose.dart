@@ -11,6 +11,7 @@ import 'dart:math' as math;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:wakelock/wakelock.dart';
 // TreePose
 import 'Pose_Guide/TreePose/TreePose_Guide_One.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Two.dart';
@@ -141,6 +142,7 @@ class CameraScreenState extends State<CameraScreen> {
     }
 
     super.initState();
+    Wakelock.enable();
     _initializeCamera();
     _poseDetector = PoseDetector(
       options: PoseDetectorOptions(
@@ -873,6 +875,7 @@ class CameraScreenState extends State<CameraScreen> {
 //放棄資源
   @override
   void dispose() {
+    Wakelock.disable();
     _timer.cancel();
     flutterTts.stop();
     _cameraController.dispose();
