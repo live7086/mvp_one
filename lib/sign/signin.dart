@@ -94,34 +94,34 @@ class _SigninsreenState extends State<Signinsreen> {
                     );
                   }
                 }),
-                ElevatedButton(
-                  onPressed: () {
-                    // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的 // 使用测试UID或者从应用逻辑中获取真实的UID
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const TabsScreen(uid: ''), // 使用测试UID或有效的UID
-                      ),
-                    );
-                  },
-                  child: const Text('跳過僅限測試'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的
-                    String testUid = "some-test-uid"; // 使用测试UID或者从应用逻辑中获取真实的UID
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const UserInfoPage(
-                          uid: '',
-                        ), // 使用测试UID或有效的UID
-                      ),
-                    );
-                  },
-                  child: const Text('firebase測試用戶資料頁面'),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的 // 使用测试UID或者从应用逻辑中获取真实的UID
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) =>
+                //             const TabsScreen(uid: ''), // 使用测试UID或有效的UID
+                //       ),
+                //     );
+                //   },
+                //   child: const Text('跳過僅限測試'),
+                // ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的
+                //     String testUid = "some-test-uid"; // 使用测试UID或者从应用逻辑中获取真实的UID
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => const UserInfoPage(
+                //           uid: '',
+                //         ), // 使用测试UID或有效的UID
+                //       ),
+                //     );
+                //   },
+                //   child: const Text('firebase測試用戶資料頁面'),
+                // ),
                 signUpOption()
               ],
             ),

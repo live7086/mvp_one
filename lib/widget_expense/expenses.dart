@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/customize_menu/cus_menu.dart';
 import 'package:mvp_one/models/meal.dart';
@@ -21,28 +22,57 @@ class Expenses extends StatefulWidget {
 
 class _ExpensesState extends State<Expenses> {
   int _selectedPageIndex = 2;
-  final List<Meal> _favoriteMeals = [];
-  final List<Expense> _registeredExpenses = [
-    Expense(
-      title: Yoga.Warrior_I,
-      time: 20,
-      date: DateTime.now(),
-      category: Category.Fullbody,
-    ),
-    Expense(
-      title: Yoga.Downward_Dog,
-      time: 30,
-      date: DateTime.now(),
-      category: Category.Upperbody,
-    )
-  ];
+  List<Expense> _registeredExpenses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchExpensesFromDatabase();
+  }
+
+  Future<void> _fetchExpensesFromDatabase() async {
+    final databaseURL = 'https://flutter-dogshit-default-rtdb.firebaseio.com';
+    final databasePath = 'user-training';
+
+    final database = FirebaseDatabase(databaseURL: databaseURL).reference();
+    final snapshot = await database
+        .child(databasePath)
+        .orderByChild('uid')
+        .equalTo(widget.uid)
+        .once();
+
+    final expenses = <Expense>[];
+    if (snapshot.snapshot.value is Map) {
+      (snapshot.snapshot.value as Map).forEach((key, value) {
+        if (value is Map) {
+          final expenseData = value;
+          final expense = Expense(
+            title:
+                Yoga.values.firstWhere((e) => e.name == expenseData['title']),
+            time: double.parse(expenseData['time'].toString()),
+            date: DateTime.parse(expenseData['date']),
+            category: Category.values
+                .firstWhere((e) => e.name == expenseData['category']),
+          );
+          expenses.add(expense);
+        }
+      });
+    }
+
+    setState(() {
+      _registeredExpenses = expenses;
+    });
+  }
 
   // ignore: unused_element
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) => NewExpense(onAddExpense: _addExpense),
+      builder: (ctx) => NewExpense(
+        onAddExpense: _addExpense,
+        uid: widget.uid,
+      ),
     );
     print("接收到的UID: ${widget.uid}");
   }
