@@ -24,22 +24,25 @@ const kInitialFilters = {
 };
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({Key? key, required this.uid}) : super(key: key);
+  const TabsScreen({Key? key, required this.uid, this.initialIndex = 0})
+      : super(key: key);
 
   final String uid;
+  final int initialIndex;
 
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  int _selectedPageIndex = 0;
+  late int _selectedPageIndex;
   final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _selectedFilters = kInitialFilters;
 
   @override
   void initState() {
     super.initState();
+    _selectedPageIndex = widget.initialIndex;
     print("接收到的UID: ${widget.uid}");
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/models/meal.dart';
+import 'package:mvp_one/screens/allMainPages.dart';
 import 'package:mvp_one/screens/move_detail.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -7,12 +8,14 @@ class ResultPage extends StatefulWidget {
   final int duration;
   final Meal meal;
   final void Function(Meal meal) onToggleFavorite;
+  final String uid; // 添加 uid 屬性
 
   const ResultPage({
     super.key,
     required this.duration,
     required this.meal,
     required this.onToggleFavorite,
+    required this.uid, // 接收 uid 參數
   });
 
   @override
@@ -333,13 +336,12 @@ class _ResultPageState extends State<ResultPage> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                // 使用Navigator.pushReplacement()替換當前頁面,並傳遞uid參數
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MealDetailsScreen(
-                      meal: widget.meal,
-                      onToggleFavorite: widget.onToggleFavorite,
-                    ),
+                    builder: (context) =>
+                        TabsScreen(uid: widget.uid, initialIndex: 3),
                   ),
                 );
               },
@@ -352,7 +354,7 @@ class _ResultPageState extends State<ResultPage> {
                 ),
               ),
               child: const Text(
-                '返回動作列表',
+                '前往訓練紀錄',
                 style: TextStyle(fontSize: 24, color: Colors.white),
               ),
             ),
