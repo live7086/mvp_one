@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/customize_menu/menu_move_result.dart';
 import 'dart:typed_data';
@@ -38,6 +39,37 @@ class MenuCameraScreen extends StatefulWidget {
 
   @override
   MenuCameraScreenState createState() => MenuCameraScreenState();
+}
+
+class CustomMenuItem {
+  final String name;
+  final String description;
+  final String iconPath;
+  final String mealId;
+
+  CustomMenuItem({
+    required this.name,
+    required this.description,
+    required this.iconPath,
+    required this.mealId,
+  });
+}
+
+List<CustomMenuItem> getCustomMenuItems() {
+  List<CustomMenuItem> customMenuItems = [];
+
+  for (var meal in dummyMeals) {
+    customMenuItems.add(
+      CustomMenuItem(
+        name: meal.title,
+        description: '描述或其他相關資訊',
+        iconPath: 'assets/icons/menu_item_icon.png',
+        mealId: meal.id, // 傳遞 meal.id 給 mealId 屬性
+      ),
+    );
+  }
+
+  return customMenuItems;
 }
 
 class MenuCameraScreenState extends State<MenuCameraScreen>
