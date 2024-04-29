@@ -716,7 +716,7 @@ class CameraScreenState extends State<CameraScreen> {
         // 當前動作檢查通過
         if (poseIndex < 2) {
           // 進入下一個動作檢查
-          poseTip = '$poseTipText通過，進入下一個動作';
+          poseTip = '$poseTipText通過,進入下一個動作';
           flutterTts.speak(poseTip);
           await Future.delayed(const Duration(seconds: 5));
           setState(() {});
@@ -724,15 +724,26 @@ class CameraScreenState extends State<CameraScreen> {
           await _checkPose(poseIndex + 1);
         } else {
           // 如果當前階段通過且是最後一個階段,提示所有動作完成
-          poseTip = '$poseTipText通過，所有動作完成';
+          poseTip = '$poseTipText通過,所有動作完成';
           flutterTts.speak(poseTip);
           await Future.delayed(const Duration(seconds: 5));
           flutterTts.speak("KongShi KongShi");
           FlutterTts().stop();
-          await Future.delayed(const Duration(seconds: 5));
-          setState(() {
-            _isAllPosesCompleted = true; // 設置標誌變量為 true
-          });
+
+          // 等待3秒鐘
+          await Future.delayed(const Duration(seconds: 3));
+
+          // 導航到結果頁面
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ResultPage(
+                duration: _elapsedSeconds,
+                meal: meal,
+                onToggleFavorite: onToggleFavorite,
+              ),
+            ),
+          );
         }
       } else {
         // 如果當前階段未通過,提示重試當前階段
