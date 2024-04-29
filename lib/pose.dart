@@ -12,6 +12,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:mvp_one/customize_menu/pose_menu.dart' as poseMenu;
 // TreePose
 import 'Pose_Guide/TreePose/TreePose_Guide_One.dart';
 import 'Pose_Guide/TreePose/TreePose_Guide_Two.dart';
@@ -73,12 +74,14 @@ class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
   final Meal meal;
   final void Function(Meal meal) onToggleFavorite;
+  final List<poseMenu.CustomMenuItem> customMenuItems;
 
   const CameraScreen({
     Key? key,
     required this.cameras,
     required this.meal,
     required this.onToggleFavorite,
+    required this.customMenuItems,
   }) : super(key: key);
 
   @override
@@ -244,22 +247,21 @@ class CameraScreenState extends State<CameraScreen> {
           title: const Text('菜單進度'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: widget.meal.steps.asMap().entries.map((entry) {
-                int index = entry.key;
-                String step = entry.value;
-                bool isCurrentStep = index == poseIndex;
+              children: List.generate(widget.customMenuItems.length, (index) {
+                final menuItem = widget.customMenuItems[index];
+                final isCurrentPose = menuItem.mealId == meal.id;
 
                 return Container(
-                  color: isCurrentStep ? Colors.grey[200] : null,
+                  color: isCurrentPose ? Colors.grey[200] : null,
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    '${index + 1}. $step',
+                    '${index + 1}. ${menuItem.name}',
                     style: TextStyle(
-                      fontWeight: isCurrentStep ? FontWeight.bold : null,
+                      fontWeight: isCurrentPose ? FontWeight.bold : null,
                     ),
                   ),
                 );
-              }).toList(),
+              }),
             ),
           ),
           actions: [
@@ -554,13 +556,13 @@ class CameraScreenState extends State<CameraScreen> {
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await TreePoseOnePass(angles);
-                  poseTipText = '這是 Tree Pose 1';
+                  poseTipText = '這是 樹式1';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Tree Pose 1';
+                poseTipText = '這是 樹式1';
                 break;
               }
 
@@ -582,13 +584,13 @@ class CameraScreenState extends State<CameraScreen> {
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await TreePoseTwoPass(angles);
-                  poseTipText = '這是 Tree Pose 2';
+                  poseTipText = '這是 樹式2';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Tree Pose 2';
+                poseTipText = '這是 樹式2';
                 break;
               }
             case 2:
@@ -609,13 +611,13 @@ class CameraScreenState extends State<CameraScreen> {
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await TreePoseThreePass(angles);
-                  poseTipText = '這是 Tree Pose 3';
+                  poseTipText = '這是 樹式3';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Tree Pose 3';
+                poseTipText = '這是 樹式3';
                 break;
               }
             default:
@@ -641,13 +643,13 @@ class CameraScreenState extends State<CameraScreen> {
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2OnePass(angles);
-                  poseTipText = '這是 Warrior2 1';
+                  poseTipText = '這是 戰士二式1';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Warrior2 1';
+                poseTipText = '這是 戰士二式1';
                 break;
               }
 
@@ -669,13 +671,13 @@ class CameraScreenState extends State<CameraScreen> {
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2TwoPass(angles);
-                  poseTipText = '這是 Warrior2 2';
+                  poseTipText = '這是 戰士二式2';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Warrior2 2';
+                poseTipText = '這是 戰士二式2';
                 break;
               }
             case 2:
@@ -696,13 +698,13 @@ class CameraScreenState extends State<CameraScreen> {
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2ThreePass(angles);
-                  poseTipText = '這是 Warrior2 3';
+                  poseTipText = '這是 戰士二式3';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Warrior2 3';
+                poseTipText = '這是 戰士二式3';
                 break;
               }
             default:
@@ -755,15 +757,15 @@ class CameraScreenState extends State<CameraScreen> {
       case 'TreePose':
         switch (step) {
           case 1:
-            guideText = '請按照圖片中的姿勢站立,雙手合十放在胸前。';
+            guideText = '請按照圖片中的姿勢站立,雙手抱住右膝。';
             guideImagePath = ('assets/images/tree_pose_1.jpg');
             break;
           case 2:
-            guideText = '請慢慢將右腳抬起,放在左腿內側。';
+            guideText = '請慢慢將右腳向外抬起,放在左腿內側。';
             guideImagePath = ('assets/images/tree_pose_2.jpg');
             break;
           case 3:
-            guideText = '保持平衡,雙手舉過頭頂。';
+            guideText = '保持平衡,雙手合十擺在胸前。';
             guideImagePath = ('assets/images/tree_pose_3.jpg');
             break;
         }
@@ -771,15 +773,15 @@ class CameraScreenState extends State<CameraScreen> {
       case 'Warrior2':
         switch (step) {
           case 1:
-            guideText = '請站直,雙腳打開與肩同寬。';
+            guideText = '請站直,雙腳打開與肩同寬，右腳尖朝右。';
             guideImagePath = ('assets/images/warrior2_pose_1.jpg');
             break;
           case 2:
-            guideText = '左腳向左旋轉90度,右腳微向內扣。';
+            guideText = '右腳屈膝90度,左腳微向內扣。';
             guideImagePath = ('assets/images/warrior2_pose_2.jpg');
             break;
           case 3:
-            guideText = '彎左膝,右腿伸直,雙臂平舉與地面平行。';
+            guideText = '右腳屈膝90度,雙臂平舉與地面平行。';
             guideImagePath = ('assets/images/warrior2_pose_3.jpg');
             break;
         }
