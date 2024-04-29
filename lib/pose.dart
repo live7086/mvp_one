@@ -323,6 +323,7 @@ class CameraScreenState extends State<CameraScreen> {
           duration: _elapsedSeconds,
           meal: meal,
           onToggleFavorite: onToggleFavorite,
+          uid: '',
         ),
       ),
     );
@@ -741,6 +742,7 @@ class CameraScreenState extends State<CameraScreen> {
                 duration: _elapsedSeconds,
                 meal: meal,
                 onToggleFavorite: onToggleFavorite,
+                uid: '',
               ),
             ),
           );
