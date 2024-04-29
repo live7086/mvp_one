@@ -6,9 +6,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 class ResultPage extends StatefulWidget {
   final int duration;
   final Meal meal;
-  final void Function(Meal meal) onToggleFavorite;  
+  final void Function(Meal meal) onToggleFavorite;
 
-  const ResultPage({super.key, 
+  const ResultPage({
+    super.key,
     required this.duration,
     required this.meal,
     required this.onToggleFavorite,
@@ -46,7 +47,7 @@ class _ResultPageState extends State<ResultPage> {
                 Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(widget.meal.imageUrl),
+                      image: widget.meal.imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -344,7 +345,8 @@ class _ResultPageState extends State<ResultPage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[800],
-                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

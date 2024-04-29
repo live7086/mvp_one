@@ -61,7 +61,7 @@ Container signInSignUpbutton(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
       child: Text(
-        isLogin ? "LOG IN" : "Sing Up",
+        isLogin ? "登入" : "註冊",
         style: const TextStyle(
           color: Colors.black87,
           fontSize: 16,

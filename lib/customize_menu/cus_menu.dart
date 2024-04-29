@@ -582,7 +582,7 @@ class _CustomMenuMealItemState extends State<_CustomMenuMealItem> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             image: DecorationImage(
-              image: NetworkImage(widget.meal.imageUrl),
+              image: widget.meal.imageUrl,
               fit: BoxFit.cover,
             ),
           ),

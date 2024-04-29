@@ -34,7 +34,7 @@ const dummyMeals = [
     title: 'BOAT POSE (船式)',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
-    imageUrl: 'https://i.imgur.com/QObVvEu.png',
+    imageUrl: AssetImage('assets/images/boatPose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=QVEINjrYUPU&pp=ygUJQk9BVCBQT1NF', // 新增videoUrl
 
@@ -65,7 +65,7 @@ const dummyMeals = [
     title: 'COW POSE(牛式)',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
-    imageUrl: 'https://i.imgur.com/cAY337U.png',
+    imageUrl: AssetImage('assets/images/cowPose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=W5KVx0ZbB_4&pp=ygUIQ09XIFBPU0U%3D', // 新增videoUrl
 
@@ -91,7 +91,7 @@ const dummyMeals = [
     title: 'Crescent Lunge(新月弓箭步)',
     affordability: Affordability.pricey,
     complexity: Complexity.simple,
-    imageUrl: 'https://i.imgur.com/rbySss7.png',
+    imageUrl: AssetImage('assets/images/CrescentLungePose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=zaongQlYTto&pp=ygUOQ3Jlc2NlbnQgTHVuZ2U%3D', // 新增videoUrl
 
@@ -123,7 +123,7 @@ const dummyMeals = [
     title: 'Downward Dog(下犬式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.challenging,
-    imageUrl: 'https://i.imgur.com/YlUIHMi.png',
+    imageUrl: AssetImage('assets/images/downwardFacingDogPose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=EC7RGJ975iM&pp=ygUMRG93bndhcmQgRG9n', // 新增videoUrl
 
@@ -155,7 +155,7 @@ const dummyMeals = [
     title: 'Single Leg Downward Facing Dog(單腳下犬式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
-    imageUrl: 'https://i.imgur.com/hMA9LNV.png',
+    imageUrl: AssetImage('assets/images/singleLegDownwardFacingDogPose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=EC7RGJ975iM&pp=ygUeU2luZ2xlIExlZyBEb3dud2FyZCBGYWNpbmcgRG9n', // 新增videoUrl
 
@@ -186,7 +186,7 @@ const dummyMeals = [
     title: 'TREE POSE(樹式)',
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
-    imageUrl: 'https://i.imgur.com/MwdS0ll.png',
+    imageUrl: AssetImage('assets/images/treePose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=Fr5kiIygm0c&pp=ygUIVHJlZVBvc2U%3D', // 新增videoUrl
 
@@ -218,7 +218,7 @@ const dummyMeals = [
     title: 'Upward Facing Dog Pose(上犬式) ',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
-    imageUrl: 'https://i.imgur.com/gP9lF0v.png',
+    imageUrl: AssetImage('assets/images/upwardFacingDogPose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=pVmOOluGAv8&pp=ygUWVXB3YXJkIEZhY2luZyBEb2cgUG9zZQ%3D%3D', // 新增videoUrl
 
@@ -251,7 +251,7 @@ const dummyMeals = [
     title: 'Warrior I(戰士一式)',
     affordability: Affordability.pricey,
     complexity: Complexity.challenging,
-    imageUrl: 'https://i.imgur.com/s3hKZ0h.png',
+    imageUrl: AssetImage('assets/images/warriorOnePose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=NytDpa2r34g&pp=ygUJV2FycmlvciBJ', // 新增videoUrl
 
@@ -284,7 +284,7 @@ const dummyMeals = [
     title: 'Warrior II(戰士二式)',
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
-    imageUrl: 'https://i.imgur.com/ZHniU18.png',
+    imageUrl: AssetImage('assets/images/warriorTwoPose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=Mn6RSIRCV3w&pp=ygUKV2FycmlvciBJSQ%3D%3D', // 新增videoUrl
 
@@ -317,7 +317,7 @@ const dummyMeals = [
     title: 'Warrior III(戰士三式)',
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
-    imageUrl: 'https://i.imgur.com/s72FHow.png',
+    imageUrl: AssetImage('assets/images/warriorThreePose.png'),
     videoUrl:
         'https://www.youtube.com/watch?v=uEc5hrgIYx4&pp=ygULV2FycmlvciBJSUk%3D', // 新增videoUrl
 

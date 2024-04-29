@@ -8,7 +8,6 @@ final formatter = DateFormat.yMd();
 
 const uuid = Uuid();
 
-// ignore: constant_identifier_names
 enum Yoga {
   BOAT_POSE,
   COW_POSE,
@@ -22,7 +21,6 @@ enum Yoga {
   Warrior_III
 }
 
-// ignore: constant_identifier_names
 enum Category { Upperbody, Lowerbody, Fullbody, other }
 
 const categoryIcons = {

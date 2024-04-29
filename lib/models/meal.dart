@@ -1,5 +1,7 @@
 import 'dart:core';
 
+import 'package:flutter/material.dart';
+
 enum Complexity {
   simple,
   challenging,
@@ -38,7 +40,7 @@ class Meal {
   final String id;
   final List<String> categories;
   final String title;
-  final String imageUrl;
+  final AssetImage imageUrl;
   final String videoUrl;
   final List<String> ingredients;
   final List<String> steps;
