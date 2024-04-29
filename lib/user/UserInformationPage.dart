@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mvp_one/customize_menu/cus_menu.dart';
-import 'package:mvp_one/screens/tabs.dart';
+import 'package:mvp_one/screens/allMainPages.dart';
 import 'package:mvp_one/widget_expense/expenses.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -56,9 +56,11 @@ class _UserInformationPageState extends State<UserInformationPage> {
     } catch (e) {
       print('请求异常：$e');
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -96,9 +98,11 @@ class _UserInformationPageState extends State<UserInformationPage> {
         ));
         break;
       default:
-        setState(() {
-          _selectedPageIndex = index;
-        });
+        if (mounted) {
+          setState(() {
+            _selectedPageIndex = index;
+          });
+        }
         break;
     }
   }
@@ -243,16 +247,17 @@ class _UserInformationPageState extends State<UserInformationPage> {
     final pickedImage =
         await ImagePicker().getImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      setState(() {
-        _avatarImage = File(pickedImage.path);
-      });
+      if (mounted) {
+        setState(() {
+          _avatarImage = File(pickedImage.path);
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('個人資料')),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : userSpecificData == null
@@ -265,9 +270,11 @@ class _UserInformationPageState extends State<UserInformationPage> {
                         children: [
                           GestureDetector(
                               onPanUpdate: (details) {
-                                setState(() {
-                                  _avatarPosition += details.delta;
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    _avatarPosition += details.delta;
+                                  });
+                                }
                               },
                               child: Center(
                                 child: GestureDetector(
@@ -278,8 +285,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                                         ? FileImage(_avatarImage!)
                                         : null,
                                     child: _avatarImage == null
-                                        ? const Icon(Icons.cameraswitch,
-                                            size: 60)
+                                        ? const Icon(Icons.camera_alt, size: 60)
                                         : null,
                                   ),
                                 ),
@@ -345,32 +351,12 @@ class _UserInformationPageState extends State<UserInformationPage> {
                     ),
                   ],
                 ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.set_meal),
-            label: '動作菜單',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
-            label: '自訂菜單',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.my_library_add_outlined),
-            label: '訓練紀錄',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '設定',
-          ),
-        ],
-      ),
     );
+  }
+
+  @override
+  void dispose() {
+    // 在這裡取消訂閱或停止任何計時器或動畫
+    super.dispose();
   }
 }

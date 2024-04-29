@@ -6,7 +6,7 @@ import 'package:mvp_one/utils/color_utils.dart';
 import 'package:mvp_one/reusable_widgets/reusable_widget.dart';
 import 'package:mvp_one/provider/memory.dart';
 
-import '../screens/tabs.dart';
+import '../screens/allMainPages.dart';
 
 class Signinsreen extends StatefulWidget {
   const Signinsreen({super.key});
@@ -94,19 +94,19 @@ class _SigninsreenState extends State<Signinsreen> {
                     );
                   }
                 }),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的 // 使用测试UID或者从应用逻辑中获取真实的UID
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) =>
-                //             const TabsScreen(uid: ''), // 使用测试UID或有效的UID
-                //       ),
-                //     );
-                //   },
-                //   child: const Text('跳過僅限測試'),
-                // ),
+                ElevatedButton(
+                  onPressed: () {
+                    // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的 // 使用测试UID或者从应用逻辑中获取真实的UID
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const TabsScreen(uid: ''), // 使用测试UID或有效的UID
+                      ),
+                    );
+                  },
+                  child: const Text('跳過僅限測試'),
+                ),
                 // ElevatedButton(
                 //   onPressed: () {
                 //     // 假设这里有一个有效的uid，或者这个跳转是基于测试条件的

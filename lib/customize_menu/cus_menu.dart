@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mvp_one/data/dummy_data.dart';
 import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/provider/provider.dart';
-import 'package:mvp_one/screens/tabs.dart';
+import 'package:mvp_one/screens/allMainPages.dart';
 import 'package:mvp_one/user/UserInformationPage.dart';
 import 'package:mvp_one/widget_expense/expenses.dart';
 import 'package:provider/provider.dart';
@@ -272,12 +272,6 @@ class _StartPageState extends State<CustomizeMenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('起始頁面'),
-        actions: [
-          if (_isEditMode) _buildDeleteCustomMenuIcon(),
-        ],
-      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -338,32 +332,6 @@ class _StartPageState extends State<CustomizeMenuPage> {
                 ),
               ),
             ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.set_meal),
-            label: '動作菜單',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
-            label: '自訂菜單',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.my_library_add_outlined),
-            label: '訓練紀錄',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '設定',
-          ),
         ],
       ),
       floatingActionButton: Align(

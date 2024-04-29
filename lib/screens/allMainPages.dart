@@ -66,31 +66,9 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _selectPage(int index) {
-    switch (index) {
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CustomizeMenuPage(uid: widget.uid),
-        ));
-        break;
-      case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Expenses(
-            uid: widget.uid,
-          ),
-        ));
-        break;
-      case 4:
-        // 由于我们已经确保了 TabsScreen 接收了 uid，我们可以直接使用 widget.uid
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => UserInformationPage(uid: widget.uid),
-        ));
-        break;
-      default:
-        setState(() {
-          _selectedPageIndex = index;
-        });
-        break;
-    }
+    setState(() {
+      _selectedPageIndex = index;
+    });
   }
 
   void _setScreen(String identifier) async {
@@ -143,18 +121,36 @@ class _TabsScreenState extends State<TabsScreen> {
       return true;
     }).toList();
 
-    Widget activePage = CategoriesScreen(
-      onToggleFavorite: _toggleMealFavoriteStatus,
-      availableMeals: availableMeals,
-    );
-    var activePageTitle = 'categories';
+    Widget activePage = Container();
+    var activePageTitle = '';
 
-    if (_selectedPageIndex == 1) {
-      activePage = MealsScreen(
-        meals: _favoriteMeals,
-        onToggleFavorite: _toggleMealFavoriteStatus,
-      );
-      activePageTitle = 'Your Favorites';
+    switch (_selectedPageIndex) {
+      case 0:
+        activePage = CategoriesScreen(
+          onToggleFavorite: _toggleMealFavoriteStatus,
+          availableMeals: availableMeals,
+        );
+        activePageTitle = '主頁面';
+        break;
+      case 1:
+        activePage = MealsScreen(
+          meals: _favoriteMeals,
+          onToggleFavorite: _toggleMealFavoriteStatus,
+        );
+        activePageTitle = '我的最愛';
+        break;
+      case 2:
+        activePage = CustomizeMenuPage(uid: widget.uid);
+        activePageTitle = '自訂菜單';
+        break;
+      case 3:
+        activePage = Expenses(uid: widget.uid);
+        activePageTitle = '訓練記錄';
+        break;
+      case 4:
+        activePage = UserInformationPage(uid: widget.uid);
+        activePageTitle = '設定';
+        break;
     }
 
     return MemoryProvider(
@@ -177,11 +173,11 @@ class _TabsScreenState extends State<TabsScreen> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.set_meal),
-              label: '動作菜單',
+              label: '主頁面',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.star),
-              label: '我的最愛',
+              label: '我的最爱',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.post_add),

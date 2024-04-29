@@ -14,7 +14,7 @@ import 'model.dart';
 import 'sign/signin.dart';
 import 'sign/signup.dart';
 import 'sign/home.dart';
-import 'screens/tabs.dart';
+import 'screens/allMainPages.dart';
 
 class AppRoutes {
   static const String home = '/';

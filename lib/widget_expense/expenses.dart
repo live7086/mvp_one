@@ -2,7 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_one/customize_menu/cus_menu.dart';
 import 'package:mvp_one/models/meal.dart';
-import 'package:mvp_one/screens/tabs.dart';
+import 'package:mvp_one/screens/allMainPages.dart';
 import 'package:mvp_one/user/UserInformationPage.dart';
 import 'package:mvp_one/widget_expense/chart/chart.dart';
 import 'package:mvp_one/widget_expense/expenses_list/expenses_list.dart';
@@ -59,12 +59,13 @@ class _ExpensesState extends State<Expenses> {
       });
     }
 
-    setState(() {
-      _registeredExpenses = expenses;
-    });
+    if (mounted) {
+      setState(() {
+        _registeredExpenses = expenses;
+      });
+    }
   }
 
-  // ignore: unused_element
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -78,16 +79,20 @@ class _ExpensesState extends State<Expenses> {
   }
 
   void _addExpense(Expense expense) {
-    setState(() {
-      _registeredExpenses.add(expense);
-    });
+    if (mounted) {
+      setState(() {
+        _registeredExpenses.add(expense);
+      });
+    }
   }
 
   void _removeExpense(Expense expense) {
     final ExpenseIndex = _registeredExpenses.indexOf(expense);
-    setState(() {
-      _registeredExpenses.remove(expense);
-    });
+    if (mounted) {
+      setState(() {
+        _registeredExpenses.remove(expense);
+      });
+    }
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -96,9 +101,11 @@ class _ExpensesState extends State<Expenses> {
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
-            setState(() {
-              _registeredExpenses.insert(ExpenseIndex, expense);
-            });
+            if (mounted) {
+              setState(() {
+                _registeredExpenses.insert(ExpenseIndex, expense);
+              });
+            }
           },
         ),
       ),
@@ -127,7 +134,6 @@ class _ExpensesState extends State<Expenses> {
         ));
         break;
       case 3:
-        // 由于我们已经确保了 TabsScreen 接收了 uid，我们可以直接使用 widget.uid
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => UserInformationPage(uid: widget.uid),
         ));
@@ -154,13 +160,6 @@ class _ExpensesState extends State<Expenses> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('訓練紀錄'),
-        actions: [
-          IconButton(
-              onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
-        ],
-      ),
       body: Column(
         children: [
           Chart(expenses: _registeredExpenses),
@@ -169,32 +168,12 @@ class _ExpensesState extends State<Expenses> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.set_meal),
-            label: '動作菜單',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
-            label: '自訂菜單',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.my_library_add_outlined),
-            label: '訓練紀錄',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '設定',
-          ),
-        ],
-      ),
     );
+  }
+
+  @override
+  void dispose() {
+    // 在這裡取消訂閱或停止任何計時器或動畫
+    super.dispose();
   }
 }
