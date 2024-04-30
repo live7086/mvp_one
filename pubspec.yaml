@@ -98,6 +98,12 @@ flutter:
     - assets/images/warrior2_pose_1.jpg
     - assets/images/warrior2_pose_2.jpg
     - assets/images/warrior2_pose_3.jpg
+    - assets/images/tree_pose_rear_1.jpg
+    - assets/images/tree_pose_rear_2.jpg
+    - assets/images/tree_pose_rear_3.jpg
+    - assets/images/warrior2_pose_rear_1.jpg
+    - assets/images/warrior2_pose_rear_2.jpg
+    - assets/images/warrior2_pose_rear_3.jpg
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
