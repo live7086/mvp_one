@@ -166,6 +166,11 @@ class _ExpensesState extends State<Expenses> {
           Expanded(
             child: mainContent,
           ),
+          IconButton(
+            onPressed: _openAddExpenseOverlay,
+            icon: const Icon(Icons.add),
+            iconSize: 36.0,
+          )
         ],
       ),
     );

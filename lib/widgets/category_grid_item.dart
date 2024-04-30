@@ -17,23 +17,53 @@ class CategoryGridItem extends StatelessWidget {
       onTap: onSelectCategory,
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
-            colors: [
-              category.color.withOpacity(0.55),
-              category.color.withOpacity(0.9),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              category.imageUrl,
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.infinity,
+            ),
           ),
-        ),
-        child: Text(category.title,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onBackground,
-                )),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 50,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16)),
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                color: Colors.black54,
+                alignment: Alignment.center,
+                child: Text(
+                  category.title,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            // child: Container(
+            //   padding: const EdgeInsets.all(5),
+            //   color: Colors.black54,
+            //   alignment: Alignment.center,
+            //   child: Text(
+            //     category.title,
+            //     style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            //           color: Colors.white,
+            //         ),
+            //   ),
+            // ),
+          ),
+        ],
       ),
     );
   }

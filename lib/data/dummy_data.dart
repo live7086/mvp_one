@@ -9,21 +9,25 @@ const availableCategories = [
     id: 'c1',
     title: '增強平衡和穩定性',
     color: Colors.purple,
+    imageUrl: 'assets/images/boatPose.png',
   ),
   Category(
     id: 'c2',
     title: '加強核心力量和靈活度',
     color: Colors.red,
+    imageUrl: 'assets/images/downwardFacingDogPose.png',
   ),
   Category(
     id: 'c3',
     title: '強化腿部力量和耐力',
     color: Colors.orange,
+    imageUrl: 'assets/images/warriorThreePose.png',
   ),
   Category(
     id: 'c4',
     title: '全部動作',
     color: Color.fromARGB(255, 26, 218, 8),
+    imageUrl: 'assets/images/cowPose.png',
   ),
 ];
 
