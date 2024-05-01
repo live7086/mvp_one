@@ -121,7 +121,7 @@ class CameraScreenState extends State<CameraScreen> {
   String poseType = '';
   //初始化camera 以及 poseDetector
   bool _showFps = true;
-  bool _showAngles = true;
+  bool _showAngles = false;
   double _fontSize = 16.0; // 預設為中等字體大小
   double _tipBoxHeight = 50.0; // 語音提示框的高度
   bool isTreePoseCase1Played = false;
@@ -130,6 +130,13 @@ class CameraScreenState extends State<CameraScreen> {
   bool isWarrior2Case1Played = false;
   bool isWarrior2Case2Played = false;
   bool isWarrior2Case3Played = false;
+
+  String _treePoseRearImage1 = 'assets/images/tree_pose_rear_1.jpg';
+  String _treePoseRearImage2 = 'assets/images/tree_pose_rear_2.jpg';
+  String _treePoseRearImage3 = 'assets/images/tree_pose_rear_3.jpg';
+  String _warrior2RearImage1 = 'assets/images/warrior2_pose_rear_1.jpg';
+  String _warrior2RearImage2 = 'assets/images/warrior2_pose_rear_2.jpg';
+  String _warrior2RearImage3 = 'assets/images/warrior2_pose_rear_3.jpg';
 
   @override
   void initState() {
@@ -728,11 +735,15 @@ class CameraScreenState extends State<CameraScreen> {
           poseTip = '$poseTipText通過,所有動作完成';
           flutterTts.speak(poseTip);
           await Future.delayed(const Duration(seconds: 5));
-          flutterTts.speak("KongShi KongShi");
-          FlutterTts().stop();
 
-          // 等待3秒鐘
-          await Future.delayed(const Duration(seconds: 3));
+          // 播放 "KongShi KongShi" 語音
+          flutterTts.speak("KongShi KongShi");
+
+          // 等待語音播放完畢
+          await Future.delayed(const Duration(milliseconds: 2000));
+
+          // 停止語音播放
+          await flutterTts.stop();
 
           // 導航到結果頁面
           Navigator.pushReplacement(
@@ -771,31 +782,43 @@ class CameraScreenState extends State<CameraScreen> {
         switch (step) {
           case 1:
             guideText = '請按照圖片中的姿勢站立,雙手抱住右膝。';
-            guideImagePath = ('assets/images/tree_pose_1.jpg');
+            guideImagePath = isFrontCamera
+                ? 'assets/images/tree_pose_1.jpg'
+                : _treePoseRearImage1;
             break;
           case 2:
             guideText = '請慢慢將右腳向外抬起,放在左腿內側。';
-            guideImagePath = ('assets/images/tree_pose_2.jpg');
+            guideImagePath = isFrontCamera
+                ? 'assets/images/tree_pose_2.jpg'
+                : _treePoseRearImage2;
             break;
           case 3:
             guideText = '保持平衡,雙手合十擺在胸前。';
-            guideImagePath = ('assets/images/tree_pose_3.jpg');
+            guideImagePath = isFrontCamera
+                ? 'assets/images/tree_pose_3.jpg'
+                : _treePoseRearImage3;
             break;
         }
         break;
       case 'Warrior2':
         switch (step) {
           case 1:
-            guideText = '請站直,雙腳打開與肩同寬，右腳尖朝右。';
-            guideImagePath = ('assets/images/warrior2_pose_1.jpg');
+            guideText = '請站直,雙腳打開與肩同寬,右腳尖朝右。';
+            guideImagePath = isFrontCamera
+                ? 'assets/images/warrior2_pose_1.jpg'
+                : _warrior2RearImage1;
             break;
           case 2:
-            guideText = '右腳屈膝90度,左腳微向內扣。';
-            guideImagePath = ('assets/images/warrior2_pose_2.jpg');
+            guideText = '右腳屈膝90度,左腳微向外展開。';
+            guideImagePath = isFrontCamera
+                ? 'assets/images/warrior2_pose_2.jpg'
+                : _warrior2RearImage2;
             break;
           case 3:
             guideText = '右腳屈膝90度,雙臂平舉與地面平行。';
-            guideImagePath = ('assets/images/warrior2_pose_3.jpg');
+            guideImagePath = isFrontCamera
+                ? 'assets/images/warrior2_pose_3.jpg'
+                : _warrior2RearImage3;
             break;
         }
         break;
@@ -846,8 +869,13 @@ class CameraScreenState extends State<CameraScreen> {
     if (shouldPlayGuide) {
       await flutterTts.speak(guideText);
       await Future.delayed(const Duration(seconds: 6));
-      await flutterTts.speak('請保持動作,檢測即將開始');
-      await Future.delayed(const Duration(seconds: 5));
+
+      if (step == 1) {
+        await flutterTts.speak('請保持動作,檢測即將開始');
+        await Future.delayed(const Duration(seconds: 5));
+      } else {
+        await Future.delayed(const Duration(seconds: 1));
+      }
     }
 
     setState(() {

@@ -98,10 +98,19 @@ flutter:
     - assets/images/warrior2_pose_1.jpg
     - assets/images/warrior2_pose_2.jpg
     - assets/images/warrior2_pose_3.jpg
+<<<<<<< HEAD
     - assets/car-item/car-item-1.jpg
     - assets/car-item/car-item-2.jpg
     - assets/car-item/car-item-3.jpg
     - assets/car-item/car-item-4.jpg
+=======
+    - assets/images/tree_pose_rear_1.jpg
+    - assets/images/tree_pose_rear_2.jpg
+    - assets/images/tree_pose_rear_3.jpg
+    - assets/images/warrior2_pose_rear_1.jpg
+    - assets/images/warrior2_pose_rear_2.jpg
+    - assets/images/warrior2_pose_rear_3.jpg
+>>>>>>> ff75168ef6cb36ab5781e1f0f083c899b0cfcdd2
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
