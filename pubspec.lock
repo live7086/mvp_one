@@ -845,6 +845,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  splash_screen_view:
+    dependency: "direct main"
+    description:
+      name: splash_screen_view
+      sha256: "5453b403a753655173b7ee1405082ca5c40c3bcd8aa44cd00dc6890d2d7cd02a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   sprintf:
     dependency: transitive
     description:
