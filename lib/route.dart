@@ -38,7 +38,7 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
-        return MaterialPageRoute(builder: (_) => const startPage());
+        return MaterialPageRoute(builder: (_) => const StartPage());
       case action:
         return MaterialPageRoute(builder: (_) => const ActionPage());
       // case intro:

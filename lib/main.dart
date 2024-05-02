@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
 import 'provider/provider.dart';
 
-var kColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 159, 120, 250));
+var kColorScheme =
+    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 159, 120, 250));
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,12 @@ void main() async {
       ],
       child: MaterialApp(
         theme: ThemeData().copyWith(
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+              TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+            },
+          ),
           colorScheme: kColorScheme,
           appBarTheme: const AppBarTheme().copyWith(
             backgroundColor: kColorScheme.onPrimaryContainer,
@@ -36,11 +43,11 @@ void main() async {
             ),
           ),
           textTheme: ThemeData().textTheme.copyWith(
-            titleLarge: TextStyle(
-              color: kColorScheme.onSecondaryContainer,
-              fontSize: 26,
-            ),
-          ),
+                titleLarge: TextStyle(
+                  color: kColorScheme.onSecondaryContainer,
+                  fontSize: 26,
+                ),
+              ),
         ),
         home: SplashScreen(),
       ),
@@ -52,7 +59,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SplashScreenView(
-      navigateRoute: startPage(),
+      navigateRoute: StartPage(),
       duration: 3000,
       text: "FLEX",
       textType: TextType.ColorizeAnimationText,

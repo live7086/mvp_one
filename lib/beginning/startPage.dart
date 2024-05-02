@@ -1,40 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_one/sign/signin.dart';
 
-class startPage extends StatelessWidget {
-  const startPage({Key? key}) : super(key: key);
+class StartPage extends StatefulWidget {
+  const StartPage({Key? key}) : super(key: key);
+
+  @override
+  _StartPageState createState() => _StartPageState();
+}
+
+class _StartPageState extends State<StartPage> {
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 200), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Stack(
-        children: [
-          BackgroundImage(),
-          Positioned(
-            left: 20,
-            top: 65,
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: LogoText(),
-            ),
-          ),
-          Positioned(
-            left: 20,
-            bottom: 30,
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: YogaText(),
-                  ),
-                  ActionButton(),
-                ],
+    return AnimatedOpacity(
+      duration: Duration(milliseconds: 1000),
+      opacity: _opacity,
+      child: const Scaffold(
+        body: Stack(
+          children: [
+            BackgroundImage(),
+            Positioned(
+              left: 20,
+              top: 65,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: LogoText(),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              left: 20,
+              bottom: 30,
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: YogaText(),
+                    ),
+                    ActionButton(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
