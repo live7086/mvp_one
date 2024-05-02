@@ -86,30 +86,99 @@ class _ExpensesState extends State<Expenses> {
     }
   }
 
+  bool _isCancelled = false;
+
   void _removeExpense(Expense expense) {
-    final ExpenseIndex = _registeredExpenses.indexOf(expense);
-    if (mounted) {
-      setState(() {
-        _registeredExpenses.remove(expense);
+    final expenseIndex = _registeredExpenses.indexOf(expense);
+    _isCancelled = false; // 重置取消標誌
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('確認刪除'),
+          content: const Text('你確定要刪除這個項目嗎?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _isCancelled = true; // 設置取消標誌為 true
+              },
+              child: const Text('取消'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                if (!_isCancelled) {
+                  // 檢查取消標誌
+                  setState(() {
+                    _registeredExpenses.remove(expense);
+                  });
+                  _deleteExpenseFromDatabase(expense);
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 3),
+                      content: const Text('運動紀錄'),
+                      action: SnackBarAction(
+                        label: '復原',
+                        onPressed: () {
+                          setState(() {
+                            _registeredExpenses.insert(expenseIndex, expense);
+                          });
+                          _addExpenseToDatabase(expense);
+                        },
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: const Text('確認'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteExpenseFromDatabase(Expense expense) async {
+    final databaseURL = 'https://flutter-dogshit-default-rtdb.firebaseio.com';
+    final databasePath = 'user-training';
+
+    final database = FirebaseDatabase(databaseURL: databaseURL).reference();
+    final query =
+        database.child(databasePath).orderByChild('uid').equalTo(widget.uid);
+
+    final snapshot = await query.once();
+    if (snapshot.snapshot.value is Map) {
+      (snapshot.snapshot.value as Map).forEach((key, value) {
+        if (value is Map) {
+          final expenseData = value;
+          if (expenseData['title'] == expense.title.name &&
+              expenseData['time'] == expense.time &&
+              expenseData['date'] == expense.date.toIso8601String() &&
+              expenseData['category'] == expense.category.name) {
+            database.child(databasePath).child(key).remove();
+          }
+        }
       });
     }
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 3),
-        content: const Text('sport detail.'),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () {
-            if (mounted) {
-              setState(() {
-                _registeredExpenses.insert(ExpenseIndex, expense);
-              });
-            }
-          },
-        ),
-      ),
-    );
+  }
+
+  Future<void> _addExpenseToDatabase(Expense expense) async {
+    final databaseURL = 'https://flutter-dogshit-default-rtdb.firebaseio.com';
+    final databasePath = 'user-training';
+
+    final database = FirebaseDatabase(databaseURL: databaseURL).reference();
+    final newExpenseRef = database.child(databasePath).push();
+
+    await newExpenseRef.set({
+      'title': expense.title.name,
+      'time': expense.time,
+      'date': expense.date.toIso8601String(),
+      'category': expense.category.name,
+      'uid': widget.uid,
+    });
   }
 
   void _selectPage(int index) {
@@ -149,7 +218,7 @@ class _ExpensesState extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
     Widget mainContent = const Center(
-      child: Text('No sport found. Start adding some!'),
+      child: Text('沒有訓練紀錄 請按 + 新增紀錄'),
     );
 
     if (_registeredExpenses.isNotEmpty) {

@@ -285,7 +285,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                                         ? FileImage(_avatarImage!)
                                         : null,
                                     child: _avatarImage == null
-                                        ? const Icon(Icons.camera_alt, size: 60)
+                                        ? const Icon(Icons.camera_alt, size: 50)
                                         : null,
                                   ),
                                 ),
@@ -323,7 +323,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                                     title: Text(
                                         '體重: ${userSpecificData!['weight'] ?? '未設定'}kg'),
                                   ),
-                                  const SizedBox(height: 20),
+                                  const SizedBox(height: 10),
                                   ElevatedButton(
                                     onPressed: _showEditDialog,
                                     child: const Text('編輯資料'),
@@ -336,7 +336,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 20, 50, 50),
+                      padding: const EdgeInsets.fromLTRB(50, 20, 50, 15),
                       child: ElevatedButton(
                         onPressed: _signOut,
                         child: const Text('登出'),
