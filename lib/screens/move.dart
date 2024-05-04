@@ -97,7 +97,7 @@ class _MealsScreenState extends State<MealsScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Uh oh! nothing found!',
+              '尚未添加任何動作到最愛',
               style: Theme.of(context)
                   .textTheme
                   .headlineLarge!
@@ -107,7 +107,7 @@ class _MealsScreenState extends State<MealsScreen> {
               height: 16,
             ),
             Text(
-              'try selecting another category',
+              '將您最喜歡的動作保存在這裡',
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!
