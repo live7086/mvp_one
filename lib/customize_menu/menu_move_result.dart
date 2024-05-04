@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +11,12 @@ class MenuResultPage extends StatefulWidget {
   // final Meal meal;
   // final void Function(Meal meal) onToggleFavorite;
 
-  const MenuResultPage({super.key, 
+  const MenuResultPage({
+    super.key,
     required this.duration,
+    required List<int> mealCounts,
+    required List<Meal> selectedMeals,
+    required void Function(Meal meal) onToggleFavorite,
     // required this.meal,
     // required this.onToggleFavorite,
   });
@@ -348,7 +353,8 @@ class _MenuResultPageState extends State<MenuResultPage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[800],
-                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

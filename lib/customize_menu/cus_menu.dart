@@ -481,6 +481,7 @@ class _StartPageState extends State<CustomizeMenuPage> {
                                   selectedMeals: meals,
                                   mealCounts:
                                       mealCountsForCustomMenu.values.toList(),
+                                  onToggleFavorite: (Meal meal) {},
                                 ),
                               ),
                             );
