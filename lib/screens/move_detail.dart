@@ -289,6 +289,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                           meal: widget.meal,
                           onToggleFavorite: widget.onToggleFavorite,
                           customMenuItems: poseMenu.getCustomMenuItems(),
+                          onPoseCompleted: () {},
                         ),
                       ),
                     );
