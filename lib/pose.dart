@@ -75,6 +75,7 @@ class CameraScreen extends StatefulWidget {
   final Meal meal;
   final void Function(Meal meal) onToggleFavorite;
   final List<poseMenu.CustomMenuItem> customMenuItems;
+  final VoidCallback onPoseCompleted;
 
   const CameraScreen({
     Key? key,
@@ -82,6 +83,7 @@ class CameraScreen extends StatefulWidget {
     required this.meal,
     required this.onToggleFavorite,
     required this.customMenuItems,
+    required this.onPoseCompleted,
   }) : super(key: key);
 
   @override
@@ -323,13 +325,14 @@ class CameraScreenState extends State<CameraScreen> {
   }
 
   void _navigateToResultPage() {
+    widget.onPoseCompleted();
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => ResultPage(
           duration: _elapsedSeconds,
-          meal: meal,
-          onToggleFavorite: onToggleFavorite,
+          meal: widget.meal,
+          onToggleFavorite: widget.onToggleFavorite,
           uid: '',
         ),
       ),
