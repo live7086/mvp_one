@@ -37,13 +37,13 @@ class _SigninsreenState extends State<Signinsreen> {
             child: Column(
               children: <Widget>[
                 logoWidegt("assets/singinlogo.png"),
-                reusableTextField("Enter Email", Icons.person_outline, false,
-                    _emailTextController),
+                reusableTextField(
+                    "電子信箱", Icons.person_outline, false, _emailTextController),
                 const SizedBox(
                   height: 30,
                 ),
-                reusableTextField("Enter Password", Icons.lock_outline, true,
-                    _passwordTextController),
+                reusableTextField(
+                    "密碼", Icons.lock_outline, true, _passwordTextController),
                 const SizedBox(
                   height: 20,
                 ),

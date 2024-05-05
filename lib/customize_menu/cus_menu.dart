@@ -25,16 +25,16 @@ class _StartPageState extends State<CustomizeMenuPage> {
   List<Map<String, dynamic>> customMenus = [
     // 自定義菜單列表
     {
-      'title': '預設菜單1',
-      'description': '這是預設菜單1的介紹文字',
+      'title': '上肢輕鬆舒展運動清單',
+      'description': '鬆一下，務必得鬆一下。',
       'meals':
           dummyMeals.where((meal) => meal.categories.contains('c1')).toList(),
       'isExpanded': false,
       'isSelected': false,
     },
     {
-      'title': '預設菜單2',
-      'description': '這是預設菜單2的介紹文字',
+      'title': '重訓後的收操伸展',
+      'description': '健身完後不做真的不舒服。',
       'meals':
           dummyMeals.where((meal) => meal.categories.contains('c2')).toList(),
       'isExpanded': false,
@@ -65,10 +65,13 @@ class _StartPageState extends State<CustomizeMenuPage> {
           for (var meal in selectedMealsForCustomMenu)
             meal: mealCountsForCustomMenu[meal] ?? 1
         };
-
         customMenus.add({
-          'title': result['menuTitle'],
-          'description': result['menuDescription'],
+          'title': result['menuTitle']?.isEmpty ?? true
+              ? '預設菜單標題'
+              : result['menuTitle'],
+          'description': result['menuDescription']?.isEmpty ?? true
+              ? '預設菜單描述'
+              : result['menuDescription'],
           'meals': selectedMealsForCustomMenu,
           'isExpanded': false,
           'isSelected': false,

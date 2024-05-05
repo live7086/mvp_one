@@ -111,7 +111,7 @@ class _NewExpenseState extends State<NewExpense> {
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     icon: Icon(Icons.access_time_outlined),
-                    label: Text('time'),
+                    label: Text('訓練時長'),
                   ),
                 ),
               ),
@@ -122,7 +122,7 @@ class _NewExpenseState extends State<NewExpense> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(_selectedDate == null
-                        ? 'No Date Selected!'
+                        ? '尚未選取日期！'
                         : formatter.format(_selectedDate!)),
                     IconButton(
                       onPressed: _presentDatePicker,
@@ -164,11 +164,11 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Cancel'),
+                child: const Text('取消'),
               ),
               ElevatedButton(
                 onPressed: _submitExpenseData,
-                child: const Text('save Buttom'),
+                child: const Text('新增'),
               ),
             ],
           ),

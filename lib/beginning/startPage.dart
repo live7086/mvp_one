@@ -82,7 +82,7 @@ class LogoText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Text(
-      "FLEㄨ",
+      "FLEX",
       style: TextStyle(
           fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
     );
@@ -97,7 +97,7 @@ class YogaText extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          "Yoga Training Club",
+          "Get Flexy, Get Healthy",
           style: TextStyle(fontSize: 18, color: Colors.white),
         ),
         Text(

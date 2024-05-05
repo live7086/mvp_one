@@ -60,11 +60,11 @@ class _TabsScreenState extends State<TabsScreen> {
       setState(() {
         _favoriteMeals.remove(meal);
       });
-      showInfoMessage('Meal is no longer a favorite');
+      showInfoMessage('已從我的最愛移除');
       _favoriteMeals.remove(meal);
     } else {
       _favoriteMeals.add(meal);
-      showInfoMessage('Marked as favorite');
+      showInfoMessage('已加入我的最愛！');
     }
   }
 
