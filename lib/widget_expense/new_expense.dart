@@ -79,17 +79,19 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
       child: Column(
         children: [
-          DropdownButton(
+          Align(
+            alignment: Alignment.centerLeft,
+            child: DropdownButton(
               value: _titleController,
               items: Yoga.values
                   .map(
                     (title) => DropdownMenuItem(
                       value: title,
                       child: Text(
-                        title.name.toUpperCase(),
+                        title.chineseName,
                       ),
                     ),
                   )
@@ -102,7 +104,9 @@ class _NewExpenseState extends State<NewExpense> {
                   _titleController = value;
                 });
                 print(value);
-              }),
+              },
+            ),
+          ),
           Row(
             children: [
               Expanded(
@@ -139,26 +143,27 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               DropdownButton(
-                  value: _selectedCategory,
-                  items: Category.values
-                      .map(
-                        (category) => DropdownMenuItem(
-                          value: category,
-                          child: Text(
-                            category.name.toUpperCase(),
-                          ),
+                value: _selectedCategory,
+                items: Category.values
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(
+                          category.chineseName, // 使用中文名稱
                         ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    if (value == null) {
-                      return;
-                    }
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                    print(value);
-                  }),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                  print(value);
+                },
+              ),
               const Spacer(),
               TextButton(
                 onPressed: () {

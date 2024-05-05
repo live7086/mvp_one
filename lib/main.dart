@@ -19,7 +19,7 @@ void main() async {
       ],
       child: MaterialApp(
         theme: ThemeData().copyWith(
-          pageTransitionsTheme: PageTransitionsTheme(
+          pageTransitionsTheme: const PageTransitionsTheme(
             builders: {
               TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
               TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
@@ -56,14 +56,15 @@ void main() async {
 }
 
 class SplashScreen extends StatelessWidget {
+  const SplashScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SplashScreenView(
-      navigateRoute: StartPage(),
+      navigateRoute: const StartPage(),
       duration: 3000,
       text: "FLEX",
       textType: TextType.ColorizeAnimationText,
-      textStyle: TextStyle(
+      textStyle: const TextStyle(
         fontSize: 80.0,
         fontWeight: FontWeight.bold,
         fontFamily: 'Roboto',

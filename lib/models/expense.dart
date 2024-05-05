@@ -9,19 +9,30 @@ final formatter = DateFormat.yMd();
 const uuid = Uuid();
 
 enum Yoga {
-  BOAT_POSE,
-  COW_POSE,
-  Crescent_Lunge,
-  Downward_Dog,
-  Single_Leg_Downward_Facing_Dog,
-  TREE_POSE,
-  Upward_Facing_Dog_Pose,
-  Warrior_I,
-  Warrior_II,
-  Warrior_III
+  BOAT_POSE('船式'),
+  COW_POSE('牛式'),
+  Crescent_Lunge('新月式弓步'),
+  Downward_Dog('下犬式'),
+  Single_Leg_Downward_Facing_Dog('單腿下犬式'),
+  TREE_POSE('樹式'),
+  Upward_Facing_Dog_Pose('上犬式'),
+  Warrior_I('戰士一式'),
+  Warrior_II('戰士二式'),
+  Warrior_III('戰士三式');
+
+  final String chineseName;
+  const Yoga(this.chineseName);
 }
 
-enum Category { Upperbody, Lowerbody, Fullbody, other }
+enum Category {
+  Upperbody('上半身'),
+  Lowerbody('下半身'),
+  Fullbody('全身'),
+  other('其他');
+
+  final String chineseName;
+  const Category(this.chineseName);
+}
 
 const categoryIcons = {
   Category.Upperbody: Icons.paragliding,

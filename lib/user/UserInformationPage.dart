@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:mvp_one/customize_menu/cus_menu.dart';
 import 'package:mvp_one/screens/allMainPages.dart';
 import 'package:mvp_one/widget_expense/expenses.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UserInformationPage extends StatefulWidget {
   const UserInformationPage({Key? key, required this.uid}) : super(key: key);
@@ -42,6 +44,9 @@ class _UserInformationPageState extends State<UserInformationPage> {
         data.forEach((key, value) {
           if (value['uid'] == uid) {
             userSpecificData = value;
+            if (userSpecificData!['avatar_url'] != null) {
+              _loadAvatarImage(userSpecificData!['avatar_url']);
+            }
           }
         });
 
@@ -64,9 +69,25 @@ class _UserInformationPageState extends State<UserInformationPage> {
     }
   }
 
+  Future<void> _loadAvatarImage(String url) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final bytes = response.bodyBytes;
+        final tempDir = await getTemporaryDirectory();
+        final file = File('${tempDir.path}/avatar.png');
+        await file.writeAsBytes(bytes);
+        setState(() {
+          _avatarImage = file;
+        });
+      }
+    } catch (e) {
+      print('Failed to load avatar image: $e');
+    }
+  }
+
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    // Navigate back to the login screen, or root of navigation stack
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
@@ -243,13 +264,85 @@ class _UserInformationPageState extends State<UserInformationPage> {
     }
   }
 
+  Future<void> _uploadAvatar(File imageFile) async {
+    try {
+      FirebaseStorage storage = FirebaseStorage.instance;
+
+      // 创建 "avatars" 文件夹的引用
+      Reference avatarsRef = storage.ref().child('avatars');
+
+      // 尝试创建 "avatars" 文件夹(如果它不存在)
+      try {
+        await avatarsRef.putString('');
+      } catch (e) {
+        if (e is FirebaseException && e.code == 'object-not-found') {
+          // 如果 "avatars" 文件夹不存在,则创建它
+          await avatarsRef.putString('');
+        } else {
+          rethrow;
+        }
+      }
+
+      // 创建用户头像的引用
+      Reference ref = avatarsRef.child(widget.uid);
+
+      UploadTask uploadTask = ref.putFile(imageFile);
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+      final updateUrl = Uri.https(
+        'flutter-dogshit-default-rtdb.firebaseio.com',
+        '/user-information.json',
+      );
+
+      final response = await http.get(updateUrl);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        String? key;
+        data.forEach((k, value) {
+          if (value['uid'] == widget.uid) {
+            key = k;
+          }
+        });
+
+        if (key != null) {
+          final updateAvatarUrl = Uri.https(
+            'flutter-dogshit-default-rtdb.firebaseio.com',
+            '/user-information/$key.json',
+          );
+
+          final updateData = {
+            'avatar_url': downloadUrl,
+            'nickname': userSpecificData!['nickname'],
+            'Gender': userSpecificData!['Gender'],
+            'birthdate': userSpecificData!['birthdate'],
+            'height': userSpecificData!['height'],
+            'weight': userSpecificData!['weight'],
+          };
+
+          await http.patch(
+            updateAvatarUrl,
+            body: json.encode(updateData),
+          );
+        }
+      }
+
+      print('頭像上傳成功');
+    } catch (e) {
+      print('頭像上傳失敗: $e');
+    }
+  }
+
   Future<void> _pickImage() async {
     final pickedImage =
         await ImagePicker().getImage(source: ImageSource.gallery);
     if (pickedImage != null) {
+      File imageFile = File(pickedImage.path);
+      await _uploadAvatar(imageFile);
+
       if (mounted) {
         setState(() {
-          _avatarImage = File(pickedImage.path);
+          _avatarImage = imageFile;
         });
       }
     }
@@ -278,7 +371,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                               },
                               child: Center(
                                 child: GestureDetector(
-                                  onTap: _pickImage, // 當點擊頭像時,觸發_pickImage函數
+                                  onTap: _pickImage,
                                   child: CircleAvatar(
                                     radius: 80,
                                     backgroundImage: _avatarImage != null
@@ -342,8 +435,8 @@ class _UserInformationPageState extends State<UserInformationPage> {
                         child: const Text('登出'),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
-                          backgroundColor: const Color.fromARGB(
-                              255, 173, 99, 243), // Button text color
+                          backgroundColor:
+                              const Color.fromARGB(255, 173, 99, 243),
                           shape: const StadiumBorder(),
                           minimumSize: const Size(200, 50),
                         ),
@@ -356,7 +449,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
 
   @override
   void dispose() {
-    // 在這裡取消訂閱或停止任何計時器或動畫
     super.dispose();
   }
 }
