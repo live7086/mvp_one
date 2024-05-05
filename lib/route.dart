@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-// import 'genderSelectionPage.dart';
 import 'actionPage.dart';
 import 'cameraPage.dart';
 import 'beginning/startPage.dart';
-// import 'introPage.dart';
 import 'user/userInfoPage.dart';
 import 'user/userLevelPage.dart';
 import 'beginning/setupDonePage.dart';
-import 'search.dart';
 import 'posePage.dart';
 import 'model.dart';
 import 'sign/signin.dart';
@@ -52,10 +49,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const UserLevelPage());
       case setupDone:
         return MaterialPageRoute(builder: (_) => const SetupDonePage());
-      case search:
-        return MaterialPageRoute(builder: (_) => const Search());
-      // case menu:
-      //   return MaterialPageRoute(builder: (_) => const Usermenu());
       case posePage:
         return MaterialPageRoute(builder: (_) => HorizontalScrollListPage());
       case model:
