@@ -571,14 +571,12 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
         case 'Warrior II(戰士二式)':
           switch (poseIndex) {
             case 0:
-              // 播放第一個戰士二式姿勢的語音引導和示範圖片
-              await _playPoseGuide('Warrior2', 1);
-              // 檢查第一個樹式姿勢是否需要修正
+// 檢查第一個戰士二式姿勢是否需要修正
               correctionTip = checkWarrior2OneNeedsCorrection(angles);
-              //直到提示不同才做語音提醒
+//直到提示不同才做語音提醒
               if (correctionTip != poseTip) {
                 if (correctionTip.isNotEmpty) {
-                  // 如果需要修正,提供修正建議並重試當前階段
+// 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
                   await Future.delayed(const Duration(seconds: 6));
@@ -586,22 +584,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
-                  // 如果不需要修正,執行原有的姿勢檢查邏輯
+// 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2OnePass(angles);
-                  poseTipText = '這是 戰士二式1';
+                  poseTipText = '這是 Warrior2 1';
                 }
                 break;
               } else {
-                //不然就等一下再檢查一次
+//不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 戰士二式1';
+                poseTipText = '這是 Warrior2 1';
                 break;
               }
-
             case 1:
-              // 播放第二個戰士二式姿勢的語音引導和示範圖片
-              await _playPoseGuide('Warrior2', 2);
-              // 檢查第二個樹式姿勢是否需要修正
+              // 檢查第二個戰士二式姿勢是否需要修正
               correctionTip = checkWarrior2TwoNeedsCorrection(angles);
               //直到提示不同才做語音提醒
               if (correctionTip != poseTip) {
@@ -616,19 +611,17 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2TwoPass(angles);
-                  poseTipText = '這是 戰士二式2';
+                  poseTipText = '這是 Warrior2 2';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 戰士二式2';
+                poseTipText = '這是 Warrior2 2';
                 break;
               }
             case 2:
-              // 播放第三個戰士二式姿勢的語音引導和示範圖片
-              await _playPoseGuide('Warrior2', 3);
-              // 檢查第三個樹式姿勢是否需要修正
+              // 檢查第三個戰士二式姿勢是否需要修正
               correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
               //直到提示不同才做語音提醒
               if (correctionTip != poseTip) {
@@ -643,13 +636,13 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2ThreePass(angles);
-                  poseTipText = '這是 戰士二式3';
+                  poseTipText = '這是 Warrior2 3';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 戰士二式3';
+                poseTipText = '這是 Warrior2 3';
                 break;
               }
             default:
