@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'actionPage.dart';
 import 'cameraPage.dart';
 import 'beginning/startPage.dart';
 import 'user/userInfoPage.dart';
 import 'user/userLevelPage.dart';
 import 'beginning/setupDonePage.dart';
-import 'posePage.dart';
 import 'model.dart';
 import 'sign/signin.dart';
 import 'sign/signup.dart';
@@ -36,21 +33,12 @@ class AppRoutes {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(builder: (_) => const StartPage());
-      case action:
-        return MaterialPageRoute(builder: (_) => const ActionPage());
-      // case intro:
-      //   return MaterialPageRoute(builder: (_) => const IntroPage());
       case camera:
         return MaterialPageRoute(builder: (_) => const CameraPage());
-      // case gender:
-      //   return MaterialPageRoute(builder: (_) => const GenderSelectionPage());
-
       case userLevel:
         return MaterialPageRoute(builder: (_) => const UserLevelPage());
       case setupDone:
         return MaterialPageRoute(builder: (_) => const SetupDonePage());
-      case posePage:
-        return MaterialPageRoute(builder: (_) => HorizontalScrollListPage());
       case model:
         return MaterialPageRoute(builder: (_) => const model_1());
       case signin:
