@@ -25,6 +25,47 @@ import '../Pose_Correction/Warrior2/Warrior2_Correction_One.dart';
 import '../Pose_Correction/Warrior2/Warrior2_Correction_Two.dart';
 import '../Pose_Correction/Warrior2/Warrior2_Correction_Three.dart';
 
+class GuideWindow extends StatefulWidget {
+  final String guideImagePath;
+
+  GuideWindow({required this.guideImagePath});
+
+  @override
+  _GuideWindowState createState() => _GuideWindowState();
+}
+
+class _GuideWindowState extends State<GuideWindow> {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 20,
+      top: 50,
+      child: Container(
+        width: 120,
+        height: 210,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            widget.guideImagePath,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class MenuCameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
   final List<Meal> selectedMeals;
@@ -101,6 +142,22 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
   bool _showAngles = false;
   double _fontSize = 16.0; // 預設為中等字體大小
   double _tipBoxHeight = 50.0; // 語音提示框的高度
+  bool isTreePoseCase1Played = false;
+  bool isTreePoseCase2Played = false;
+  bool isTreePoseCase3Played = false;
+  bool isWarrior2Case1Played = false;
+  bool isWarrior2Case2Played = false;
+  bool isWarrior2Case3Played = false;
+
+  String _guideText = '';
+  String _guideImagePath = '';
+
+  String _treePoseRearImage1 = 'assets/images/tree_pose_rear_1.jpg';
+  String _treePoseRearImage2 = 'assets/images/tree_pose_rear_2.jpg';
+  String _treePoseRearImage3 = 'assets/images/tree_pose_rear_3.jpg';
+  String _warrior2RearImage1 = 'assets/images/warrior2_pose_rear_1.jpg';
+  String _warrior2RearImage2 = 'assets/images/warrior2_pose_rear_2.jpg';
+  String _warrior2RearImage3 = 'assets/images/warrior2_pose_rear_3.jpg';
 
   @override
   void initState() {
@@ -273,14 +330,6 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
     );
   }
 
-  // void _toggleCamera() {
-  //   // 切換前後置相機
-  //   setState(() {
-  //     isFrontCamera = !isFrontCamera;
-  //     _initializeCamera();
-  //   });
-  // }
-
   Future<void> _detectPose(CameraImage image, bool isFrontCamera) async {
     // 檢測姿勢
     if (_isAllPosesCompleted) {
@@ -435,6 +484,8 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
         case 'TREE POSE(樹式)':
           switch (poseIndex) {
             case 0:
+              // 播放第一個樹式姿勢的語音引導和示範圖片
+              await _playPoseGuide('TreePose', 1);
               // 檢查第一個樹式姿勢是否需要修正
               correctionTip = checkTreePoseOneNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -450,17 +501,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await TreePoseOnePass(angles);
-                  poseTipText = '這是 Tree Pose 1';
+                  poseTipText = '這是 樹式1';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Tree Pose 1';
+                poseTipText = '這是 樹式1';
                 break;
               }
 
             case 1:
+              // 播放第二個樹式姿勢的語音引導和示範圖片
+              await _playPoseGuide('TreePose', 2);
               // 檢查第二個樹式姿勢是否需要修正
               correctionTip = checkTreePoseTwoNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -476,16 +529,18 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await TreePoseTwoPass(angles);
-                  poseTipText = '這是 Tree Pose 2';
+                  poseTipText = '這是 樹式2';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Tree Pose 2';
+                poseTipText = '這是 樹式2';
                 break;
               }
             case 2:
+              // 播放第三個樹式姿勢的語音引導和示範圖片
+              await _playPoseGuide('TreePose', 3);
               // 檢查第三個樹式姿勢是否需要修正
               correctionTip = checkTreePoseThreeNeedsCorrection(angles);
               //直到提示不同才做語音提醒
@@ -499,15 +554,15 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
-// 如果不需要修正,執行原有的姿勢檢查邏輯
+                  // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await TreePoseThreePass(angles);
-                  poseTipText = '這是 Tree Pose 3';
+                  poseTipText = '這是 樹式3';
                 }
                 break;
               } else {
-//不然就等一下再檢查一次
+                //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Tree Pose 3';
+                poseTipText = '這是 樹式3';
                 break;
               }
             default:
@@ -516,12 +571,14 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
         case 'Warrior II(戰士二式)':
           switch (poseIndex) {
             case 0:
-// 檢查第一個戰士二式姿勢是否需要修正
+              // 播放第一個戰士二式姿勢的語音引導和示範圖片
+              await _playPoseGuide('Warrior2', 1);
+              // 檢查第一個樹式姿勢是否需要修正
               correctionTip = checkWarrior2OneNeedsCorrection(angles);
-//直到提示不同才做語音提醒
+              //直到提示不同才做語音提醒
               if (correctionTip != poseTip) {
                 if (correctionTip.isNotEmpty) {
-// 如果需要修正,提供修正建議並重試當前階段
+                  // 如果需要修正,提供修正建議並重試當前階段
                   poseTip = correctionTip;
                   flutterTts.speak(poseTip);
                   await Future.delayed(const Duration(seconds: 6));
@@ -529,19 +586,22 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                   await Future.delayed(const Duration(milliseconds: 700));
                   await _checkPose(poseIndex);
                 } else {
-// 如果不需要修正,執行原有的姿勢檢查邏輯
+                  // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2OnePass(angles);
-                  poseTipText = '這是 Warrior2 1';
+                  poseTipText = '這是 戰士二式1';
                 }
                 break;
               } else {
-//不然就等一下再檢查一次
+                //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Warrior2 1';
+                poseTipText = '這是 戰士二式1';
                 break;
               }
+
             case 1:
-              // 檢查第二個戰士二式姿勢是否需要修正
+              // 播放第二個戰士二式姿勢的語音引導和示範圖片
+              await _playPoseGuide('Warrior2', 2);
+              // 檢查第二個樹式姿勢是否需要修正
               correctionTip = checkWarrior2TwoNeedsCorrection(angles);
               //直到提示不同才做語音提醒
               if (correctionTip != poseTip) {
@@ -556,17 +616,19 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2TwoPass(angles);
-                  poseTipText = '這是 Warrior2 2';
+                  poseTipText = '這是 戰士二式2';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Warrior2 2';
+                poseTipText = '這是 戰士二式2';
                 break;
               }
             case 2:
-              // 檢查第三個戰士二式姿勢是否需要修正
+              // 播放第三個戰士二式姿勢的語音引導和示範圖片
+              await _playPoseGuide('Warrior2', 3);
+              // 檢查第三個樹式姿勢是否需要修正
               correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
               //直到提示不同才做語音提醒
               if (correctionTip != poseTip) {
@@ -581,13 +643,13 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 } else {
                   // 如果不需要修正,執行原有的姿勢檢查邏輯
                   result = await Warrior2ThreePass(angles);
-                  poseTipText = '這是 Warrior2 3';
+                  poseTipText = '這是 戰士二式3';
                 }
                 break;
               } else {
                 //不然就等一下再檢查一次
                 await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 Warrior2 3';
+                poseTipText = '這是 戰士二式3';
                 break;
               }
             default:
@@ -654,6 +716,116 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
     } else {
       return;
     }
+  }
+
+  Future<void> _playPoseGuide(String pose, int step) async {
+    String guideText = '';
+    String guideImagePath = '';
+
+    switch (pose) {
+      case 'TreePose':
+        switch (step) {
+          case 1:
+            guideText = '請按照圖片中的姿勢站立,雙手抱住右膝。';
+            guideImagePath = isFrontCamera
+                ? 'assets/images/tree_pose_1.jpg'
+                : _treePoseRearImage1;
+            break;
+          case 2:
+            guideText = '請慢慢將右腳向外抬起,放在左腿內側。';
+            guideImagePath = isFrontCamera
+                ? 'assets/images/tree_pose_2.jpg'
+                : _treePoseRearImage2;
+            break;
+          case 3:
+            guideText = '保持平衡,雙手合十擺在胸前。';
+            guideImagePath = isFrontCamera
+                ? 'assets/images/tree_pose_3.jpg'
+                : _treePoseRearImage3;
+            break;
+        }
+        break;
+      case 'Warrior2':
+        switch (step) {
+          case 1:
+            guideText = '請站直,雙腳打開與肩同寬,右腳尖朝右。';
+            guideImagePath = isFrontCamera
+                ? 'assets/images/warrior2_pose_1.jpg'
+                : _warrior2RearImage1;
+            break;
+          case 2:
+            guideText = '右腳屈膝90度,左腳微向外展開。';
+            guideImagePath = isFrontCamera
+                ? 'assets/images/warrior2_pose_2.jpg'
+                : _warrior2RearImage2;
+            break;
+          case 3:
+            guideText = '右腳屈膝90度,雙臂平舉與地面平行。';
+            guideImagePath = isFrontCamera
+                ? 'assets/images/warrior2_pose_3.jpg'
+                : _warrior2RearImage3;
+            break;
+        }
+        break;
+    }
+
+    setState(() {
+      _guideImagePath = guideImagePath;
+      poseTip = guideText;
+    });
+
+    bool shouldPlayGuide = false;
+
+    switch (pose) {
+      case 'TreePose':
+        switch (step) {
+          case 1:
+            shouldPlayGuide = !isTreePoseCase1Played;
+            isTreePoseCase1Played = true;
+            break;
+          case 2:
+            shouldPlayGuide = !isTreePoseCase2Played;
+            isTreePoseCase2Played = true;
+            break;
+          case 3:
+            shouldPlayGuide = !isTreePoseCase3Played;
+            isTreePoseCase3Played = true;
+            break;
+        }
+        break;
+      case 'Warrior2':
+        switch (step) {
+          case 1:
+            shouldPlayGuide = !isWarrior2Case1Played;
+            isWarrior2Case1Played = true;
+            break;
+          case 2:
+            shouldPlayGuide = !isWarrior2Case2Played;
+            isWarrior2Case2Played = true;
+            break;
+          case 3:
+            shouldPlayGuide = !isWarrior2Case3Played;
+            isWarrior2Case3Played = true;
+            break;
+        }
+        break;
+    }
+
+    if (shouldPlayGuide) {
+      await flutterTts.speak(guideText);
+      await Future.delayed(const Duration(seconds: 6));
+
+      if (step == 1) {
+        await flutterTts.speak('請保持動作,檢測即將開始');
+        await Future.delayed(const Duration(seconds: 5));
+      } else {
+        await Future.delayed(const Duration(seconds: 1));
+      }
+    }
+
+    setState(() {
+      _guideImagePath = guideImagePath;
+    });
   }
 
   Uint8List _concatenatePlanes(List<Plane> planes) {
@@ -822,6 +994,10 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
               height: _tipBoxHeight,
             ),
           ),
+          if (_guideImagePath.isNotEmpty) // 只顯示動作引導圖片,不顯示文字
+            GuideWindow(
+              guideImagePath: _guideImagePath,
+            ),
         ],
       ),
     );

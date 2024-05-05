@@ -299,7 +299,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                     size: 28,
                   ),
                   label: const Text(
-                    'START',
+                    '開始運動',
                     style: TextStyle(fontSize: 20),
                   ),
                   style: ButtonStyle(
