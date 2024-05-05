@@ -11,9 +11,9 @@ String checkTreePoseTwoNeedsCorrection(Map<String, int> angles) {
 
     // 根據您的需求設定良好角度範圍
     const int rKneeGoodMin = 40;
-    const int rKneeGoodMax = 70;
+    const int rKneeGoodMax = 80;
     const int rHipGoodMin = 95;
-    const int rHipGoodMax = 125;
+    const int rHipGoodMax = 130;
 
     if (rKnee < rKneeGoodMin || rKnee > rKneeGoodMax) {
       // 右膝角度超出良好範圍

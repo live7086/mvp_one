@@ -11,8 +11,8 @@ String checkTreePoseThreeNeedsCorrection(Map<String, int> angles) {
 
     // 根據您的需求設定良好角度範圍
     const int rKneeGoodMin = 40;
-    const int rKneeGoodMax = 70;
-    const int rElbowGoodMin = 50;
+    const int rKneeGoodMax = 80;
+    const int rElbowGoodMin = 30;
     const int rElbowGoodMax = 70;
 
     if (rKnee < rKneeGoodMin || rKnee > rKneeGoodMax) {
