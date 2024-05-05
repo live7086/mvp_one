@@ -296,7 +296,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                   },
                   icon: const Icon(
                     Icons.play_arrow,
-                    size: 28,
+                    size: 26,
                   ),
                   label: const Text(
                     '開始運動',
