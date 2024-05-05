@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_one/models/meal.dart';
 import 'package:mvp_one/provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
@@ -14,9 +13,6 @@ class MenuResultPage extends StatefulWidget {
   const MenuResultPage({
     super.key,
     required this.duration,
-    required List<int> mealCounts,
-    required List<Meal> selectedMeals,
-    required void Function(Meal meal) onToggleFavorite,
     // required this.meal,
     // required this.onToggleFavorite,
   });
