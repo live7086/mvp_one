@@ -9,6 +9,7 @@ import 'dart:typed_data';
 import 'dart:math' as math;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mvp_one/customize_menu/menu_resume.dart';
+import 'package:mvp_one/pose_related/posePainter.dart';
 
 // TreePose imports
 import '../Pose_Guide/TreePose/TreePose_Guide_One.dart';
@@ -115,6 +116,7 @@ List<CustomMenuItem> getCustomMenuItems() {
 
 class MenuCameraScreenState extends State<MenuCameraScreen>
     with WidgetsBindingObserver {
+  List<CustomMenuItem> _customMenuItems = []; //用於存儲新增過後的菜單項
   bool _isResuming = false; //頁面是否需要恢復
   late Meal meal; // 當前正在執行的動作
   late Timer _timer; // 計時器
@@ -130,7 +132,7 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
   late PoseDetector _poseDetector; // 姿勢檢測器
   List<Pose> poses = []; // 檢測到的姿勢列表
   late CameraController _cameraController; // 相機控制器
-  bool isFrontCamera = false; // 是否使用前置相機
+  bool isFrontCamera = true; // 是否使用前置相機
   double _fpsAverage = 0.0; // 平均 FPS
   int _fpsCounter = 0; // FPS 計數器
   DateTime? _lastFrameTime; // 上一幀的時間
@@ -163,16 +165,26 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    meal = widget.selectedMeals[currentMealIndex]; // 初始化當前動作
-    currentMealCount = widget.mealCounts[currentMealIndex]; // 初始化當前動作的執行次數
-    _initializeCamera(); // 初始化相機
+    meal = widget.selectedMeals[currentMealIndex];
+    currentMealCount = widget.mealCounts[currentMealIndex];
+    _initializeCamera();
     _poseDetector = PoseDetector(
       options: PoseDetectorOptions(
         model: PoseDetectionModel.base,
         mode: PoseDetectionMode.stream,
       ),
-    ); // 初始化姿勢檢測器
-    checkPoses(); // 開始檢查姿勢
+    );
+    checkPoses();
+
+    // 賦值新增過後的菜單項
+    _customMenuItems = widget.selectedMeals.map((meal) {
+      return CustomMenuItem(
+        name: meal.title,
+        description: '描述或其他相關資訊',
+        iconPath: 'assets/icons/menu_item_icon.png',
+        mealId: meal.id,
+      );
+    }).toList();
   }
 
   void _showSettingsDialog() {
@@ -956,6 +968,92 @@ class MenuCameraScreenState extends State<MenuCameraScreen>
                 ),
               ),
             ),
+          // 在 build() 方法中添加以下代碼
+          //以下為菜單進度的視窗
+          Positioned(
+            top: 30.0,
+            left: 50.0,
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                    size: 30.0,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('菜單進度'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: _customMenuItems.map((item) {
+                                final index = _customMenuItems.indexOf(item);
+                                final isCompleted = index < currentMealIndex;
+                                final isInProgress = index == currentMealIndex;
+                                final mealImage = dummyMeals
+                                    .firstWhere(
+                                        (meal) => meal.title == item.name)
+                                    .imageUrl;
+                                return Container(
+                                  color:
+                                      isInProgress ? Colors.yellow[100] : null,
+                                  child: ListTile(
+                                    leading: Container(
+                                      width: 60.0,
+                                      height: 60.0,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        image: DecorationImage(
+                                          image: mealImage,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      item.name,
+                                      style: TextStyle(
+                                        fontWeight: isInProgress
+                                            ? FontWeight.bold
+                                            : null,
+                                      ),
+                                    ),
+                                    trailing: Container(
+                                      width: 12.0,
+                                      height: 12.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: isCompleted
+                                            ? Colors.green
+                                            : isInProgress
+                                                ? Colors.blue
+                                                : Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              child: const Text('關閉'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
           if (_showAngles)
             Positioned(
               bottom: _tipBoxHeight + 10,
