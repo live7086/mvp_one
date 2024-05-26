@@ -93,6 +93,19 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                               ),
                         ),
                       ),
+                      Positioned(
+                        bottom: 16,
+                        right: 16,
+                        child: Text(
+                          '影片來源：Alo Moves',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
                     ],
                   ),
                   Padding(
@@ -273,105 +286,59 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
               ),
             ),
           ),
-    Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            ElevatedButton.icon(
-              onPressed: () async {
-                final cameras = await availableCameras();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CameraScreen(
-                      cameras: cameras,
-                      meal: widget.meal,
-                      onToggleFavorite: widget.onToggleFavorite,
-                      customMenuItems: poseMenu.getCustomMenuItems(),
-                      onPoseCompleted: () {},
+          Container(
+            margin: const EdgeInsets.only(bottom: 16.0),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Center(
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    final cameras = await availableCameras();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CameraScreen(
+                          cameras: cameras,
+                          meal: widget.meal,
+                          onToggleFavorite: widget.onToggleFavorite,
+                          customMenuItems: poseMenu.getCustomMenuItems(),
+                          onPoseCompleted: () {},
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.play_arrow,
+                    size: 26,
+                  ),
+                  label: const Text(
+                    '開始運動',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.symmetric(horizontal: 120, vertical: 15),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).colorScheme.primary,
+                    ),
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                      Colors.white,
+                    ),
+                    elevation: MaterialStateProperty.all<double>(8),
+                    shadowColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).colorScheme.primary.withOpacity(0.5),
                     ),
                   ),
-                );
-              },
-              icon: const Icon(
-                Icons.play_arrow,
-                size: 26,
-              ),
-              label: const Text(
-                '開始運動',
-                style: TextStyle(fontSize: 20),
-              ),
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 120, vertical: 15),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).colorScheme.primary,
-                ),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                  Colors.white,
-                ),
-                elevation: MaterialStateProperty.all<double>(8),
-                shadowColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).colorScheme.primary.withOpacity(0.5),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ResultPage(
-                      duration: widget.meal.duration,
-                      meal: widget.meal,
-                      onToggleFavorite: widget.onToggleFavorite,
-                      uid: '',
-                    ),
-                  ),
-                );
-              },
-              icon: const Icon(
-                Icons.skip_next,
-                size: 26,
-              ),
-              label: const Text(
-                '直接查看結果',
-                style: TextStyle(fontSize: 20),
-              ),
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  Colors.grey[400]!,
-                ),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                  Colors.white,
-                ),
-                elevation: MaterialStateProperty.all<double>(4),
-                shadowColor: MaterialStateProperty.all<Color>(
-                  Colors.grey.withOpacity(0.5),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
+          ),
         ],
       ),
     );
