@@ -47,8 +47,7 @@ class _ExpensesState extends State<Expenses> {
         if (value is Map) {
           final expenseData = value;
           final expense = Expense(
-            title:
-                Yoga.values.firstWhere((e) => e.name == expenseData['title']),
+            title: Yoga.fromEnglishName(expenseData['title']),
             time: double.parse(expenseData['time'].toString()),
             date: DateTime.parse(expenseData['date']),
             category: Category.values
@@ -154,7 +153,8 @@ class _ExpensesState extends State<Expenses> {
       (snapshot.snapshot.value as Map).forEach((key, value) {
         if (value is Map) {
           final expenseData = value;
-          if (expenseData['title'] == expense.title.name &&
+          if (expenseData['title'] ==
+                  expense.title.toString().split('.').last &&
               expenseData['time'] == expense.time &&
               expenseData['date'] == expense.date.toIso8601String() &&
               expenseData['category'] == expense.category.name) {
@@ -173,7 +173,7 @@ class _ExpensesState extends State<Expenses> {
     final newExpenseRef = database.child(databasePath).push();
 
     await newExpenseRef.set({
-      'title': expense.title.name,
+      'title': expense.title.toString().split('.').last,
       'time': expense.time,
       'date': expense.date.toIso8601String(),
       'category': expense.category.name,

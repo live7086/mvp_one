@@ -22,6 +22,14 @@ enum Yoga {
 
   final String chineseName;
   const Yoga(this.chineseName);
+
+  static Yoga fromEnglishName(String englishName) {
+    return Yoga.values.firstWhere(
+      (yoga) => yoga.toString().split('.').last == englishName,
+      orElse: () =>
+          throw ArgumentError('Invalid yoga english name: $englishName'),
+    );
+  }
 }
 
 enum Category {
