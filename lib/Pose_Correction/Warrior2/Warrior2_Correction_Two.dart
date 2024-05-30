@@ -22,7 +22,7 @@ String checkWarrior2TwoNeedsCorrection(Map<String, int> angles) {
 
     if (lHip < lHipGoodMin || lHip > lHipGoodMax) {
       // 左髖角度超出良好範圍
-      correctionTip = '左腳請保持伸直狀態，不要屈膝';
+      correctionTip = '身體重心在往下壓，左腳再朝外展開一點';
     }
   }
 

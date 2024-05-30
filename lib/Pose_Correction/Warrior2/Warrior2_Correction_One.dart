@@ -17,12 +17,12 @@ String checkWarrior2OneNeedsCorrection(Map<String, int> angles) {
 
     if (rKnee < rKneeGoodMin || rKnee > rKneeGoodMax) {
       // 右膝角度超出良好範圍
-      correctionTip = '請保持雙腳伸直，右腳尖朝向右邊';
+      correctionTip = '請保持雙腳朝兩側展開，右腳尖朝向右邊';
     }
 
     if (lHip < lHipGoodMin || lHip > lHipGoodMax) {
       // 左髖角度超出良好範圍
-      correctionTip = '請保持雙腳伸直，右腳尖朝向右邊';
+      correctionTip = '請保持雙腳朝兩側展開，右腳尖朝向右邊';
     }
   }
 
