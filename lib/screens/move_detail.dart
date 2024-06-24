@@ -214,7 +214,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    '動作拆解',
+                                    '',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge!

@@ -29,6 +29,11 @@ import 'Pose_Correction/Warrior2/Warrior2_Correction_One.dart';
 import 'Pose_Correction/Warrior2/Warrior2_Correction_Two.dart';
 import 'Pose_Correction/Warrior2/Warrior2_Correction_Three.dart';
 
+//http
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+
 class GuideWindow extends StatefulWidget {
   final String guideImagePath;
 
@@ -124,6 +129,7 @@ class CameraScreenState extends State<CameraScreen> {
   //初始化camera 以及 poseDetector
   bool _showFps = true;
   bool _showAngles = false;
+  bool _showMLResult = false;
   double _fontSize = 16.0; // 預設為中等字體大小
   double _tipBoxHeight = 50.0; // 語音提示框的高度
   bool isTreePoseCase1Played = false;
@@ -139,6 +145,12 @@ class CameraScreenState extends State<CameraScreen> {
   String _warrior2RearImage1 = 'assets/images/warrior2_pose_rear_1.jpg';
   String _warrior2RearImage2 = 'assets/images/warrior2_pose_rear_2.jpg';
   String _warrior2RearImage3 = 'assets/images/warrior2_pose_rear_3.jpg';
+  final List<String> modelPaths = ['/predict/init', '/predict/warrior'];
+  String selectedModelPath = '/predict/warrior';
+  int frameCounter = 0;
+  int correctCount = 0;
+  bool isPassed = false;
+  final int framesToSendHttpRequest = 5;
 
   @override
   void initState() {
@@ -204,6 +216,7 @@ class CameraScreenState extends State<CameraScreen> {
                       });
                     },
                   ),
+                  
                   ListTile(
                     title: const Text('字體大小'),
                     trailing: DropdownButton<double>(
@@ -229,6 +242,15 @@ class CameraScreenState extends State<CameraScreen> {
                         ),
                       ],
                     ),
+                  ),
+                  SwitchListTile(
+                    title: const Text('ML result(devs)'),
+                    value: _showMLResult,
+                    onChanged: (value) {
+                      setState(() {
+                        _showMLResult = value;
+                      });
+                    },
                   ),
                 ],
               );
@@ -352,6 +374,13 @@ class CameraScreenState extends State<CameraScreen> {
     });
   }
 
+  void _toggleResult() {
+    setState(() {
+      _showFps = !_showFps;
+    });
+  }
+
+
   void _toggleAngles() {
     setState(() {
       _showAngles = !_showAngles;
@@ -388,6 +417,19 @@ class CameraScreenState extends State<CameraScreen> {
     try {
       final List<Pose> detectedPoses =
           await _poseDetector.processImage(inputImage);
+      final List<Map<String, dynamic>> jsonPoses = detectedPoses.map((pose) {
+        final Map<String, dynamic> poseMap = {};
+        for (var landmark in pose.landmarks.values) {
+          final Map<String, dynamic> landmarkMap = {
+            "x": landmark.x.toStringAsFixed(2),
+            "y": landmark.y.toStringAsFixed(2),
+            "z": 0.0,
+            "v": landmark.likelihood.toStringAsFixed(2)
+          };
+            poseMap[landmark.type.toString()] = landmarkMap;
+        }
+        return poseMap;
+      }).toList();
       this.angles.clear();
       // Map<String, int> angles = {};
       //把所有的landmark抓取成變數
@@ -502,6 +544,12 @@ class CameraScreenState extends State<CameraScreen> {
       setState(() {
         poses = detectedPoses;
       });
+      frameCounter++;
+      if (frameCounter == framesToSendHttpRequest) {
+        // 发送 HTTP 请求到服务器
+        _sendHttpRequest(jsonPoses);
+        frameCounter = 0; // 重置帧计数器
+      }
     } catch (e) {
       print("Error detecting pose: $e");
     } finally {
@@ -929,6 +977,36 @@ class CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
+  String result = '';
+  String prob = '';
+  Future<void> _sendHttpRequest(List<Map<String, dynamic>> jsonPoses) async {
+    try {
+      final response = await http.post(
+        Uri.parse('https://mp-hdkf.onrender.com$selectedModelPath'),
+        body: jsonEncode({'jsonPoses': jsonPoses}),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      setState(() {
+        Map<String, dynamic> responseData = jsonDecode(response.body);
+        result = responseData['body_language_class'].toString();
+        prob = responseData['body_language_prob'].toString();
+
+        if (result == 'correct') {
+          correctCount++;
+          if (correctCount >= 3) {
+            isPassed = true;
+            //_speak('通過');
+          }
+        } else {
+          correctCount = 0;
+          isPassed = false;
+        }
+      });
+    } catch (e) {
+      //print("Error sending HTTP request: $e");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     if (!_cameraController.value.isInitialized) {
@@ -1030,6 +1108,19 @@ class CameraScreenState extends State<CameraScreen> {
           if (_guideImagePath.isNotEmpty) // 只顯示動作引導圖片,不顯示文字
             GuideWindow(
               guideImagePath: _guideImagePath,
+            ),
+          if (_showMLResult)
+            //ML結果
+            Positioned(
+              bottom: 2.0,
+              right: 10.0,
+              child: Text(
+                '$result $prob',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: _fontSize,
+                ),
+              ),
             ),
         ],
       ),
