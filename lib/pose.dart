@@ -128,7 +128,7 @@ class CameraScreenState extends State<CameraScreen> {
   //初始化camera 以及 poseDetector
   bool _showFps = true;
   bool _showAngles = false;
-  bool _showMLResult = false;
+  bool _showMLResult = true;
   double _fontSize = 16.0; // 預設為中等字體大小
   double _tipBoxHeight = 50.0; // 語音提示框的高度
   bool isTreePoseCase1Played = false;
@@ -390,6 +390,20 @@ class CameraScreenState extends State<CameraScreen> {
     });
   }
 
+  // void _poseIndexAdd() {
+  //   setState(() {
+  //     if (poseIndex < 2) {
+  //       poseIndex++;
+  //       _checkPose(poseIndex);
+  //     } else {
+  //       // 如果已經是最後一個姿勢，可以顯示一個提示
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text('已經是最後一個姿勢了')),
+  //       );
+  //     }
+  //   });
+  // }
+
   Future<void> _detectPose(CameraImage image, bool isFrontCamera) async {
     if (_isAllPosesCompleted) {
       await Future.delayed(const Duration(seconds: 1));
@@ -566,24 +580,9 @@ class CameraScreenState extends State<CameraScreen> {
   Future<void> _checkPose(int poseIndex) async {
     // 設置語音的語言和聲音
     await flutterTts.setLanguage("zh-TW"); //
-    // await flutterTts
-    //     .setVoice({"name": "zh-TW-default", "locale": "zho-default"});
-    // await flutterTts
-    //     .setVoice({"name": "en-in-x-end-network", "locale": "en-IN"}); //印度口音-男生
+
     await flutterTts.setVoice(
         {"name": "cmn-tw-x-ctd-network", "locale": "zh-TW"}); //男生聲音-粗曠
-    // await flutterTts.setVoice(
-    //     {"name": "cmn-tw-x-cte-network", "locale": "zh-TW"}); //男生聲音-官腔
-    // await flutterTts.setVoice(
-    //     {"name": "cmn-tw-x-ctc-network", "locale": "zh-TW"}); //女生聲音-溫柔
-
-    // 獲取所有可用語音
-    List<dynamic> voices = await flutterTts.getVoices;
-
-    // 打印語音信息
-    for (var voice in voices) {
-      print(voice);
-    }
 
     if (!ischeckPoseLooping) {
       //print("_checkPoses poseIndex$poseIndex");
@@ -738,32 +737,43 @@ class CameraScreenState extends State<CameraScreen> {
                 break;
               }
             case 2:
+              // 播放第三個戰士二式姿勢的語音引導和示範圖片
+              await _playPoseGuide('Warrior2', 3);
+              // ML判斷
               if (_showMLResult) {
-                // 播放第三個戰士二式姿勢的語音引導和示範圖片
-                await _playPoseGuide('Warrior2', 3);
                 await flutterTts.speak('進入機器學習');
                 await Future.delayed(const Duration(seconds: 5));
-                // 最大等待时间为10秒
-                int maxWaitTime = 10 * 1000; // 10秒转换为毫秒
-                int checkInterval = 100; // 每次检查间隔时间为100毫秒
+                // 最大等待時間為10秒
+                int maxWaitTime = 3 * 1000; // 轉換為10秒鐘
+                int checkInterval = 100; // 檢查時間間隔為100毫秒
                 int elapsedTime = 0;
-
+                // 第一個while，ML判斷
                 while (elapsedTime < maxWaitTime) {
                   // 每隔100毫秒检查一次isPassed
                   await Future.delayed(Duration(milliseconds: checkInterval));
                   elapsedTime += checkInterval;
                   if (isPassed) {
-                    await flutterTts.speak('機器學習第一次通過');
+                    await flutterTts.speak('第一次機器學習判斷通過');
                     await Future.delayed(const Duration(seconds: 5));
                     result = true; //ML
                     break;
+                  } else if (angleResult) {
+                    await flutterTts.speak('矯正過後通過');
+                    await Future.delayed(const Duration(seconds: 5));
+                    result = true; //角度計算系統
+                    break;
                   } else if (elapsedTime >= maxWaitTime) {
+                    print("機器學習判斷為錯誤前面進行的偵測\n"
+                        "elapsedTime為$elapsedTime\n"
+                        "angleResult結果為$angleResult\n"
+                        "isPassed結果為$isPassed\n"
+                        "result結果為$result\n");
                     await flutterTts.speak('機器學習判斷為錯誤');
                     await Future.delayed(const Duration(seconds: 5));
-
-                    //直到提示不同才做語音提醒
+                    // 因為錯誤所以進入動作修正環節
+                    // 第二個while，負責動作修正，修正完畢就break出來重新讓第一個while判斷
                     while (!result) {
-                      // 檢查第三個樹式姿勢是否需要修正
+                      // 檢查姿勢是否需要修正
                       correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
                       if (correctionTip != poseTip) {
                         if (correctionTip.isNotEmpty) {
@@ -780,36 +790,38 @@ class CameraScreenState extends State<CameraScreen> {
                         } else {
                           // 如果不需要修正,執行原有的姿勢檢查邏輯
                           angleResult = await Warrior2ThreePass(angles);
+                          print(angleResult);
                           poseTipText = '這是 戰士二式3';
                           if (angleResult) {
+                            print("角度判斷正確");
                             await flutterTts.speak('角度判斷正確');
-                            await Future.delayed(const Duration(seconds: 5));
-                            await flutterTts.speak('進入機器學習2');
-                            await Future.delayed(const Duration(seconds: 5));
-                            if (angleResult && isPassed) {
-                              await flutterTts.speak('機器學習第二次通過');
-                              await Future.delayed(const Duration(seconds: 5));
-                              result = true;
-                              break;
-                            }
+                            result = true;
+                            // await Future.delayed(const Duration(seconds: 5));
+                            // await flutterTts.speak('進入機器學習2');
+                            // await Future.delayed(const Duration(seconds: 5));
+                            // if (angleResult && isPassed) {
+                            //   await flutterTts.speak('機器學習第二次通過');
+                            //   await Future.delayed(const Duration(seconds: 5));
+                            //   result = true;
+                            //   break;
+                            // }
                           } else {
+                            print('角度判斷為錯誤');
                             await flutterTts.speak('角度判斷為錯誤');
                             await Future.delayed(const Duration(seconds: 5));
                           }
                         }
                       } else {
                         //不然就等一下再檢查一次
+                        print("跑到就等一下在檢查一次這邊了");
                         await Future.delayed(const Duration(seconds: 2));
-                        poseTipText = '這是 戰士二式3';
-                        //break;
+                        poseTipText = '這是 戰士二式4';
+                        break;
                       }
                     }
                   }
                 }
               } else {
-                // 播放第三個戰士二式姿勢的語音引導和示範圖片
-                await _playPoseGuide('Warrior2', 3);
-                // 檢查第三個樹式姿勢是否需要修正
                 correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
                 //直到提示不同才做語音提醒
                 if (correctionTip != poseTip) {
@@ -1059,7 +1071,6 @@ class CameraScreenState extends State<CameraScreen> {
         Map<String, dynamic> responseData = jsonDecode(response.body);
         result = responseData['body_language_class'].toString();
         prob = responseData['body_language_prob'].toString();
-
         if (result == 'correct') {
           correctCount++;
           if (correctCount >= 2) {
@@ -1100,6 +1111,18 @@ class CameraScreenState extends State<CameraScreen> {
           CustomPaint(
             painter: PosePainter(poses, isFrontCamera),
           ),
+          // Positioned(
+          //   top: 330.0,
+          //   right: 10.0,
+          //   child: ElevatedButton(
+          //     onPressed: _poseIndexAdd,
+          //     child: Text('下一姿勢'),
+          //     style: ElevatedButton.styleFrom(
+          //       foregroundColor: Colors.white,
+          //       backgroundColor: Colors.blue.withOpacity(0.7),
+          //     ),
+          //   ),
+          // ),
           Positioned(
             top: 30.0,
             left: 10.0,
