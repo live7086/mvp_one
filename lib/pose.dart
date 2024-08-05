@@ -795,16 +795,22 @@ class CameraScreenState extends State<CameraScreen> {
                           if (angleResult) {
                             print("角度判斷正確");
                             await flutterTts.speak('角度判斷正確');
-                            result = true;
-                            // await Future.delayed(const Duration(seconds: 5));
-                            // await flutterTts.speak('進入機器學習2');
-                            // await Future.delayed(const Duration(seconds: 5));
-                            // if (angleResult && isPassed) {
-                            //   await flutterTts.speak('機器學習第二次通過');
-                            //   await Future.delayed(const Duration(seconds: 5));
-                            //   result = true;
-                            //   break;
-                            // }
+                            //result = true;
+                            await Future.delayed(const Duration(seconds: 5));
+                            await flutterTts.speak('進入機器學習2');
+                            await Future.delayed(const Duration(seconds: 5));
+                            int ml2ElapsedTime = 0;
+                            const int ml2MaxWaitTime = 5000; // 10秒
+                            while (ml2ElapsedTime < ml2MaxWaitTime) {
+                              await Future.delayed(Duration(milliseconds: checkInterval));
+                              ml2ElapsedTime += checkInterval;
+                              if (isPassed) {
+                                await flutterTts.speak('機器學習第二次通過');
+                                await Future.delayed(const Duration(seconds: 5));
+                                result = true;
+                                break;
+                              }
+                            }
                           } else {
                             print('角度判斷為錯誤');
                             await flutterTts.speak('角度判斷為錯誤');
