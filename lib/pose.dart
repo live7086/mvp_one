@@ -151,6 +151,10 @@ class CameraScreenState extends State<CameraScreen> {
   bool isPassed = false;
   final int framesToSendHttpRequest = 5;
 
+  bool _isTimerActive = false;
+  double _timerProgress = 0.0;
+  bool _isPoseCorrect = false; //進度條、時間
+
   @override
   void initState() {
     //賦予本地的meal 為 接收的meal值
@@ -578,6 +582,10 @@ class CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _checkPose(int poseIndex) async {
+    setState(() {
+      _isPoseCorrect = false;
+      _timerProgress = 0.0;
+    });
     // 設置語音的語言和聲音
     await flutterTts.setLanguage("zh-TW"); //
 
@@ -802,11 +810,13 @@ class CameraScreenState extends State<CameraScreen> {
                             int ml2ElapsedTime = 0;
                             const int ml2MaxWaitTime = 5000; // 10秒
                             while (ml2ElapsedTime < ml2MaxWaitTime) {
-                              await Future.delayed(Duration(milliseconds: checkInterval));
+                              await Future.delayed(
+                                  Duration(milliseconds: checkInterval));
                               ml2ElapsedTime += checkInterval;
                               if (isPassed) {
                                 await flutterTts.speak('機器學習第二次通過');
-                                await Future.delayed(const Duration(seconds: 5));
+                                await Future.delayed(
+                                    const Duration(seconds: 5));
                                 result = true;
                                 break;
                               }
@@ -859,54 +869,76 @@ class CameraScreenState extends State<CameraScreen> {
 
       if (result) {
         // 當前動作檢查通過
-        if (poseIndex < 2) {
-          // 進入下一個動作檢查
-          poseTip = '$poseTipText通過,進入下一個動作';
+        await _startPoseTimer();
+        if (_timerProgress == 1.0) {
+          if (poseIndex < 2) {
+            // 進入下一個動作檢查
+            poseTip = '$poseTipText通過,進入下一個動作';
+            flutterTts.speak(poseTip);
+            await Future.delayed(const Duration(seconds: 5));
+            setState(() {});
+            await Future.delayed(const Duration(milliseconds: 700));
+            await _checkPose(poseIndex + 1);
+          } else {
+            // 如果當前階段通過且是最後一個階段,提示所有動作完成
+            poseTip = '$poseTipText通過,所有動作完成';
+            flutterTts.speak(poseTip);
+            await Future.delayed(const Duration(seconds: 5));
+
+            // 播放 "KongShi KongShi" 語音
+            flutterTts.speak("KongShi KongShi");
+
+            // 等待語音播放完畢
+            await Future.delayed(const Duration(milliseconds: 2000));
+
+            // 停止語音播放
+            await flutterTts.stop();
+
+            // 導航到結果頁面
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResultPage(
+                  duration: _elapsedSeconds,
+                  meal: meal,
+                  onToggleFavorite: onToggleFavorite,
+                  uid: '',
+                ),
+              ),
+            );
+          }
+        } else {
+          // 如果當前階段未通過,提示重試當前階段
+          poseTip = '$poseTipText未通過，請重試';
           flutterTts.speak(poseTip);
           await Future.delayed(const Duration(seconds: 5));
           setState(() {});
           await Future.delayed(const Duration(milliseconds: 700));
-          await _checkPose(poseIndex + 1);
-        } else {
-          // 如果當前階段通過且是最後一個階段,提示所有動作完成
-          poseTip = '$poseTipText通過,所有動作完成';
-          flutterTts.speak(poseTip);
-          await Future.delayed(const Duration(seconds: 5));
-
-          // 播放 "KongShi KongShi" 語音
-          flutterTts.speak("KongShi KongShi");
-
-          // 等待語音播放完畢
-          await Future.delayed(const Duration(milliseconds: 2000));
-
-          // 停止語音播放
-          await flutterTts.stop();
-
-          // 導航到結果頁面
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ResultPage(
-                duration: _elapsedSeconds,
-                meal: meal,
-                onToggleFavorite: onToggleFavorite,
-                uid: '',
-              ),
-            ),
-          );
+          await _checkPose(poseIndex);
         }
       } else {
-        // 如果當前階段未通過,提示重試當前階段
-        poseTip = '$poseTipText未通過，請重試';
-        flutterTts.speak(poseTip);
-        await Future.delayed(const Duration(seconds: 5));
-        setState(() {});
-        await Future.delayed(const Duration(milliseconds: 700));
-        await _checkPose(poseIndex);
+        return;
       }
-    } else {
-      return;
     }
+  }
+
+  Future<void> _startPoseTimer() async {
+    if (!_isTimerActive) {
+      setState(() {
+        _isTimerActive = true;
+      });
+    }
+
+    while (_isPoseCorrect && _timerProgress < 1.0) {
+      await Future.delayed(Duration(milliseconds: 100));
+      setState(() {
+        _timerProgress += 1 / 80; // 8秒計時
+      });
+    }
+
+    setState(() {
+      _isTimerActive = false;
+    });
   }
 
 // 播放動作引導的函數
@@ -1152,6 +1184,19 @@ class CameraScreenState extends State<CameraScreen> {
               ),
               onPressed: _showMenuProgressDialog,
             ),
+          ),
+          Positioned(
+            bottom: 60,
+            left: 0,
+            right: 0,
+            child: _isTimerActive
+                ? LinearProgressIndicator(
+                    value: _timerProgress,
+                    backgroundColor: Colors.grey,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                    minHeight: 10,
+                  )
+                : SizedBox.shrink(),
           ),
           if (_showFps)
             Positioned(
