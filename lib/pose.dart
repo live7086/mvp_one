@@ -150,10 +150,63 @@ class CameraScreenState extends State<CameraScreen> {
   int correctCount = 0;
   bool isPassed = false;
   final int framesToSendHttpRequest = 5;
+  Timer? _poseTimer;
+  Timer? _poseCheckTimer;
+  double _poseProgress = 0.0;
+  String poseTipText = '';
+  bool _isHoldingCorrectPose = false;
 
-  bool _isTimerActive = false;
-  double _timerProgress = 0.0;
-  bool _isPoseCorrect = false; //進度條、時間
+  void _startPoseTimer(int poseIndex) {
+    _poseTimer?.cancel();
+    _poseProgress = 0.0;
+    _isHoldingCorrectPose = true;
+    _poseTimer = Timer.periodic(Duration(milliseconds: 100), (timer) {
+      setState(() {
+        _poseProgress += 0.1 / 10; // 10 秒完成
+        if (_poseProgress >= 1.0) {
+          _poseTimer?.cancel();
+          // 不要在这里直接调用 _onPoseTimerComplete
+        }
+      });
+    });
+  }
+
+  void _resetPoseTimer() {
+    _poseTimer?.cancel();
+    setState(() {
+      _poseProgress = 0.0;
+      _isHoldingCorrectPose = false;
+    });
+  }
+
+  Future<void> _onPoseTimerComplete(int completedPoseIndex) async {
+    _resetPoseTimer();
+    if (completedPoseIndex < 2) {
+      // 進入下一個動作檢查
+      poseTip = '$poseTipText通過,進入下一個動作';
+      await flutterTts.speak(poseTip);
+      await Future.delayed(const Duration(seconds: 5));
+      setState(() {
+        poseIndex = completedPoseIndex + 1;
+        _isHoldingCorrectPose = false; // 重置姿势状态
+        _poseProgress = 0.0; // 重置进度
+      });
+      print("Moving to next pose: $poseIndex"); // 添加调试输出
+      _checkPose(poseIndex); // 直接调用 _checkPose，而不是使用 await
+    } else {
+      // 所有動作完成
+      poseTip = '$poseTipText通過,所有動作完成';
+      await flutterTts.speak(poseTip);
+      await Future.delayed(const Duration(seconds: 5));
+
+      await flutterTts.speak("KongShi KongShi");
+      await Future.delayed(const Duration(milliseconds: 2000));
+      await flutterTts.stop();
+
+      _isAllPosesCompleted = true; // 设置完成标志
+      _navigateToResultPage();
+    }
+  }
 
   @override
   void initState() {
@@ -171,6 +224,7 @@ class CameraScreenState extends State<CameraScreen> {
     super.initState();
     Wakelock.enable();
     _initializeCamera();
+    _startPoseCheckTimer();
     _poseDetector = PoseDetector(
       options: PoseDetectorOptions(
         model: PoseDetectionModel.base,
@@ -178,6 +232,65 @@ class CameraScreenState extends State<CameraScreen> {
       ),
     );
     checkPoses();
+  }
+
+  void _startPoseCheckTimer() {
+    _poseCheckTimer = Timer.periodic(Duration(milliseconds: 500), (timer) {
+      if (mounted && _isHoldingCorrectPose) {
+        _checkCurrentPose();
+      }
+    });
+  }
+
+  void _checkCurrentPose() {
+    if (!mounted) return;
+
+    bool isStillCorrect = false;
+
+    switch (poseType) {
+      case 'TreePose':
+        switch (poseIndex) {
+          case 0:
+            isStillCorrect = TreePoseOnePass(angles);
+            break;
+          case 1:
+            isStillCorrect = TreePoseTwoPass(angles);
+            break;
+          case 2:
+            isStillCorrect = TreePoseThreePass(angles);
+            break;
+        }
+        break;
+      case 'Warrior2':
+        switch (poseIndex) {
+          case 0:
+            isStillCorrect = Warrior2OnePass(angles);
+            break;
+          case 1:
+            isStillCorrect = Warrior2TwoPass(angles);
+            break;
+          case 2:
+            isStillCorrect = Warrior2ThreePass(angles);
+            break;
+        }
+        break;
+    }
+
+    if (!isStillCorrect) {
+      _resetPoseTimer();
+      setState(() {
+        poseTip = '姿勢不正確，請調整';
+        _isHoldingCorrectPose = false;
+      });
+      flutterTts.speak(poseTip);
+    } else if (!_isHoldingCorrectPose) {
+      _startPoseTimer(poseIndex);
+      setState(() {
+        poseTip = '$poseTipText 正確，請保持姿勢';
+        _isHoldingCorrectPose = true;
+      });
+      flutterTts.speak(poseTip);
+    }
   }
 
   void _showSettingsDialog() {
@@ -346,21 +459,6 @@ class CameraScreenState extends State<CameraScreen> {
         _navigateToResultPage();
       }
     });
-  }
-
-  void _navigateToResultPage() {
-    widget.onPoseCompleted();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ResultPage(
-          duration: _elapsedSeconds,
-          meal: widget.meal,
-          onToggleFavorite: widget.onToggleFavorite,
-          uid: '',
-        ),
-      ),
-    );
   }
 
   void _toggleCamera() {
@@ -582,263 +680,33 @@ class CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _checkPose(int poseIndex) async {
-    setState(() {
-      _isPoseCorrect = false;
-      _timerProgress = 0.0;
-    });
     // 設置語音的語言和聲音
     await flutterTts.setLanguage("zh-TW"); //
 
     await flutterTts.setVoice(
         {"name": "cmn-tw-x-ctd-network", "locale": "zh-TW"}); //男生聲音-粗曠
 
-    if (!ischeckPoseLooping) {
-      //print("_checkPoses poseIndex$poseIndex");
-      String correctionTip = ''; // 存儲修正建議的變數
-      bool result = false; // 存儲姿勢檢查結果的變數
-      String poseTipText = ''; // 存儲姿勢提示文字的變數
-      bool angleResult = false;
-      bool angleCorrection = false;
-      // Pose的動作修正Swich
-      switch (poseType) {
-        case 'TreePose':
-          switch (poseIndex) {
-            case 0:
-              // 播放第一個樹式姿勢的語音引導和示範圖片
-              await _playPoseGuide('TreePose', 1);
-              // 檢查第一個樹式姿勢是否需要修正
-              correctionTip = checkTreePoseOneNeedsCorrection(angles);
-              //直到提示不同才做語音提醒
-              if (correctionTip != poseTip) {
-                if (correctionTip.isNotEmpty) {
-                  // 如果需要修正,提供修正建議並重試當前階段
-                  poseTip = correctionTip;
-                  flutterTts.speak(poseTip);
-                  await Future.delayed(const Duration(seconds: 6));
-                  setState(() {});
-                  await Future.delayed(const Duration(milliseconds: 700));
-                  await _checkPose(poseIndex);
-                } else {
-                  // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await TreePoseOnePass(angles);
-                  poseTipText = '這是 樹式1';
-                }
-                break;
-              } else {
-                //不然就等一下再檢查一次
-                await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 樹式1';
-                break;
-              }
-            case 1:
-              // 播放第二個樹式姿勢的語音引導和示範圖片
-              await _playPoseGuide('TreePose', 2);
-              // 檢查第二個樹式姿勢是否需要修正
-              correctionTip = checkTreePoseTwoNeedsCorrection(angles);
-              //直到提示不同才做語音提醒
-              if (correctionTip != poseTip) {
-                if (correctionTip.isNotEmpty) {
-                  // 如果需要修正,提供修正建議並重試當前階段
-                  poseTip = correctionTip;
-                  flutterTts.speak(poseTip);
-                  await Future.delayed(const Duration(seconds: 6));
-                  setState(() {});
-                  await Future.delayed(const Duration(milliseconds: 700));
-                  await _checkPose(poseIndex);
-                } else {
-                  // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await TreePoseTwoPass(angles);
-                  poseTipText = '這是 樹式2';
-                }
-                break;
-              } else {
-                //不然就等一下再檢查一次
-                await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 樹式2';
-                break;
-              }
-            case 2:
-              // 播放第三個樹式姿勢的語音引導和示範圖片
-              await _playPoseGuide('TreePose', 3);
-              // 檢查第三個樹式姿勢是否需要修正
-              correctionTip = checkTreePoseThreeNeedsCorrection(angles);
-              //直到提示不同才做語音提醒
-              if (correctionTip != poseTip) {
-                if (correctionTip.isNotEmpty) {
-                  // 如果需要修正,提供修正建議並重試當前階段
-                  poseTip = correctionTip;
-                  flutterTts.speak(poseTip);
-                  await Future.delayed(const Duration(seconds: 6));
-                  setState(() {});
-                  await Future.delayed(const Duration(milliseconds: 700));
-                  await _checkPose(poseIndex);
-                } else {
-                  // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await TreePoseThreePass(angles);
-                  poseTipText = '這是 樹式3';
-                }
-                break;
-              } else {
-                //不然就等一下再檢查一次
-                await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 樹式3';
-                break;
-              }
-            default:
-              return;
-          }
-        case 'Warrior2':
-          switch (poseIndex) {
-            case 0:
-              // 播放第一個戰士二式姿勢的語音引導和示範圖片
-              await _playPoseGuide('Warrior2', 1);
-              // 檢查第一個樹式姿勢是否需要修正
-              correctionTip = checkWarrior2OneNeedsCorrection(angles);
-              //直到提示不同才做語音提醒
-              if (correctionTip != poseTip) {
-                if (correctionTip.isNotEmpty) {
-                  // 如果需要修正,提供修正建議並重試當前階段
-                  poseTip = correctionTip;
-                  flutterTts.speak(poseTip);
-                  await Future.delayed(const Duration(seconds: 6));
-                  setState(() {});
-                  await Future.delayed(const Duration(milliseconds: 700));
-                  await _checkPose(poseIndex);
-                } else {
-                  // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await Warrior2OnePass(angles);
-                  poseTipText = '這是 戰士二式1';
-                }
-                break;
-              } else {
-                //不然就等一下再檢查一次
-                await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 戰士二式1';
-                break;
-              }
+    print("Checking pose: $poseIndex");
 
-            case 1:
-              // 播放第二個戰士二式姿勢的語音引導和示範圖片
-              await _playPoseGuide('Warrior2', 2);
-              // 檢查第二個樹式姿勢是否需要修正
-              correctionTip = checkWarrior2TwoNeedsCorrection(angles);
-              //直到提示不同才做語音提醒
-              if (correctionTip != poseTip) {
-                if (correctionTip.isNotEmpty) {
-                  // 如果需要修正,提供修正建議並重試當前階段
-                  poseTip = correctionTip;
-                  flutterTts.speak(poseTip);
-                  await Future.delayed(const Duration(seconds: 6));
-                  setState(() {});
-                  await Future.delayed(const Duration(milliseconds: 700));
-                  await _checkPose(poseIndex);
-                } else {
-                  // 如果不需要修正,執行原有的姿勢檢查邏輯
-                  result = await Warrior2TwoPass(angles);
-                  poseTipText = '這是 戰士二式2';
-                }
-                break;
-              } else {
-                //不然就等一下再檢查一次
-                await Future.delayed(const Duration(seconds: 2));
-                poseTipText = '這是 戰士二式2';
-                break;
-              }
-            case 2:
-              // 播放第三個戰士二式姿勢的語音引導和示範圖片
-              await _playPoseGuide('Warrior2', 3);
-              // ML判斷
-              if (_showMLResult) {
-                await flutterTts.speak('進入機器學習');
-                await Future.delayed(const Duration(seconds: 5));
-                // 最大等待時間為10秒
-                int maxWaitTime = 3 * 1000; // 轉換為10秒鐘
-                int checkInterval = 100; // 檢查時間間隔為100毫秒
-                int elapsedTime = 0;
-                // 第一個while，ML判斷
-                while (elapsedTime < maxWaitTime) {
-                  // 每隔100毫秒检查一次isPassed
-                  await Future.delayed(Duration(milliseconds: checkInterval));
-                  elapsedTime += checkInterval;
-                  if (isPassed) {
-                    await flutterTts.speak('第一次機器學習判斷通過');
-                    await Future.delayed(const Duration(seconds: 5));
-                    result = true; //ML
-                    break;
-                  } else if (angleResult) {
-                    await flutterTts.speak('矯正過後通過');
-                    await Future.delayed(const Duration(seconds: 5));
-                    result = true; //角度計算系統
-                    break;
-                  } else if (elapsedTime >= maxWaitTime) {
-                    print("機器學習判斷為錯誤前面進行的偵測\n"
-                        "elapsedTime為$elapsedTime\n"
-                        "angleResult結果為$angleResult\n"
-                        "isPassed結果為$isPassed\n"
-                        "result結果為$result\n");
-                    await flutterTts.speak('機器學習判斷為錯誤');
-                    await Future.delayed(const Duration(seconds: 5));
-                    // 因為錯誤所以進入動作修正環節
-                    // 第二個while，負責動作修正，修正完畢就break出來重新讓第一個while判斷
-                    while (!result) {
-                      // 檢查姿勢是否需要修正
-                      correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
-                      if (correctionTip != poseTip) {
-                        if (correctionTip.isNotEmpty) {
-                          // 如果需要修正,提供修正建議並重試當前階段
-                          poseTip = correctionTip;
-                          flutterTts.speak(poseTip);
-                          await Future.delayed(const Duration(seconds: 6));
-                          if (mounted) {
-                            setState(() {});
-                          }
-                          //await Future.delayed(
-                          //    const Duration(milliseconds: 700));
-                          //await _checkPose(poseIndex);
-                        } else {
-                          // 如果不需要修正,執行原有的姿勢檢查邏輯
-                          angleResult = await Warrior2ThreePass(angles);
-                          print(angleResult);
-                          poseTipText = '這是 戰士二式3';
-                          if (angleResult) {
-                            print("角度判斷正確");
-                            await flutterTts.speak('角度判斷正確');
-                            //result = true;
-                            await Future.delayed(const Duration(seconds: 5));
-                            await flutterTts.speak('進入機器學習2');
-                            await Future.delayed(const Duration(seconds: 5));
-                            int ml2ElapsedTime = 0;
-                            const int ml2MaxWaitTime = 5000; // 10秒
-                            while (ml2ElapsedTime < ml2MaxWaitTime) {
-                              await Future.delayed(
-                                  Duration(milliseconds: checkInterval));
-                              ml2ElapsedTime += checkInterval;
-                              if (isPassed) {
-                                await flutterTts.speak('機器學習第二次通過');
-                                await Future.delayed(
-                                    const Duration(seconds: 5));
-                                result = true;
-                                break;
-                              }
-                            }
-                          } else {
-                            print('角度判斷為錯誤');
-                            await flutterTts.speak('角度判斷為錯誤');
-                            await Future.delayed(const Duration(seconds: 5));
-                          }
-                        }
-                      } else {
-                        //不然就等一下再檢查一次
-                        print("跑到就等一下在檢查一次這邊了");
-                        await Future.delayed(const Duration(seconds: 2));
-                        poseTipText = '這是 戰士二式4';
-                        break;
-                      }
-                    }
-                  }
-                }
-              } else {
-                correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
+    if (!ischeckPoseLooping) {
+      ischeckPoseLooping = true;
+      while (mounted) {
+        if (!mounted) return;
+        //print("_checkPoses poseIndex$poseIndex");
+        String correctionTip = ''; // 存儲修正建議的變數
+        bool result = false; // 存儲姿勢檢查結果的變數
+        String poseTipText = ''; // 存儲姿勢提示文字的變數
+        bool angleResult = false;
+        bool angleCorrection = false;
+        // Pose的動作修正Swich
+        switch (poseType) {
+          case 'TreePose':
+            switch (poseIndex) {
+              case 0:
+                // 播放第一個樹式姿勢的語音引導和示範圖片
+                await _playPoseGuide('TreePose', 1);
+                // 檢查第一個樹式姿勢是否需要修正
+                correctionTip = checkTreePoseOneNeedsCorrection(angles);
                 //直到提示不同才做語音提醒
                 if (correctionTip != poseTip) {
                   if (correctionTip.isNotEmpty) {
@@ -851,94 +719,301 @@ class CameraScreenState extends State<CameraScreen> {
                     await _checkPose(poseIndex);
                   } else {
                     // 如果不需要修正,執行原有的姿勢檢查邏輯
-                    result = await Warrior2ThreePass(angles);
-                    poseTipText = '這是 戰士二式3';
+                    result = await TreePoseOnePass(angles);
+                    poseTipText = '這是 樹式1';
                   }
                   break;
                 } else {
                   //不然就等一下再檢查一次
                   await Future.delayed(const Duration(seconds: 2));
-                  poseTipText = '這是 戰士二式3';
+                  poseTipText = '這是 樹式1';
                   break;
                 }
-              }
-            default:
-              return;
-          }
-      }
+              case 1:
+                // 播放第二個樹式姿勢的語音引導和示範圖片
+                await _playPoseGuide('TreePose', 2);
+                // 檢查第二個樹式姿勢是否需要修正
+                correctionTip = checkTreePoseTwoNeedsCorrection(angles);
+                //直到提示不同才做語音提醒
+                if (correctionTip != poseTip) {
+                  if (correctionTip.isNotEmpty) {
+                    // 如果需要修正,提供修正建議並重試當前階段
+                    poseTip = correctionTip;
+                    flutterTts.speak(poseTip);
+                    await Future.delayed(const Duration(seconds: 6));
+                    setState(() {});
+                    await Future.delayed(const Duration(milliseconds: 700));
+                    await _checkPose(poseIndex);
+                  } else {
+                    // 如果不需要修正,執行原有的姿勢檢查邏輯
+                    result = await TreePoseTwoPass(angles);
+                    poseTipText = '這是 樹式2';
+                  }
+                  break;
+                } else {
+                  //不然就等一下再檢查一次
+                  await Future.delayed(const Duration(seconds: 2));
+                  poseTipText = '這是 樹式2';
+                  break;
+                }
+              case 2:
+                // 播放第三個樹式姿勢的語音引導和示範圖片
+                await _playPoseGuide('TreePose', 3);
+                // 檢查第三個樹式姿勢是否需要修正
+                correctionTip = checkTreePoseThreeNeedsCorrection(angles);
+                //直到提示不同才做語音提醒
+                if (correctionTip != poseTip) {
+                  if (correctionTip.isNotEmpty) {
+                    // 如果需要修正,提供修正建議並重試當前階段
+                    poseTip = correctionTip;
+                    flutterTts.speak(poseTip);
+                    await Future.delayed(const Duration(seconds: 6));
+                    setState(() {});
+                    await Future.delayed(const Duration(milliseconds: 700));
+                    await _checkPose(poseIndex);
+                  } else {
+                    // 如果不需要修正,執行原有的姿勢檢查邏輯
+                    result = await TreePoseThreePass(angles);
+                    poseTipText = '這是 樹式3';
+                  }
+                  break;
+                } else {
+                  //不然就等一下再檢查一次
+                  await Future.delayed(const Duration(seconds: 2));
+                  poseTipText = '這是 樹式3';
+                  break;
+                }
+              default:
+                return;
+            }
+          case 'Warrior2':
+            switch (poseIndex) {
+              case 0:
+                // 播放第一個戰士二式姿勢的語音引導和示範圖片
+                await _playPoseGuide('Warrior2', 1);
+                // 檢查第一個樹式姿勢是否需要修正
+                correctionTip = checkWarrior2OneNeedsCorrection(angles);
+                //直到提示不同才做語音提醒
+                if (correctionTip != poseTip) {
+                  if (correctionTip.isNotEmpty) {
+                    // 如果需要修正,提供修正建議並重試當前階段
+                    poseTip = correctionTip;
+                    flutterTts.speak(poseTip);
+                    await Future.delayed(const Duration(seconds: 6));
+                    setState(() {});
+                    await Future.delayed(const Duration(milliseconds: 700));
+                    await _checkPose(poseIndex);
+                  } else {
+                    // 如果不需要修正,執行原有的姿勢檢查邏輯
+                    result = await Warrior2OnePass(angles);
+                    poseTipText = '這是 戰士二式1';
+                  }
+                  break;
+                } else {
+                  //不然就等一下再檢查一次
+                  await Future.delayed(const Duration(seconds: 2));
+                  poseTipText = '這是 戰士二式1';
+                  break;
+                }
 
-      if (result) {
-        // 當前動作檢查通過
-        await _startPoseTimer();
-        if (_timerProgress == 1.0) {
-          if (poseIndex < 2) {
-            // 進入下一個動作檢查
-            poseTip = '$poseTipText通過,進入下一個動作';
-            flutterTts.speak(poseTip);
-            await Future.delayed(const Duration(seconds: 5));
-            setState(() {});
-            await Future.delayed(const Duration(milliseconds: 700));
-            await _checkPose(poseIndex + 1);
-          } else {
-            // 如果當前階段通過且是最後一個階段,提示所有動作完成
-            poseTip = '$poseTipText通過,所有動作完成';
-            flutterTts.speak(poseTip);
-            await Future.delayed(const Duration(seconds: 5));
-
-            // 播放 "KongShi KongShi" 語音
-            flutterTts.speak("KongShi KongShi");
-
-            // 等待語音播放完畢
-            await Future.delayed(const Duration(milliseconds: 2000));
-
-            // 停止語音播放
-            await flutterTts.stop();
-
-            // 導航到結果頁面
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ResultPage(
-                  duration: _elapsedSeconds,
-                  meal: meal,
-                  onToggleFavorite: onToggleFavorite,
-                  uid: '',
-                ),
-              ),
-            );
-          }
-        } else {
-          // 如果當前階段未通過,提示重試當前階段
-          poseTip = '$poseTipText未通過，請重試';
-          flutterTts.speak(poseTip);
-          await Future.delayed(const Duration(seconds: 5));
-          setState(() {});
-          await Future.delayed(const Duration(milliseconds: 700));
-          await _checkPose(poseIndex);
+              case 1:
+                // 播放第二個戰士二式姿勢的語音引導和示範圖片
+                await _playPoseGuide('Warrior2', 2);
+                // 檢查第二個樹式姿勢是否需要修正
+                correctionTip = checkWarrior2TwoNeedsCorrection(angles);
+                //直到提示不同才做語音提醒
+                if (correctionTip != poseTip) {
+                  if (correctionTip.isNotEmpty) {
+                    // 如果需要修正,提供修正建議並重試當前階段
+                    poseTip = correctionTip;
+                    flutterTts.speak(poseTip);
+                    await Future.delayed(const Duration(seconds: 6));
+                    setState(() {});
+                    await Future.delayed(const Duration(milliseconds: 700));
+                    await _checkPose(poseIndex);
+                  } else {
+                    // 如果不需要修正,執行原有的姿勢檢查邏輯
+                    result = await Warrior2TwoPass(angles);
+                    poseTipText = '這是 戰士二式2';
+                  }
+                  break;
+                } else {
+                  //不然就等一下再檢查一次
+                  await Future.delayed(const Duration(seconds: 2));
+                  poseTipText = '這是 戰士二式2';
+                  break;
+                }
+              case 2:
+                // 播放第三個戰士二式姿勢的語音引導和示範圖片
+                await _playPoseGuide('Warrior2', 3);
+                // ML判斷
+                if (_showMLResult) {
+                  await flutterTts.speak('進入機器學習');
+                  await Future.delayed(const Duration(seconds: 5));
+                  // 最大等待時間為10秒
+                  int maxWaitTime = 3 * 1000; // 轉換為10秒鐘
+                  int checkInterval = 100; // 檢查時間間隔為100毫秒
+                  int elapsedTime = 0;
+                  // 第一個while，ML判斷
+                  while (elapsedTime < maxWaitTime) {
+                    // 每隔100毫秒检查一次isPassed
+                    await Future.delayed(Duration(milliseconds: checkInterval));
+                    elapsedTime += checkInterval;
+                    if (isPassed) {
+                      await flutterTts.speak('第一次機器學習判斷通過');
+                      await Future.delayed(const Duration(seconds: 5));
+                      result = true; //ML
+                      break;
+                    } else if (angleResult) {
+                      await flutterTts.speak('矯正過後通過');
+                      await Future.delayed(const Duration(seconds: 5));
+                      result = true; //角度計算系統
+                      break;
+                    } else if (elapsedTime >= maxWaitTime) {
+                      print("機器學習判斷為錯誤前面進行的偵測\n"
+                          "elapsedTime為$elapsedTime\n"
+                          "angleResult結果為$angleResult\n"
+                          "isPassed結果為$isPassed\n"
+                          "result結果為$result\n");
+                      await flutterTts.speak('機器學習判斷為錯誤');
+                      await Future.delayed(const Duration(seconds: 5));
+                      // 因為錯誤所以進入動作修正環節
+                      // 第二個while，負責動作修正，修正完畢就break出來重新讓第一個while判斷
+                      while (!result) {
+                        // 檢查姿勢是否需要修正
+                        correctionTip =
+                            checkWarrior2ThreeNeedsCorrection(angles);
+                        if (correctionTip != poseTip) {
+                          if (correctionTip.isNotEmpty) {
+                            // 如果需要修正,提供修正建議並重試當前階段
+                            poseTip = correctionTip;
+                            flutterTts.speak(poseTip);
+                            await Future.delayed(const Duration(seconds: 6));
+                            if (mounted) {
+                              setState(() {});
+                            }
+                            //await Future.delayed(
+                            //    const Duration(milliseconds: 700));
+                            //await _checkPose(poseIndex);
+                          } else {
+                            // 如果不需要修正,執行原有的姿勢檢查邏輯
+                            angleResult = await Warrior2ThreePass(angles);
+                            print(angleResult);
+                            poseTipText = '這是 戰士二式3';
+                            if (angleResult) {
+                              print("角度判斷正確");
+                              await flutterTts.speak('角度判斷正確');
+                              //result = true;
+                              await Future.delayed(const Duration(seconds: 5));
+                              await flutterTts.speak('進入機器學習2');
+                              await Future.delayed(const Duration(seconds: 5));
+                              int ml2ElapsedTime = 0;
+                              const int ml2MaxWaitTime = 5000; // 10秒
+                              while (ml2ElapsedTime < ml2MaxWaitTime) {
+                                await Future.delayed(
+                                    Duration(milliseconds: checkInterval));
+                                ml2ElapsedTime += checkInterval;
+                                if (isPassed) {
+                                  await flutterTts.speak('機器學習第二次通過');
+                                  await Future.delayed(
+                                      const Duration(seconds: 5));
+                                  result = true;
+                                  break;
+                                }
+                              }
+                            } else {
+                              print('角度判斷為錯誤');
+                              await flutterTts.speak('角度判斷為錯誤');
+                              await Future.delayed(const Duration(seconds: 5));
+                            }
+                          }
+                        } else {
+                          //不然就等一下再檢查一次
+                          print("跑到就等一下在檢查一次這邊了");
+                          await Future.delayed(const Duration(seconds: 2));
+                          poseTipText = '這是 戰士二式4';
+                          break;
+                        }
+                      }
+                    }
+                  }
+                } else {
+                  correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
+                  //直到提示不同才做語音提醒
+                  if (correctionTip != poseTip) {
+                    if (correctionTip.isNotEmpty) {
+                      // 如果需要修正,提供修正建議並重試當前階段
+                      poseTip = correctionTip;
+                      flutterTts.speak(poseTip);
+                      await Future.delayed(const Duration(seconds: 6));
+                      setState(() {});
+                      await Future.delayed(const Duration(milliseconds: 700));
+                      await _checkPose(poseIndex);
+                    } else {
+                      // 如果不需要修正,執行原有的姿勢檢查邏輯
+                      result = await Warrior2ThreePass(angles);
+                      poseTipText = '這是 戰士二式3';
+                    }
+                    break;
+                  } else {
+                    //不然就等一下再檢查一次
+                    await Future.delayed(const Duration(seconds: 2));
+                    poseTipText = '這是 戰士二式3';
+                    break;
+                  }
+                }
+              default:
+                return;
+            }
         }
-      } else {
-        return;
+
+        if (result) {
+          if (!_isHoldingCorrectPose) {
+            _startPoseTimer(poseIndex);
+            poseTip = '$poseTipText 正確，請保持姿勢';
+            flutterTts.speak(poseTip);
+          }
+          _isHoldingCorrectPose = true;
+        } else {
+          _resetPoseTimer();
+          if (correctionTip.isNotEmpty && correctionTip != poseTip) {
+            poseTip = correctionTip;
+            flutterTts.speak(poseTip);
+          } else if (poseTip != '$poseTipText 姿勢不正確，請調整') {
+            poseTip = '$poseTipText 姿勢不正確，請調整';
+            flutterTts.speak(poseTip);
+          }
+          _isHoldingCorrectPose = false;
+        }
+
+        setState(() {});
+        await Future.delayed(const Duration(seconds: 2));
+
+        // 检查姿势是否正确并保持足够时间
+        if (_isHoldingCorrectPose && _poseProgress >= 1.0) {
+          print(
+              "Pose $poseIndex completed, calling _onPoseTimerComplete"); // 添加调试输出
+          await _onPoseTimerComplete(poseIndex);
+          break; // 完成当前姿势后退出循环
+        }
       }
+      ischeckPoseLooping = false;
     }
   }
 
-  Future<void> _startPoseTimer() async {
-    if (!_isTimerActive) {
-      setState(() {
-        _isTimerActive = true;
-      });
-    }
-
-    while (_isPoseCorrect && _timerProgress < 1.0) {
-      await Future.delayed(Duration(milliseconds: 100));
-      setState(() {
-        _timerProgress += 1 / 80; // 8秒計時
-      });
-    }
-
-    setState(() {
-      _isTimerActive = false;
-    });
+  void _navigateToResultPage() {
+    widget.onPoseCompleted();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultPage(
+          duration: _elapsedSeconds,
+          meal: meal,
+          onToggleFavorite: onToggleFavorite,
+          uid: '',
+        ),
+      ),
+    );
   }
 
 // 播放動作引導的函數
@@ -1088,10 +1163,12 @@ class CameraScreenState extends State<CameraScreen> {
   @override
   void dispose() {
     Wakelock.disable();
+    _poseCheckTimer?.cancel();
     _timer.cancel();
     flutterTts.stop();
     _cameraController.dispose();
     _poseDetector.close();
+    _poseTimer?.cancel();
     super.dispose();
   }
 
@@ -1185,19 +1262,6 @@ class CameraScreenState extends State<CameraScreen> {
               onPressed: _showMenuProgressDialog,
             ),
           ),
-          Positioned(
-            bottom: 60,
-            left: 0,
-            right: 0,
-            child: _isTimerActive
-                ? LinearProgressIndicator(
-                    value: _timerProgress,
-                    backgroundColor: Colors.grey,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                    minHeight: 10,
-                  )
-                : SizedBox.shrink(),
-          ),
           if (_showFps)
             Positioned(
               top: 30.0,
@@ -1265,6 +1329,16 @@ class CameraScreenState extends State<CameraScreen> {
                 ),
               ),
             ),
+          Positioned(
+            bottom: 60.0,
+            left: 10.0,
+            right: 10.0,
+            child: LinearProgressIndicator(
+              value: _poseProgress,
+              backgroundColor: Colors.grey.withOpacity(0.5),
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+            ),
+          ),
         ],
       ),
     );
