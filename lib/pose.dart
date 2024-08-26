@@ -850,92 +850,80 @@ class CameraScreenState extends State<CameraScreen> {
                 if (_showMLResult) {
                   await flutterTts.speak('進入機器學習');
                   await Future.delayed(const Duration(seconds: 5));
-                  // 最大等待時間為10秒
-                  int maxWaitTime = 3 * 1000; // 轉換為10秒鐘
-                  int checkInterval = 100; // 檢查時間間隔為100毫秒
+                  int maxWaitTime = 30 * 1000; // 30秒總時間
+                  int checkInterval = 100;
                   int elapsedTime = 0;
-                  // 第一個while，ML判斷
+                  int holdStartTime = 0;
+                  bool isHolding = false;
+
                   while (elapsedTime < maxWaitTime) {
-                    // 每隔100毫秒检查一次isPassed
                     await Future.delayed(Duration(milliseconds: checkInterval));
                     elapsedTime += checkInterval;
+
                     if (isPassed) {
-                      await flutterTts.speak('第一次機器學習判斷通過');
-                      await Future.delayed(const Duration(seconds: 5));
-                      result = true; //ML
+                      // 第一次機器學習通過
+                      await flutterTts.speak('機器學習判斷通過');
+                      result = true;
                       break;
-                    } else if (angleResult) {
-                      await flutterTts.speak('矯正過後通過');
-                      await Future.delayed(const Duration(seconds: 5));
-                      result = true; //角度計算系統
-                      break;
-                    } else if (elapsedTime >= maxWaitTime) {
-                      print("機器學習判斷為錯誤前面進行的偵測\n"
-                          "elapsedTime為$elapsedTime\n"
-                          "angleResult結果為$angleResult\n"
-                          "isPassed結果為$isPassed\n"
-                          "result結果為$result\n");
-                      await flutterTts.speak('機器學習判斷為錯誤');
-                      await Future.delayed(const Duration(seconds: 5));
-                      // 因為錯誤所以進入動作修正環節
-                      // 第二個while，負責動作修正，修正完畢就break出來重新讓第一個while判斷
-                      while (!result) {
-                        // 檢查姿勢是否需要修正
-                        correctionTip =
-                            checkWarrior2ThreeNeedsCorrection(angles);
-                        if (correctionTip != poseTip) {
-                          if (correctionTip.isNotEmpty) {
-                            // 如果需要修正,提供修正建議並重試當前階段
-                            poseTip = correctionTip;
-                            flutterTts.speak(poseTip);
-                            await Future.delayed(const Duration(seconds: 6));
-                            if (mounted) {
-                              setState(() {});
-                            }
-                            //await Future.delayed(
-                            //    const Duration(milliseconds: 700));
-                            //await _checkPose(poseIndex);
-                          } else {
-                            // 如果不需要修正,執行原有的姿勢檢查邏輯
-                            angleResult = await Warrior2ThreePass(angles);
-                            print(angleResult);
-                            poseTipText = '這是 戰士二式3';
-                            if (angleResult) {
-                              print("角度判斷正確");
-                              await flutterTts.speak('角度判斷正確');
-                              //result = true;
-                              await Future.delayed(const Duration(seconds: 5));
-                              await flutterTts.speak('進入機器學習2');
-                              await Future.delayed(const Duration(seconds: 5));
-                              int ml2ElapsedTime = 0;
-                              const int ml2MaxWaitTime = 5000; // 10秒
-                              while (ml2ElapsedTime < ml2MaxWaitTime) {
-                                await Future.delayed(
-                                    Duration(milliseconds: checkInterval));
-                                ml2ElapsedTime += checkInterval;
-                                if (isPassed) {
-                                  await flutterTts.speak('機器學習第二次通過');
-                                  await Future.delayed(
-                                      const Duration(seconds: 5));
-                                  result = true;
-                                  break;
-                                }
-                              }
-                            } else {
-                              print('角度判斷為錯誤');
-                              await flutterTts.speak('角度判斷為錯誤');
-                              await Future.delayed(const Duration(seconds: 5));
+                    } else {
+                      // 機器學習未通過，進行角度計算
+                      angleResult = await Warrior2ThreePass(angles);
+                      if (angleResult) {
+                        if (!isHolding) {
+                          isHolding = true;
+                          holdStartTime = elapsedTime;
+                          await flutterTts.speak('角度正確，請保持姿勢10秒');
+                        }
+
+                        if (elapsedTime - holdStartTime >= 10000) {
+                          // 保持10秒
+                          await flutterTts.speak('姿勢已保持10秒，進入第二次機器學習');
+
+                          // 第二次機器學習
+                          int ml2MaxWaitTime = 5000;
+                          int ml2ElapsedTime = 0;
+                          while (ml2ElapsedTime < ml2MaxWaitTime) {
+                            await Future.delayed(
+                                Duration(milliseconds: checkInterval));
+                            ml2ElapsedTime += checkInterval;
+                            if (isPassed) {
+                              await flutterTts.speak('第二次機器學習通過，恭喜完成動作');
+                              result = true;
+                              break;
                             }
                           }
-                        } else {
-                          //不然就等一下再檢查一次
-                          print("跑到就等一下在檢查一次這邊了");
-                          await Future.delayed(const Duration(seconds: 2));
-                          poseTipText = '這是 戰士二式4';
-                          break;
+
+                          if (result) break; // 如果第二次機器學習通過，跳出主循環
+
+                          // 如果第二次機器學習未通過
+                          isHolding = false;
+                          await flutterTts.speak('第二次機器學習未通過，請調整姿勢');
+                        }
+                      } else {
+                        // 角度不正確，重置計時
+                        if (isHolding) {
+                          isHolding = false;
+                          await flutterTts.speak('姿勢不正確，請重新調整');
+                        }
+
+                        // 提供修正建議
+                        correctionTip =
+                            checkWarrior2ThreeNeedsCorrection(angles);
+                        if (correctionTip != poseTip &&
+                            correctionTip.isNotEmpty) {
+                          poseTip = correctionTip;
+                          flutterTts.speak(poseTip);
+                          await Future.delayed(const Duration(seconds: 6));
+                          if (mounted) {
+                            setState(() {});
+                          }
                         }
                       }
                     }
+                  }
+
+                  if (!result) {
+                    await flutterTts.speak('未能在規定時間內完成正確姿勢');
                   }
                 } else {
                   correctionTip = checkWarrior2ThreeNeedsCorrection(angles);
